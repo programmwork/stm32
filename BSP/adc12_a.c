@@ -73,7 +73,7 @@ ADC_HandleTypeDef hadc1;
 
 void Init_ADC(void)
 {
-    ADC_ChannelConfTypeDef sConfig = {0};
+    
     hadc1.Instance = ADC1;
     hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
     hadc1.Init.Resolution = ADC_RESOLUTION_12B;
@@ -203,9 +203,10 @@ uint8_t Check_ADC(uint16_t *date)
     }
 }
 
-void Start_ADC(uint8_t channel)
+U8 Start_ADC(uint8_t channel)
 {
     uint32_t adc_channel = 0;
+    ADC_ChannelConfTypeDef sConfig = {0};
 
     switch (channel)
     {
@@ -322,22 +323,25 @@ void Start_ADC(uint8_t channel)
             adc_channel = ADC_CHANNEL_18;
             break;
         }
+        
         default:
         {
             return 0;
         }
          
     }
-      sConfig.Channel = adc_channel;
-      sConfig.Rank = ADC_REGULAR_RANK_1;
-      sConfig.SamplingTime = ADC_SAMPLETIME_640CYCLES_5;
-      sConfig.SingleDiff = ADC_SINGLE_ENDED;
-      sConfig.OffsetNumber = ADC_OFFSET_NONE;
-      sConfig.Offset = 0;
-      if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-      {
-          _Error_Handler(__FILE__, __LINE__);
-      }
+
+    sConfig.Channel = adc_channel;
+    sConfig.Rank = ADC_REGULAR_RANK_1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_640CYCLES_5;
+    sConfig.SingleDiff = ADC_SINGLE_ENDED;
+    sConfig.OffsetNumber = ADC_OFFSET_NONE;
+    sConfig.Offset = 0;
+    
+    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+    {
+      _Error_Handler(__FILE__, __LINE__);
+    }
 
     HAL_ADC_Start(&hadc1);
     HAL_ADCEx_Calibration_Start(&hadc1 ,ADC_SINGLE_ENDED);//ADУ׼
