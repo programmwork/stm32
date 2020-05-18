@@ -1,0 +1,503 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: μVision V5.24.2.0
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: a a, a, LIC=DSNVE-5G66K-IMA9B-2HARA-TK5DJ-3UB6V
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.24.1
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 5 (build 528)
+Assembler:       Armasm.exe V5.06 update 5 (build 528)
+Linker/Locator:  ArmLink.exe V5.06 update 5 (build 528)
+Library Manager: ArmAr.exe V5.06 update 5 (build 528)
+Hex Converter:   FromElf.exe V5.06 update 5 (build 528)
+CPU DLL:         SARMCM3.DLL V5.24.1
+Dialog DLL:      DCM.DLL V1.16.0.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
+Dialog DLL:      TCM.DLL V1.32.0.0
+ 
+<h2>Project:</h2>
+D:\work\FreeRTOS\test\Project.uvprojx
+Project File Date:  12/24/2019
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'STM32L476G-Discovery'
+compiling W25Q128.c...
+..\BSP\W25Q128.c(11): warning:  #177-D: variable "tmp"  was declared but never referenced
+  	uint8_t tmp = 0;
+..\BSP\W25Q128.c(12): warning:  #177-D: variable "buf"  was declared but never referenced
+  	uint8_t buf[32] = {0};
+..\BSP\W25Q128.c: 2 warnings, 0 errors
+compiling AD7792.c...
+compiling i2c.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\BSP\i2c.c: 3 warnings, 0 errors
+compiling system_stm32l4xx.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\system_stm32l4xx.c: 3 warnings, 0 errors
+compiling ds3231.c...
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\BSP\ds3231.c(78): warning:  #177-D: variable "mem"  was declared but never referenced
+  		unsigned char mem[10];
+..\BSP\ds3231.c(124): warning:  #177-D: variable "mem"  was declared but never referenced
+  	unsigned char mem[10];
+..\BSP\ds3231.c(269): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      fTempNum0 *= 0.25;  //小数部分
+..\BSP\ds3231.c(279): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      *pdat = (int)((fTempNum+0.05)*10);//四舍五入，放大十倍输出，如16.22输出162,16.26输出163
+..\BSP\ds3231.c: 8 warnings, 0 errors
+compiling spi.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\BSP\spi.c(84): warning:  #940-D: missing return statement at end of non-void function "SPIInit" 
+  }
+..\BSP\spi.c: 4 warnings, 0 errors
+compiling stm32l4xx_hal.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal.c: 3 warnings, 0 errors
+compiling adc12_a.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\BSP\adc12_a.c: 3 warnings, 0 errors
+compiling uart.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\BSP\uart.c(654): warning:  #550-D: variable "device"  was set but never used
+      uart* device = NULL;
+..\BSP\uart.c: 5 warnings, 0 errors
+compiling stm32l4xx_hal_firewall.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_firewall.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_dma_ex.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_dma_ex.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_dma.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_dma.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_cortex.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_cortex.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_comp.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_comp.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_adc_ex.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_adc_ex.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_adc.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_adc.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_i2c_ex.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_i2c_ex.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_gpio.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_gpio.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_flash.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_tim_ex.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_tim_ex.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_uart.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_uart.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_i2c.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_i2c.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_tim.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_tim.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_uart_ex.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_uart_ex.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_pwr_ex.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_pwr_ex.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_flash_ramfunc.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash_ramfunc.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_flash_ex.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash_ex.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_spi.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_spi.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_rcc.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_rcc.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_rcc_ex.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_rcc_ex.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_pwr.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_pwr.c: 3 warnings, 0 errors
+compiling stm32l4xx_hal_msp.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\stm32l4xx_hal_msp.c(92): warning:  #9-D: nested comment is not allowed
+    /* USER CODE BEGIN I2C1_MspInit 0 */
+..\APP\stm32l4xx_hal_msp.c(149): warning:  #9-D: nested comment is not allowed
+      /**SPI1 GPIO Configuration    
+..\APP\stm32l4xx_hal_msp.c(170): warning:  #9-D: nested comment is not allowed
+      /**SPI2 GPIO Configuration    
+..\APP\stm32l4xx_hal_msp.c(191): warning:  #9-D: nested comment is not allowed
+    /* USER CODE END SPI2_MspInit 1 
+..\APP\stm32l4xx_hal_msp.c: 7 warnings, 0 errors
+compiling main.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\product\main.c(211): warning:  #951-D: return type of function "main" must be "int"
+  void main( void )
+..\APP\product\main.c(230): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
+  		
+sThreadDef(UART_PROCESS, uartprocess_task, UART_PROCESS_TASK_PRIORITY, 0, TASK_UART_PROCESS_STACK_SIZE);
+..\APP\product\main.c(230): warning:  #188-D: enumerated type mixed with another type
+  		
+sThreadDef(UART_PROCESS, uartprocess_task, UART_PROCESS_TASK_PRIORITY, 0, TASK_UART_PROCESS_STACK_SIZE);
+..\APP\product\main.c(232): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
+  		
+sThreadDef(TIME, time_task, TIME_TASK_PRIORITY, 0, TASK_TIME_STACK_SIZE);
+..\APP\product\main.c(232): warning:  #188-D: enumerated type mixed with another type
+  		
+sThreadDef(TIME, time_task, TIME_TASK_PRIORITY, 0, TASK_TIME_STACK_SIZE);
+..\APP\product\main.c(234): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
+      
+sThreadDef(EVENT_SAMPLE, check_event_sample_task, EVENT_SAMPLE_TASK_PRIORITY, 0, TASK_EVENT_SAMPLE_STACK_SIZE);
+..\APP\product\main.c(234): warning:  #188-D: enumerated type mixed with another type
+      
+sThreadDef(EVENT_SAMPLE, check_event_sample_task, EVENT_SAMPLE_TASK_PRIORITY, 0, TASK_EVENT_SAMPLE_STACK_SIZE);
+..\APP\product\main.c(236): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
+  		
+sThreadDef(READDATA, readdata_task, READDATA_TASK_PRIORITY, 0, TASK_READDATA_STACK_SIZE);
+..\APP\product\main.c(236): warning:  #188-D: enumerated type mixed with another type
+  		
+sThreadDef(READDATA, readdata_task, READDATA_TASK_PRIORITY, 0, TASK_READDATA_STACK_SIZE);
+..\APP\product\main.c(435): warning:  #177-D: variable "ulCounter"  was declared but never referenced
+      static unsigned long ulCounter = 0;
+..\APP\product\main.c(437): warning:  #177-D: variable "ulCheckFrequency"  was declared but never referenced
+      static const unsigned long ulCheckFrequency = 5000UL / portTICK_PERIOD_MS;
+..\APP\product\main.c: 14 warnings, 0 errors
+compiling stm32l4xx_it.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\stm32l4xx_it.c: 3 warnings, 0 errors
+compiling uartprocess.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\product\uartprocess.c: 3 warnings, 0 errors
+compiling sysinit.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\product\sysinit.c(77): warning:  #223-D: function "DS3231_ReadTime" declared implicitly
+      DS3231_ReadTime(&m_tempdata.m_RtcTateTime);
+..\APP\product\sysinit.c(200): warning:  #940-D: missing return statement at end of non-void function "pam_init" 
+  }
+..\APP\product\sysinit.c(222): warning:  #177-D: variable "i"  was declared but never referenced
+      U8 i, sn_buf[40];
+..\APP\product\sysinit.c: 6 warnings, 0 errors
+compiling sensor_basic.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\sensor\sensor_basic.c(87): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          fp_1 = (3.3 * (float)value) / 4096;                                     // 求出电压值
+..\APP\sensor\sensor_basic.c: 4 warnings, 0 errors
+compiling command.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\product\command.c(3534): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		        temp_qs->change = bcm_info.sensor.qs[temp_num - 1].change * 0.750062;
+..\APP\product\command.c(3535): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		        temp_qs->max    = bcm_info.sensor.qs[temp_num - 1].max    * 0.750062;
+..\APP\product\command.c(3540): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                  temp_qs->change = bcm_info.sensor.qs[temp_num - 1].change * 0.029530;
+..\APP\product\command.c(3541): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                  temp_qs->max    = bcm_info.sensor.qs[temp_num - 1].max    * 0.029530;
+..\APP\product\command.c(3542): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                  temp_qs->min    = bcm_info.sensor.qs[temp_num - 1].min    * 0.029530;
+..\APP\product\command.c(3691): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                      if(temp_min < 75.0076)          {goto err;}
+..\APP\product\command.c(3692): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                      if(temp_max > 1125.093)         {goto err;}
+..\APP\product\command.c(3697): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                      temp_qs->min    = temp_min / 0.750062;
+..\APP\product\command.c(3698): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                      temp_qs->max    = temp_max / 0.750062;
+..\APP\product\command.c(3703): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                      if(temp_min < 2.953)          {goto err;}
+..\APP\product\command.c(3704): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                      if(temp_max > 44.295)         {goto err;}
+..\APP\product\command.c(3709): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                      temp_qs->min    = temp_min / 0.029530;
+..\APP\product\command.c(3710): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                      temp_qs->max    = temp_max / 0.029530;
+..\APP\product\command.c: 17 warnings, 0 errors
+compiling sensor_process.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\sensor\sensor_process.c: 3 warnings, 0 errors
+compiling Wind_Sensor.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\sensor\2_wind\Wind_Sensor.c: 3 warnings, 0 errors
+compiling Wind_Hal.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\sensor\2_wind\Wind_Hal.c(44): warning:  #177-D: variable "i"  was declared but never referenced
+      unsigned char i = 0, data = 0;
+..\APP\sensor\2_wind\Wind_Hal.c(44): warning:  #177-D: variable "data"  was declared but never referenced
+      unsigned char i = 0, data = 0;
+..\APP\sensor\2_wind\Wind_Hal.c: 5 warnings, 0 errors
+compiling Wind_Sample.c...
+..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
+  void autosend();
+..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
+  void Self_test();
+..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
+  void Init_sys_cfg();
+..\APP\sensor\2_wind\Wind_Sample.c(84): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+        value_FengSu = (float)(
+ENGSU_pamA + 
+ENGSU_pamB * value_FengSu);
+..\APP\sensor\2_wind\Wind_Sample.c(85): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+        if(value_FengSu < 0.35) value_FengSu = 0;   /* 【jeff.liu】 */
+..\APP\sensor\2_wind\Wind_Sample.c(90): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          value_FengSu = (float)(
+ENGSU_pamA + 
+ENGSU_pamB * value_FengSu);
+..\APP\sensor\2_wind\Wind_Sample.c(189): warning:  #550-D: variable "temp_winddirect"  was set but never used
+    static float temp_winddirect = 0;
+..\APP\sensor\2_wind\Wind_Sample.c(588): warning:  #546-D: transfer of control bypasses initialization of:
+            variable "temp_fengsu_3s_data"  (declared at line 621)
+    switch(ch)
+    ^
+..\APP\sensor\2_wind\Wind_Sample.c(880): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                (sensors_tempdata->sensor[0].fengxiang_1min_avg.qc == QC_OK) && (sensors_tempdata->sensor[0].fengsu_10min_avg.data >= 0.1))
+..\APP\sensor\2_wind\Wind_Sample.c(962): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                  (sensors_tempdata->sensor[0].fengxiang_2min_avg.qc == QC_OK) && (sensors_tempdata->sensor[0].fengsu_10min_avg.data >= 0.1))
+..\APP\sensor\2_wind\Wind_Sample.c(1044): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                  (sensors_tempdata->sensor[0].fengxiang_10min_avg.qc == QC_OK) && (sensors_tempdata->sensor[0].fengsu_10min_avg.data >= 0.1))
+..\APP\sensor\2_wind\Wind_Sample.c(1127): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                  (sensors_tempdata->sensor[0].fengxiang_1min.qc == QC_OK) && (sensors_tempdata->sensor[0].fengsu_10min_avg.data >= 0.1))
+..\APP\sensor\2_wind\Wind_Sample.c(793): warning:  #546-D: transfer of control bypasses initialization of:
+            variable "temp_result_sensor"  (declared at line 847)
+    switch(mins)
+    ^
+..\APP\sensor\2_wind\Wind_Sample.c(789): warning:  #177-D: variable "max"  was declared but never referenced
+    float result_sensor, max = 0, min = 0;
+..\APP\sensor\2_wind\Wind_Sample.c(791): warning:  #177-D: variable "j"  was declared but never referenced
+    unsigned char i = 0, j = 0, count = 0;
+..\APP\sensor\2_wind\Wind_Sample.c: 15 warnings, 0 errors
+linking...
+STM32L476G-Discovery\STM32L476G-Discovery.axf: Warning: L6989W: Could not apply patch sdcomp-29491-629360 to instruction VPOP     {d8-d12} at offset 0x24, instruction is within an IT block and is not the last instruction for sin_i_x.o(i.____kernel_sin$lsc).
+Program Size: Code=67344 RO-data=2796 RW-data=344 ZI-data=37184  
+Finished: 0 information, 1 warning and 0 error messages.
+"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 173 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.0.1.pack
+                ARM.CMSIS.5.0.1
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.0.1
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32L4xx_DFP.2.1.0.pack
+                Keil.STM32L4xx_DFP.2.1.0
+                STMicroelectronics STM32L4 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_STM32L476G-Discovery
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include
+  C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.0.1
+Build Time Elapsed:  00:01:48
+</pre>
+</body>
+</html>
