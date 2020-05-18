@@ -102,4 +102,4 @@ In order to make the program work, you must do the following:
  - Run the example
   
  * <h3><center>&copy; COPYRIGHT STMicroelectronics</center></h3>
- */gzk
+ */
