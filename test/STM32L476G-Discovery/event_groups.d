@@ -1,8 +1,8 @@
 stm32l476g-discovery\event_groups.o: ..\FreeRTOS\Source\event_groups.c
-stm32l476g-discovery\event_groups.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+stm32l476g-discovery\event_groups.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l476g-discovery\event_groups.o: ..\FreeRTOS\Source\include\FreeRTOS.h
-stm32l476g-discovery\event_groups.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-stm32l476g-discovery\event_groups.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+stm32l476g-discovery\event_groups.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+stm32l476g-discovery\event_groups.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 stm32l476g-discovery\event_groups.o: ..\APP\FreeRTOSConfig.h
 stm32l476g-discovery\event_groups.o: ..\FreeRTOS\Source\include\projdefs.h
 stm32l476g-discovery\event_groups.o: ..\FreeRTOS\Source\include\portable.h

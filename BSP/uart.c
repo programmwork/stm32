@@ -654,10 +654,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     uart* device = NULL;
     
     
-	  {
+	 // {
         uart_dma* dma = &dma_recv[0];
 		    device = &uart_recv[0];
-		}
+	//	}
 			
 	  // Save data len
 		dma->buf[dma->wr].cnt = SWAPSIZE;
