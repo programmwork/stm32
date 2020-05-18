@@ -28,7 +28,7 @@ void time_task(void *pvParameters)
 
     while(1)
     {
-			//startupprint();
+			
         if(p_msec!=m_tempdata.m_RtcTateTime.msec)
         {
             p_msec=m_tempdata.m_RtcTateTime.msec;
