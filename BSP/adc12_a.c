@@ -65,13 +65,106 @@
 
 #include "sysinit.h"
 #include "main.h"
-//#include "driverlib.h"
+//#include "driverlib.h"dvvfdvfdv
 
 uint16_t adc_result = 0, adc_getResult_flag = 0;
+ADC_HandleTypeDef hadc1;
+
 
 void Init_ADC(void)
 {
-    
+    ADC_ChannelConfTypeDef sConfig = {0};
+    hadc1.Instance = ADC1;
+    hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+    hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+    hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+    hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+    hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+    hadc1.Init.LowPowerAutoWait = DISABLE;
+    hadc1.Init.ContinuousConvMode = DISABLE;
+    hadc1.Init.NbrOfConversion = 1;
+    hadc1.Init.DiscontinuousConvMode = DISABLE;
+    hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+    hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+    hadc1.Init.DMAContinuousRequests = DISABLE;
+    hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+    hadc1.Init.OversamplingMode = DISABLE;
+    if (HAL_ADC_Init(&hadc1) != HAL_OK)
+    {
+       _Error_Handler(__FILE__, __LINE__);
+    }
+  
+}
+/**
+* @brief ADC MSP Initialization
+* This function configures the hardware resources used in this example
+* @param hadc: ADC handle pointer
+* @retval None
+*/
+void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+	
+	RCC_PeriphCLKInitTypeDef RCC_PeriphCLKInitStruct;  //INIT ADC1 CLOCK
+	
+  if(hadc->Instance==ADC1)
+  {
+		
+		RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+    RCC_PeriphCLKInitStruct.AdcClockSelection = RCC_ADCCLKSOURCE_SYSCLK;
+		
+		if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK)
+    {
+      _Error_Handler(__FILE__, __LINE__);
+    }
+  /* USER CODE BEGIN ADC1_MspInit 0 */
+
+  /* USER CODE END ADC1_MspInit 0 */
+    /* Peripheral clock enable */
+    __HAL_RCC_ADC_CLK_ENABLE();
+  
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    /**ADC1 GPIO Configuration    
+    PA1     ------> ADC1_IN6 
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_1;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG_ADC_CONTROL;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /* USER CODE BEGIN ADC1_MspInit 1 */
+
+  /* USER CODE END ADC1_MspInit 1 */
+  }
+
+}
+
+/**
+* @brief ADC MSP De-Initialization
+* This function freeze the hardware resources used in this example
+* @param hadc: ADC handle pointer
+* @retval None
+*/
+void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
+{
+  if(hadc->Instance==ADC1)
+  {
+  /* USER CODE BEGIN ADC1_MspDeInit 0 */
+
+  /* USER CODE END ADC1_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_ADC_CLK_DISABLE();
+  
+    /**ADC1 GPIO Configuration    
+    PA1     ------> ADC1_IN6 
+    */
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_1);
+
+  /* USER CODE BEGIN ADC1_MspDeInit 1 */
+
+  /* USER CODE END ADC1_MspDeInit 1 */
+  }
+
 }
 void ADC_Power_ON(void)
 {
@@ -88,12 +181,12 @@ uint8_t Check_ADC(uint16_t *date)
 {
     uint16_t i = 0;
 
-    i = 1000;
+    i = 10;
     while(i--)
     {
-        if(adc_getResult_flag == 1)
+        if(HAL_ADC_PollForConversion(&hadc1, 1) == HAL_OK)
         {
-            *date = adc_result;
+            *date = HAL_ADC_GetValue(&hadc1);
             break;
         }
     }
@@ -112,9 +205,142 @@ uint8_t Check_ADC(uint16_t *date)
 
 void Start_ADC(uint8_t channel)
 {
+    uint32_t adc_channel = 0;
 
-	
-	
+    switch (channel)
+    {
+        case 0:
+        {
+            adc_channel = ADC_CHANNEL_0;
+            break;
+        }
+        
+        case 1:
+        {
+            adc_channel = ADC_CHANNEL_1;
+            break;
+        }
+         
+        case 2:
+        {
+            adc_channel = ADC_CHANNEL_2;
+            break;
+        }
+
+        case 3:
+        {
+            adc_channel = ADC_CHANNEL_3;
+            break;
+        }
+
+        case 4:
+        {
+            adc_channel = ADC_CHANNEL_4;
+            break;
+        }
+
+        case 5:
+        {
+            adc_channel = ADC_CHANNEL_5;
+            break;
+        }
+
+        case 6:
+        {
+            adc_channel = ADC_CHANNEL_6;
+            break;
+        }
+
+        case 7:
+        {
+            adc_channel = ADC_CHANNEL_7;
+            break;
+        }
+
+        case 8:
+        {
+            adc_channel = ADC_CHANNEL_8;
+            break;
+        }
+
+        case 9:
+        {
+            adc_channel = ADC_CHANNEL_9;
+            break;
+        }
+
+        case 10:
+        {
+            adc_channel = ADC_CHANNEL_10;
+            break;
+        }
+
+        case 11:
+        {
+            adc_channel = ADC_CHANNEL_11;
+            break;
+        }
+
+        case 12:
+        {
+            adc_channel = ADC_CHANNEL_12;
+            break;
+        }
+
+        case 13:
+        {
+            adc_channel = ADC_CHANNEL_13;
+            break;
+        }
+
+        case 14:
+        {
+            adc_channel = ADC_CHANNEL_14;
+            break;
+        }
+
+        case 15:
+        {
+            adc_channel = ADC_CHANNEL_15;
+            break;
+        }
+
+        case 16:
+        {
+            adc_channel = ADC_CHANNEL_16;
+            break;
+        }
+
+        case 17:
+        {
+            adc_channel = ADC_CHANNEL_17;
+            break;
+        }
+
+        case 18:
+        {
+            adc_channel = ADC_CHANNEL_18;
+            break;
+        }
+        default:
+        {
+            return 0;
+        }
+         
+    }
+      sConfig.Channel = adc_channel;
+      sConfig.Rank = ADC_REGULAR_RANK_1;
+      sConfig.SamplingTime = ADC_SAMPLETIME_640CYCLES_5;
+      sConfig.SingleDiff = ADC_SINGLE_ENDED;
+      sConfig.OffsetNumber = ADC_OFFSET_NONE;
+      sConfig.Offset = 0;
+      if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+      {
+          _Error_Handler(__FILE__, __LINE__);
+      }
+
+    HAL_ADC_Start(&hadc1);
+    HAL_ADCEx_Calibration_Start(&hadc1 ,ADC_SINGLE_ENDED);//ADУ׼
 }
 //----------------------------------------------------------
 //
@@ -131,6 +357,13 @@ void ADC_Wind_Power_ON(void)
 void ADC_Wind_Power_OFF(void)
 {
     
+}
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+
+  /* USER CODE END Error_Handler_Debug */
 }
 
 
