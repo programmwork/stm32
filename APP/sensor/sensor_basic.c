@@ -48,17 +48,17 @@ unsigned char BanWenBanYa_engine(float *pT, float *pV)
 
     while(1)
     {
-        Start_ADC(6);
+        Start_ADC(2);
         if(Check_ADC(&buffer)) 
         {
 
         }
-        //Start_ADC(1);
-        //if(Check_ADC(&buffer))
+        Start_ADC(1);
+        if(Check_ADC(&buffer))
         {
         }
-        //Start_ADC(6);
-        //if(Check_ADC(&buffer))
+        Start_ADC(6);
+        if(Check_ADC(&buffer))
         {
         }
             

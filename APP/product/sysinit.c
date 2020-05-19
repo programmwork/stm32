@@ -75,6 +75,7 @@ UART_Init(1, 38400, 8, 0, 1, 1);
 
     
     DS3231_ReadTime(&m_tempdata.m_RtcTateTime);
+		Init_ADC();
 
     hal_sensor_init();    //传感器对应IO 初始化
 
