@@ -72,8 +72,8 @@ unsigned char BanWenBanYa_engine(float *pT, float *pV)
   /* ≤…ºØ∞Â—π */
     for(i = 0 ; i < 10 ; i++)
     {
-        //Start_ADC(0);
-        //if(Check_ADC(&buffer))
+        Start_ADC(0);
+        if(Check_ADC(&buffer))
         {
             valueVSum = valueVSum + buffer;
             counter++;
