@@ -46,6 +46,24 @@ unsigned char BanWenBanYa_engine(float *pT, float *pV)
 
     float fp_1=0.0;
 
+    while(1)
+    {
+        Start_ADC(6);
+        if(Check_ADC(&buffer)) 
+        {
+
+        }
+        //Start_ADC(1);
+        //if(Check_ADC(&buffer))
+        {
+        }
+        //Start_ADC(6);
+        //if(Check_ADC(&buffer))
+        {
+        }
+            
+    }
+
  /* ²É¼¯°åÎÂ */
     for(i = 0 ; i < 10 ; i++)
     {

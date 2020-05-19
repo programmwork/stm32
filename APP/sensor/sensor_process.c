@@ -256,6 +256,8 @@ void Self_test()
     float banWen = 0, banYa = 0;
     unsigned char data = 0;
 
+
+    
     data = BanWenBanYa_engine(&banWen, &banYa);
 
     if(data != 0)
