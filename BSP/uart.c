@@ -11,11 +11,6 @@
 
 #include "stm32l4xx_hal.h"
 #define DMA_TSIZE	128
-/*BEGIN:add by guozikun 2020.5.20*/
-#define NAME_UART1 "UartSend0"
-#define NAME_UART2 "UartSend1"
-
-/*END:add by guozikun 2020.5.20*/
 
 
 
@@ -373,15 +368,19 @@ uint8_t UartOpen(uart_CBD* CBD)
 		}
 
         /*BEGIN:modify by guozikun 2020.5.20*/
-        if(CBD->cid == 0)
+        if(CBD->cid == CBD_UART_1)
         {      
-    		xTaskCreate(UartSend, NAME_UART1, CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
+    		xTaskCreate(UartSend_1, NAME_UART1, CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
     		xSemaphoreGive( device->SemBuf );
         }
-        if(CBD->cid == 1)
+        else if(CBD->cid == CBD_UART_2)
         {      
-    		xTaskCreate(UartSend, NAME_UART1, CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
+    		xTaskCreate(UartSend_2, NAME_UART1, CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
     		xSemaphoreGive( device->SemBuf );
+        }
+        else
+        {
+            return NULL;
         }
         /*END:modify by guozikun 2020.5.20*/
 	}
@@ -418,25 +417,29 @@ uint8_t UartOpen(uart_CBD* CBD)
 		}
 
 		/*END:modify by guozikun 2020.5.20*/
-        if(CBD->cid == 0)
+        if(CBD->cid == CBD_UART_1)
         {        
             HAL_UART_Receive_DMA(&huart1, (dma->buf[dma->wr].data), SWAPSIZE);
             xSemaphoreGive( device->SemBuf );
-            xTaskCreate(UartRecv, NAME_UART1, CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
+            xTaskCreate(UartRecv_1, NAME_UART1, CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
         }
-        if(CBD->cid == 1)
+        else if(CBD->cid == CBD_UART_2)
 		{        
             HAL_UART_Receive_DMA(&huart2, (dma->buf[dma->wr].data), SWAPSIZE);
             xSemaphoreGive( device->SemBuf );
-            xTaskCreate(UartRecv, NAME_UART2, CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
-        }        
+            xTaskCreate(UartRecv_2, NAME_UART2, CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
+        } 
+        else
+        {
+            return NULL;
+        }
         /*END:modify by guozikun 2020.5.20*/
 	}
 
 	return STATUS_SUCCESS;
 }
 
-void UartSend( void *pdata )
+void UartSend_1( void *pdata )
 {
 	uint8_t cnt;
 
@@ -444,7 +447,7 @@ void UartSend( void *pdata )
 
 	uint32_t src = 0;
 
-	if( device->cid==0 )
+	if( device->cid==CBD_UART_1 )
 	{
 		
 	}
@@ -494,7 +497,67 @@ void UartSend( void *pdata )
 	}
 }
 
-void UartRecv( void *pdata )
+void UartSend_2( void *pdata )
+
+{
+	uint8_t cnt;
+
+	uart* device = ( uart* )pdata;
+
+	uint32_t src = 0;
+
+	if( device->cid==CBD_UART_2 )
+	{
+		
+	}
+	else
+	{
+		// Task stack size must big than 70
+		//uart_printf( 0, "Uart %d Send...\r\n", device->cid+1 );
+
+		uart_printf( 0, "Uart Send...\r\n" );
+	}
+
+	while( 1 )
+	{
+		// Wait block here
+		xSemaphoreTake( device->SemBuf, portMAX_DELAY );
+
+		if( device->cnt>0 )
+		{
+			src = (uint32_t)( device->rp );
+
+			if( device->rp>device->wp )
+			{
+				cnt = device->end+1-device->rp;
+
+				device->cnt = device->cnt - cnt;
+
+				device->rp = device->data;
+			}
+			else
+			{
+				cnt = device->cnt;
+
+				device->cnt = 0;
+
+				device->rp = device->wp;
+			}
+      
+			HAL_UART_Transmit_DMA(&huart2, (uint8_t *)src, cnt);
+
+		}
+		else
+		{
+			xSemaphoreGive( device->SemBuf );
+
+			vTaskDelay( 5 );
+		}
+	}
+}
+
+
+void UartRecv_1( void *pdata )
 {
 	uint8_t tmp = 0;
 
@@ -560,6 +623,74 @@ void UartRecv( void *pdata )
 		xSemaphoreGive( device->SemBuf );
 	}
 }
+
+void UartRecv_2( void *pdata )
+{
+	uint8_t tmp = 0;
+
+	uint8_t cnt = 0;
+
+	uart* device = ( uart* )pdata;
+
+	uart_dma* dma = &dma_recv[device->cid];
+
+	uint8_t* buf = NULL;
+
+	uint8_t stat = 0;
+
+	while( 1 )
+	{
+		
+			
+		
+		xSemaphoreTake( device->SemBuf, portMAX_DELAY );
+
+		if( dma->rd!=dma->wr )
+		{
+			cnt = dma->buf[dma->rd].cnt;
+
+			if( cnt>0 )
+			{
+				buf = dma->buf[dma->rd].data;
+
+				// Copy all data to the buf
+				if( 1 )
+				{
+					for( tmp=0; tmp<cnt; tmp++ )
+					{
+						device->wp[0] = buf[tmp];
+
+						device->wp++;
+
+						// if the in point come to the end, jump to the start point
+						if( device->wp>device->end )
+						{
+							device->wp = device->data;
+						}
+					}
+
+					if( (device->cnt + cnt) > device->size )
+					{
+						device->cnt = device->size;
+
+						device->rp = device->wp;
+					}
+					else
+					{
+						device->cnt += cnt;
+					}
+				}
+			}
+
+			dma->rd++;
+
+			dma->rd = dma->rd%RX_BUF_SIZE;
+		}
+
+		xSemaphoreGive( device->SemBuf );
+	}
+}
+
 
 uint16_t UartWrite( uint8_t cid, uint8_t* payload, uint16_t len )
 {

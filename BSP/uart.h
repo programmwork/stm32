@@ -70,8 +70,12 @@ uint8_t USART_DMA_Restart(uint8_t num);
 uint8_t UART_Init(uint8_t num, uint32_t bps, uint8_t databit, uint8_t parity, uint8_t stopbit, uint8_t msp);
 uint8_t UartOpen( uart_CBD* CBD );
 
-void UartSend( void *pdata );
-void UartRecv( void *pdata );
+void UartSend_1( void *pdata );
+void UartSend_2( void *pdata );
+
+void UartRecv_1( void *pdata );
+void UartRecv_2( void *pdata );
+
 
 uint16_t UartWrite( uint8_t cid, uint8_t* payload, uint16_t len );
 uint16_t UartRead( uint8_t cid, uint8_t* payload, uint16_t len );
