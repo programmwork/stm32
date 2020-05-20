@@ -11,6 +11,12 @@
 
 #include "stm32l4xx_hal.h"
 #define DMA_TSIZE	128
+/*BEGIN:add by guozikun 2020.5.20*/
+#define NAME_UART1 "UartSend0"
+#define NAME_UART2 "UartSend1"
+
+/*END:add by guozikun 2020.5.20*/
+
 
 
 UART_HandleTypeDef huart1;
@@ -365,9 +371,19 @@ uint8_t UartOpen(uart_CBD* CBD)
 		{
 			return NULL;
 		}
-		
-		xTaskCreate(UartSend, "UartSend0", CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
-		xSemaphoreGive( device->SemBuf );
+
+        /*BEGIN:modify by guozikun 2020.5.20*/
+        if(CBD->cid == 0)
+        {      
+    		xTaskCreate(UartSend, NAME_UART1, CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
+    		xSemaphoreGive( device->SemBuf );
+        }
+        if(CBD->cid == 1)
+        {      
+    		xTaskCreate(UartSend, NAME_UART1, CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
+    		xSemaphoreGive( device->SemBuf );
+        }
+        /*END:modify by guozikun 2020.5.20*/
 	}
 
 	if(CBD->rw&UART_RD)
@@ -401,10 +417,20 @@ uint8_t UartOpen(uart_CBD* CBD)
 			return NULL;
 		}
 
-		
-		HAL_UART_Receive_DMA(&huart1, (dma->buf[dma->wr].data), SWAPSIZE);
-		xSemaphoreGive( device->SemBuf );
-		xTaskCreate(UartRecv, "UartRecv0", CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
+		/*END:modify by guozikun 2020.5.20*/
+        if(CBD->cid == 0)
+        {        
+            HAL_UART_Receive_DMA(&huart1, (dma->buf[dma->wr].data), SWAPSIZE);
+            xSemaphoreGive( device->SemBuf );
+            xTaskCreate(UartRecv, NAME_UART1, CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
+        }
+        if(CBD->cid == 1)
+		{        
+            HAL_UART_Receive_DMA(&huart2, (dma->buf[dma->wr].data), SWAPSIZE);
+            xSemaphoreGive( device->SemBuf );
+            xTaskCreate(UartRecv, NAME_UART2, CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
+        }        
+        /*END:modify by guozikun 2020.5.20*/
 	}
 
 	return STATUS_SUCCESS;
