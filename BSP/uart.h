@@ -16,6 +16,12 @@
 #define SIZE_SEND_BUF 1024
 #define STATUS_SUCCESS 1
 
+#define CBD_UART_1 0
+#define CBD_UART_2 1
+#define NAME_UART1 "UartSend0"
+#define NAME_UART2 "UartSend1"
+
+
 
 
 #define RX_BUF_SIZE 10
