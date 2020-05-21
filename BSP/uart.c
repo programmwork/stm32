@@ -178,11 +178,10 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
       _Error_Handler(__FILE__, __LINE__);
     }
 
-    __HAL_LINKDMA(huart,hdmatx,hdma_usart1_tx);
-		
-		__HAL_UART_ENABLE_IT(huart, UART_IT_ERR);
-		__HAL_UART_ENABLE_IT(huart, UART_IT_IDLE);
-		HAL_NVIC_SetPriority(USART1_IRQn , 5, 0);
+    __HAL_LINKDMA(huart,hdmatx,hdma_usart1_tx);		
+	__HAL_UART_ENABLE_IT(huart, UART_IT_ERR);
+	__HAL_UART_ENABLE_IT(huart, UART_IT_IDLE);
+	HAL_NVIC_SetPriority(USART1_IRQn , 5, 0);
 
   /* USER CODE BEGIN USART1_MspInit 1 */
 
