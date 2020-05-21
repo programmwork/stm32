@@ -5,6 +5,14 @@
 #include "defpam.h"
 #include <stdarg.h>
 
+/*BEGIN:add by guozikun 2020.5.20*/
+#define NAME_UART1 "UartSend0"
+#define NAME_UART2 "UartSend1"
+#define CBD_UART_1 0
+#define CBD_UART_2 1
+/*END:add by guozikun 2020.5.20*/
+
+
 enum{
     BPS_1200,
     BPS_2400,
