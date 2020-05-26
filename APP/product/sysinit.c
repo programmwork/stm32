@@ -72,7 +72,7 @@ void sysinit(void)
     //sys_cfg_init();     //系统参数从FLASH或内存中获取
     tempdata_init(&m_tempdata);//临时变量初始化，全局参数初始化
     /*BEGIN:add by guozikun 2020.5.25*/
-    //Uart_CFG(1, 1);
+    Uart_CFG(1, 1);
     /*END:add by guozikun 2020.5.25*/
     //主串口初始化
     uart_CBD CBD = {0};
@@ -87,7 +87,7 @@ void sysinit(void)
     CBD.pri_r = COM_RECV_PRIORITY;
     CBD.heap_r_size = TASK_RECV_STACK_SIZE;
 
-    //UartOpen( &CBD );//
+    UartOpen( &CBD );//
     //UART_Init(1, 38400, 8, 0, 1, 1);
 
     

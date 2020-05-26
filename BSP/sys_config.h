@@ -11,7 +11,7 @@ This is the system config header file for PRIORITY, TASK_STACK size.
 #include "FreeRTOS.h"
 #include "task.h"
 
-#define DEBUG						1
+#define DEBUG						0
 
 #define COM_RECV_PRIORITY			( tskIDLE_PRIORITY + 4 )  
 #define COM_SEND_PRIORITY			( tskIDLE_PRIORITY + 5 )
