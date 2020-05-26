@@ -211,7 +211,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     
      /* USART2 DMA Init */
     /* USART2_RX Init */
-   hdma_usart2_rx.Instance = DMA1_Channel6;
+    hdma_usart2_rx.Instance = DMA1_Channel6;
     hdma_usart2_rx.Init.Request = DMA_REQUEST_2;
     hdma_usart2_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
     hdma_usart2_rx.Init.PeriphInc = DMA_PINC_DISABLE;
@@ -287,52 +287,52 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 
 uint8_t USART_DMA_Restart(uint8_t num)
 {
-	uart_dma* dma = &dma_recv[num - 1];
-	UART_HandleTypeDef* huart = 0;
+    uart_dma* dma = &dma_recv[num - 1];
+    UART_HandleTypeDef* huart = 0;
 
-	if(num == 1)
-	{
-			huart = &huart1;
-	}
-	else
-	{
-			if(num ==2 )
-			{
-				 huart = &huart2;
-			}
-		}
-
-    
-		//if(__HAL_DMA_GET_COUNTER(huart->hdmarx)!=SWAPSIZE)
-	  {
-		__HAL_DMA_DISABLE(huart->hdmarx);
-		
-		// Save data len
-		dma->buf[dma->wr].cnt = ( SWAPSIZE - __HAL_DMA_GET_COUNTER(huart->hdmarx));
-
-		dma->wr++;
-
-		dma->wr = dma->wr%RX_BUF_SIZE;
-			
-	   
-
-		if( dma->wr==dma->rd )
-		{
-			dma->rd++;
-
-			dma->rd = dma->rd%RX_BUF_SIZE;
-		}
-
-		dma->buf[dma->wr].cnt = 0;
-
-		    huart->RxState = HAL_UART_STATE_READY;
-			HAL_DMA_Abort(huart->hdmarx);
-	    //
-				HAL_UART_Receive_DMA(huart, (uint8_t *)(dma->buf[dma->wr].data), SWAPSIZE);
+    if(num == 1)
+    {
+    		huart = &huart1;
+    }
+    else
+    {
+    	if(num ==2 )
+    	{
+    		 huart = &huart2;
+    	}
     }
 
 
-	return 1;
+    //if(__HAL_DMA_GET_COUNTER(huart->hdmarx)!=SWAPSIZE)
+    {
+        __HAL_DMA_DISABLE(huart->hdmarx);
+
+        // Save data len
+        dma->buf[dma->wr].cnt = ( SWAPSIZE - __HAL_DMA_GET_COUNTER(huart->hdmarx));
+
+        dma->wr++;
+
+        dma->wr = dma->wr%RX_BUF_SIZE;
+    		
+       
+
+    	if( dma->wr==dma->rd )
+    	{
+    		dma->rd++;
+
+    		dma->rd = dma->rd%RX_BUF_SIZE;
+    	}
+
+    	dma->buf[dma->wr].cnt = 0;
+
+        huart->RxState = HAL_UART_STATE_READY;
+        HAL_DMA_Abort(huart->hdmarx);
+        //
+        HAL_UART_Receive_DMA(huart, (uint8_t *)(dma->buf[dma->wr].data), SWAPSIZE);
+    }
+
+
+    return 1;
 }
 
 uint8_t UartOpen(uart_CBD* CBD)
@@ -369,12 +369,12 @@ uint8_t UartOpen(uart_CBD* CBD)
         /*BEGIN:modify by guozikun 2020.5.20*/
         if(CBD->cid == CBD_UART_1)
         {      
-    		xTaskCreate(UartSend_1, NAME_UART1, CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
+    		xTaskCreate(UartSend_1, "UartSend1", CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
     		xSemaphoreGive( device->SemBuf );
         }
         else if(CBD->cid == CBD_UART_2)
         {      
-    		xTaskCreate(UartSend_2, NAME_UART1, CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
+    		xTaskCreate(UartSend_2, "UartSend2", CBD->heap_t_size, (void*)device, CBD->pri_t, NULL);
     		xSemaphoreGive( device->SemBuf );
         }
         else
@@ -420,13 +420,13 @@ uint8_t UartOpen(uart_CBD* CBD)
         {        
             HAL_UART_Receive_DMA(&huart1, (dma->buf[dma->wr].data), SWAPSIZE);
             xSemaphoreGive( device->SemBuf );
-            xTaskCreate(UartRecv_1, NAME_UART1, CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
+            xTaskCreate(UartRecv_1, "UartRecv1", CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
         }
         else if(CBD->cid == CBD_UART_2)
 		{        
             HAL_UART_Receive_DMA(&huart2, (dma->buf[dma->wr].data), SWAPSIZE);
             xSemaphoreGive( device->SemBuf );
-            xTaskCreate(UartRecv_2, NAME_UART2, CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
+            xTaskCreate(UartRecv_2, "UartRecv2", CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
         } 
         else
         {
@@ -801,38 +801,60 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
  
     //
     huart->gState = HAL_UART_STATE_READY;
-		device = &uart_send[0];
-		xSemaphoreGiveFromISR( device->SemBuf, NULL );
+
+    if(huart->Instance == USART1)
+    {
+        device = &uart_send[0];
+    }
+    else
+    {
+        if(huart->Instance == USART2)
+        {
+            device = &uart_send[1];
+        }
+    }
+    
+    xSemaphoreGiveFromISR( device->SemBuf, NULL );
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     uart* device = NULL;
+
+    uart_dma* dma = NULL;
+
     
-    
-	 // {
-        uart_dma* dma = &dma_recv[2];
-		    device = &uart_recv[2];
-	//	}
-			
-	  // Save data len
-		dma->buf[dma->wr].cnt = SWAPSIZE;
+    if(huart->Instance == USART1)
+	{
+        dma = &dma_recv[0];
+	    device = &uart_recv[0];
+	}
+    else
+    {
+        if(huart->Instance == USART2)
+        {
+            dma = &dma_recv[1];
+    	    device = &uart_recv[1];
+        }
+    }
+    		
+      // Save data len
+    dma->buf[dma->wr].cnt = SWAPSIZE;
 
-		dma->wr++;
+    dma->wr++;
 
-		dma->wr = dma->wr%RX_BUF_SIZE;
+    dma->wr = dma->wr%RX_BUF_SIZE;
 
-		if( dma->wr==dma->rd )
-		{
-				dma->rd++;
-
-				dma->rd = dma->rd%RX_BUF_SIZE;
-		}
+    if( dma->wr==dma->rd )
+    {
+		dma->rd++;
+		dma->rd = dma->rd%RX_BUF_SIZE;
+    }
 
     dma->buf[dma->wr].cnt = 0;
 
     huart->RxState = HAL_UART_STATE_READY;
-		HAL_UART_Receive_DMA(huart, (uint8_t *)(dma->buf[dma->wr].data), SWAPSIZE);
+    HAL_UART_Receive_DMA(huart, (uint8_t *)(dma->buf[dma->wr].data), SWAPSIZE);
 }
 
 

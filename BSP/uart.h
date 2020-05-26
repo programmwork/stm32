@@ -18,8 +18,6 @@
 
 #define CBD_UART_1 0
 #define CBD_UART_2 1
-#define NAME_UART1 "UartSend0"
-#define NAME_UART2 "UartSend1"
 
 
 
@@ -70,6 +68,26 @@ typedef struct{
 	uint32_t bps;
 
 }uart_CBD;
+
+enum{
+    BPS_1200,
+    BPS_2400,
+    BPS_4800,
+	BPS_9600,
+	BPS_19200,
+ 	BPS_38400,
+ 	BPS_57600,
+ 	BPS_115200,
+	BPS_MAX
+};
+
+typedef struct _BPS_CFG
+{
+	unsigned char bpsIndex;
+	unsigned long bps;
+
+} BPS_CFG;
+
 
 
 uint8_t USART_DMA_Restart(uint8_t num);

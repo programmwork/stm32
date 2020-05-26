@@ -280,6 +280,21 @@ typedef struct{//校正 检定 相关信息
 }s_check_info_t;                                     //检验信息
 
 
+//串口参数
+typedef struct {
+    unsigned long int baudrate;         //波特率
+    unsigned char     datasbit;         //数据位
+    unsigned char     parity;           //校验位
+    unsigned char     stopbits;         //停止位
+    unsigned char     res;              //预留
+}se_t;
+
+
+
+
+
+
+
 /*device info struct*/
 typedef struct {
     unsigned char         flag;                      //保存标志，用于判断FLASH是否保存数据
@@ -317,15 +332,9 @@ typedef struct {
         unsigned char         typ;                    //节点类型 1
         unsigned short        sa;                     //短地
         unsigned char         echo;                   //设置命令回响
-        //串口参数
-        struct {
-            unsigned long int baudrate;         //波特率
-            unsigned char     datasbit;         //数据位
-            unsigned char     parity;           //校验位
-            unsigned char     stopbits;         //停止位
-            unsigned char     res;              //预留
-        }se;
 
+        se_t se[2];
+        
         unsigned short        stdev;                  //数据标准差值计算间隔
         unsigned short        ftd;                    //设置或读取数字传感器主动模式下的数据发送时间间隔
         unsigned short        ft;                     //设置或读取数字传感器主动模式下的数据发送时间

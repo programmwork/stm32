@@ -333,10 +333,10 @@ int cmd_setcom(char *buf,char *rbuf)
     rlen = sprintf((char *)rbuf,"<%s,%03d,%ld,%d,%c,%d>\r\n",
                               sensor_di,
                               m_defdata.m_baseinfo.id,
-                              bcm_info.common.se.baudrate,
-                              bcm_info.common.se.datasbit,
-                              bcm_info.common.se.parity,
-                              bcm_info.common.se.stopbits);
+                              bcm_info.common.se[0].baudrate,
+                              bcm_info.common.se[0].datasbit,
+                              bcm_info.common.se[0].parity,
+                              bcm_info.common.se[0].stopbits);
                 return rlen;
     }
 
@@ -344,7 +344,7 @@ int cmd_setcom(char *buf,char *rbuf)
     for(num = 0; num < 8; num ++)
     {
         if(temp_rate == baudrate_tab[num])
-        {   bcm_info.common.se.baudrate = temp_rate;
+        {   bcm_info.common.se[0].baudrate = temp_rate;
             break;
         }
     }
@@ -353,27 +353,27 @@ int cmd_setcom(char *buf,char *rbuf)
     //3 校验 数据位  并写入
     if((temp_data < 5) || (temp_data > 8))
     {goto err;}
-    bcm_info.common.se.datasbit = temp_data;
+    bcm_info.common.se[0].datasbit = temp_data;
 
     //4 校验 校验位  并写入
     if((0 != strncmp((char *)temp_par,"N",1)) && (0 != strncmp((char *)temp_par,"O",1)) && (0 != strncmp((char *)temp_par,"E",1)))
     {goto err;}
-    strncpy((char *)&bcm_info.common.se.parity,temp_par,1);
+    strncpy((char *)&bcm_info.common.se[0].parity,temp_par,1);
 
     //5 校验 校验位  并写入
     if((1 != temp_stop) && (2 != temp_stop))
     {goto err;}
-    bcm_info.common.se.stopbits = temp_stop;
+    bcm_info.common.se[0].stopbits = temp_stop;
 
     //6 写入FLASH  并返回成功
     save_sys_cfg(&bcm_info);
     rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n%ld,%d,%c,%d\r\n",
                               sensor_di,m_defdata.m_baseinfo.id,
 
-                              bcm_info.common.se.baudrate,
-                              bcm_info.common.se.datasbit,
-                              bcm_info.common.se.parity,
-                              bcm_info.common.se.stopbits);
+                              bcm_info.common.se[0].baudrate,
+                              bcm_info.common.se[0].datasbit,
+                              bcm_info.common.se[0].parity,
+                              bcm_info.common.se[0].stopbits);
     m_tempdata.event.uart_config = true;
     return rlen;
 
@@ -435,10 +435,10 @@ int cmd_autocheck(char *buf,char *rbuf)
                   m_tempdata.m_RtcTateTime.min,
                   m_tempdata.m_RtcTateTime.sec,
 
-                  bcm_info.common.se.baudrate,
-                  bcm_info.common.se.datasbit,
-                  bcm_info.common.se.parity,
-                  bcm_info.common.se.stopbits
+                  bcm_info.common.se[0].baudrate,
+                  bcm_info.common.se[0].datasbit,
+                  bcm_info.common.se[0].parity,
+                  bcm_info.common.se[0].stopbits
                   //设备状态信息（厂家自行定义格式不定）
                   );
     return rlen;
@@ -1865,10 +1865,10 @@ int cmd_ss(char *buf,char *rbuf)
                            sensor_di,
                            m_defdata.m_baseinfo.id,
                            
-                           bcm_info.common.se.baudrate,
-                           bcm_info.common.se.datasbit,
-                           bcm_info.common.se.parity,
-                           bcm_info.common.se.stopbits,
+                           bcm_info.common.se[0].baudrate,
+                           bcm_info.common.se[0].datasbit,
+                           bcm_info.common.se[0].parity,
+                           bcm_info.common.se[0].stopbits,
                            
                            bcm_info.common.qz,
                            bcm_info.common.st,

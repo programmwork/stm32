@@ -21,10 +21,10 @@ void Init_sys_cfg()
 
     memset(&bcm_info,0,sizeof(bcm_info_t));
     //通讯参数
-    bcm_info.common.se.baudrate = 19200;
-    bcm_info.common.se.datasbit = 8;
-    bcm_info.common.se.parity   ='N';
-    bcm_info.common.se.stopbits = 1;
+    bcm_info.common.se[0].baudrate = 19200;
+    bcm_info.common.se[0].datasbit = 8;
+    bcm_info.common.se[0].parity   ='N';
+    bcm_info.common.se[0].stopbits = 1;
 
     bcm_info.common.version = 1;            //版本号
     bcm_info.common.qz = 85794;             //区站号
