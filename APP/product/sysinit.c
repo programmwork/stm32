@@ -11,6 +11,21 @@
 #define SYS_CFG_ADDR 0
 
 
+const BPS_CFG TableBPS[] =
+{
+    {BPS_1200,1200},
+    {BPS_2400,2400},
+    {BPS_4800,4800},
+    {BPS_9600,9600},
+    {BPS_19200,19200},
+    {BPS_38400,38400},
+    {BPS_57600,57600},
+    {BPS_115200,115200}
+};
+
+
+
+
 
 //******************************************************************************
 //
@@ -56,7 +71,9 @@ void sysinit(void)
     pam_init(&m_defdata);      //系统固定默认参数初始化
     //sys_cfg_init();     //系统参数从FLASH或内存中获取
     tempdata_init(&m_tempdata);//临时变量初始化，全局参数初始化
-UART_Init(1, 38400, 8, 0, 1, 1);
+    /*BEGIN:add by guozikun 2020.5.25*/
+    Uart_CFG(1, 1);
+    /*END:add by guozikun 2020.5.25*/
     //主串口初始化
     uart_CBD CBD = {0};
 
@@ -75,12 +92,67 @@ UART_Init(1, 38400, 8, 0, 1, 1);
 
     
     DS3231_ReadTime(&m_tempdata.m_RtcTateTime);
-		Init_ADC();
+	Init_ADC();
 
     hal_sensor_init();    //传感器对应IO 初始化
 
     Self_test();
 }
+
+//******************************************************************************
+//
+//串口初始化
+//
+//******************************************************************************
+
+uint8_t Uart_CFG(uint8_t num, uint8_t msp)
+{
+    U8 i;
+    U8 bps_index = 0;
+    uint32_t bps = 9600;
+    uint8_t databit = 8;
+    char parity_temp = 'N';//奇偶检验
+    uint8_t stopbit = 1;
+    uint8_t temp = 0, parity = 0;
+
+    bps     = bcm_info.common.se[num].baudrate;
+    databit = bcm_info.common.se[num].datasbit;
+    parity_temp  = bcm_info.common.se[num].parity;
+    stopbit = bcm_info.common.se[num].stopbits;
+
+    if(parity_temp == 'N')
+    {
+        parity = 0;
+    }
+    else
+    {
+        parity = 1;
+    }
+    
+    if((num !=1)&&(num !=2)&&(num !=3))
+    {
+        return 0;
+    }
+    
+    for(i=0;i<BPS_MAX;i++)
+    {
+        if(bps == TableBPS[i].bps)
+        {
+            bps_index = TableBPS[i].bpsIndex;
+            break;
+        }
+    }
+
+    if(bps_index>BPS_MAX)
+        return 0;
+
+    temp = UART_Init(num, bps, databit, parity, stopbit, msp);
+    
+    return temp;
+
+}
+
+
 
 //******************************************************************************
 //

@@ -10,6 +10,9 @@
 
 #include "main.h"
 
+
+
+
 void sysinit(void);
 
 void pamsave(s_defdata_t *p_defdata_t);
@@ -20,6 +23,7 @@ void save_sys_cfg(bcm_info_t *p_bcm_info);
 void read_sys_cfg(bcm_info_t *p_bcm_info);
 unsigned char sys_cfg_init(void);
 void startupprint(void);
-    
+uint8_t Uart_CFG(uint8_t num, uint8_t msp);
+
 
 #endif
