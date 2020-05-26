@@ -97,8 +97,7 @@ void uartSendStr(UINT8 uartno,UINT8 *pucStr,UINT16 len)
     if(uartno == 0)
     {
         if(bcm_info.common.mo == 2)
-        {
-            
+        {          
             
             delay_us(500);
             
@@ -116,6 +115,7 @@ void uartSendStr(UINT8 uartno,UINT8 *pucStr,UINT16 len)
     {
         UartWrite(uartno, pucStr, len);
     }
+    
     
 }
 

@@ -43,7 +43,7 @@ void time_task(void *pvParameters)
         if(p_sec!=m_tempdata.m_RtcTateTime.sec)
         {
             p_sec=m_tempdata.m_RtcTateTime.sec;
-
+            startupprint();
             //GPIO_toggleOutputOnPin(GPIO_PORT_P2,  GPIO_PIN1);
 
     

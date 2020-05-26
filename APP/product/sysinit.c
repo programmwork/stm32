@@ -72,7 +72,7 @@ void sysinit(void)
     //sys_cfg_init();     //系统参数从FLASH或内存中获取
     tempdata_init(&m_tempdata);//临时变量初始化，全局参数初始化
     /*BEGIN:add by guozikun 2020.5.25*/
-    Uart_CFG(1, 1);
+    //Uart_CFG(1, 1);
     /*END:add by guozikun 2020.5.25*/
     //主串口初始化
     uart_CBD CBD = {0};
@@ -87,7 +87,7 @@ void sysinit(void)
     CBD.pri_r = COM_RECV_PRIORITY;
     CBD.heap_r_size = TASK_RECV_STACK_SIZE;
 
-    UartOpen( &CBD );//
+    //UartOpen( &CBD );//
     //UART_Init(1, 38400, 8, 0, 1, 1);
 
     
@@ -115,10 +115,15 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
     uint8_t stopbit = 1;
     uint8_t temp = 0, parity = 0;
 
-    bps     = bcm_info.common.se[num].baudrate;
-    databit = bcm_info.common.se[num].datasbit;
-    parity_temp  = bcm_info.common.se[num].parity;
-    stopbit = bcm_info.common.se[num].stopbits;
+    if((num !=1)&&(num !=2))
+    {
+        return 0;
+    }
+
+    bps         = bcm_info.common.se[num - 1].baudrate;
+    databit     = bcm_info.common.se[num - 1].datasbit;
+    parity_temp = bcm_info.common.se[num - 1].parity;
+    stopbit     = bcm_info.common.se[num - 1].stopbits;
 
     if(parity_temp == 'N')
     {
@@ -127,13 +132,8 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
     else
     {
         parity = 1;
-    }
-    
-    if((num !=1)&&(num !=2)&&(num !=3))
-    {
-        return 0;
-    }
-    
+    }    
+
     for(i=0;i<BPS_MAX;i++)
     {
         if(bps == TableBPS[i].bps)
@@ -143,8 +143,10 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
         }
     }
 
-    if(bps_index>BPS_MAX)
+    if(bps_index > BPS_MAX)
+    {
         return 0;
+    }
 
     temp = UART_Init(num, bps, databit, parity, stopbit, msp);
     
