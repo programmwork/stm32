@@ -44,6 +44,7 @@ void time_task(void *pvParameters)
         {
             p_sec=m_tempdata.m_RtcTateTime.sec;
 
+
             //GPIO_toggleOutputOnPin(GPIO_PORT_P2,  GPIO_PIN1);
 
     
