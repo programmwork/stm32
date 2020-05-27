@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32L476G-Discovery\STM32L476G-Discovery.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32L476G-Discovery\STM32L476G-Discovery.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue May 26 15:33:23 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed May 27 12:49:35 2020
 <BR><P>
 <H3>Maximum Stack Usage =       1440 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -2041,7 +2041,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uartSendStr
 </UL>
 
-<P><STRONG><a name="[148]"></a>Uart_CFG</STRONG> (Thumb, 88 bytes, Stack size 32 bytes, sysinit.o(i.Uart_CFG))
+<P><STRONG><a name="[148]"></a>Uart_CFG</STRONG> (Thumb, 114 bytes, Stack size 32 bytes, sysinit.o(i.Uart_CFG))
 <BR><BR>[Stack]<UL><LI>Max Depth = 272<LI>Call Chain = Uart_CFG &rArr; UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI1_Config
 </UL>
 <BR>[Calls]<UL><LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
@@ -3189,7 +3189,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[4b]"></a>main</STRONG> (Thumb, 204 bytes, Stack size 72 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 368<LI>Call Chain = main &rArr; sysinit &rArr; Uart_CFG &rArr; UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI1_Config
+<BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = main &rArr; sysinit &rArr; Uart_CFG &rArr; UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI1_Config
 </UL>
 <BR>[Calls]<UL><LI><a href="#[186]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
 <LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osKernelStart
@@ -3407,7 +3407,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[1ac]"></a>startupprint</STRONG> (Thumb, 36 bytes, Stack size 264 bytes, sysinit.o(i.startupprint))
+<P><STRONG><a name="[1ac]"></a>startupprint</STRONG> (Thumb, 52 bytes, Stack size 264 bytes, sysinit.o(i.startupprint))
 <BR><BR>[Stack]<UL><LI>Max Depth = 408<LI>Call Chain = startupprint &rArr; uartSendStr &rArr; UartWrite &rArr; xQueueGenericReceive &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
@@ -3417,8 +3417,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;time_task
 </UL>
 
-<P><STRONG><a name="[185]"></a>sysinit</STRONG> (Thumb, 102 bytes, Stack size 24 bytes, sysinit.o(i.sysinit))
-<BR><BR>[Stack]<UL><LI>Max Depth = 296<LI>Call Chain = sysinit &rArr; Uart_CFG &rArr; UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI1_Config
+<P><STRONG><a name="[185]"></a>sysinit</STRONG> (Thumb, 168 bytes, Stack size 56 bytes, sysinit.o(i.sysinit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 328<LI>Call Chain = sysinit &rArr; Uart_CFG &rArr; UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLLSAI1_Config
 </UL>
 <BR>[Calls]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_ADC
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS3231_ReadTime

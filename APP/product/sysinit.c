@@ -36,7 +36,8 @@ void startupprint(void)
 {
    char buf[256];
    sprintf(buf,"VERSION INFORMATION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
-   uartSendStr(0,(unsigned char *)buf,strlen(buf));
+   uartSendStr(0,(unsigned char *)buf,strlen(buf)); 
+	uartSendStr(1,(unsigned char *)buf,strlen(buf));
    return;
 }
 
@@ -73,6 +74,7 @@ void sysinit(void)
     tempdata_init(&m_tempdata);//临时变量初始化，全局参数初始化
     /*BEGIN:add by guozikun 2020.5.25*/
     Uart_CFG(1, 1);
+    Uart_CFG(2, 1);
     /*END:add by guozikun 2020.5.25*/
     //主串口初始化
     uart_CBD CBD = {0};
@@ -87,7 +89,21 @@ void sysinit(void)
     CBD.pri_r = COM_RECV_PRIORITY;
     CBD.heap_r_size = TASK_RECV_STACK_SIZE;
 
-    UartOpen( &CBD );//
+    UartOpen( &CBD );
+    //串口2初始化
+    uart_CBD CBD1 = {0};
+
+    CBD1.cid = 1;
+
+    CBD1.rw |= UART_WR;
+    CBD1.pri_t = COM_SEND_PRIORITY;
+    CBD1.heap_t_size = TASK_SEND_STACK_SIZE;
+
+    CBD1.rw |= UART_RD;
+    CBD1.pri_r = COM_RECV_PRIORITY;
+    CBD1.heap_r_size = TASK_RECV_STACK_SIZE;
+
+    UartOpen( &CBD1 );//
     //UART_Init(1, 38400, 8, 0, 1, 1);
 
     
@@ -120,6 +136,15 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
         return 0;
     }
 
+    bcm_info.common.se[num].baudrate = 115200;
+    bcm_info.common.se[num].datasbit = 8;
+    bcm_info.common.se[num].parity = 'N';
+    bcm_info.common.se[num].stopbits = 1;
+    bcm_info.common.se[num - 1].baudrate = 115200;
+    bcm_info.common.se[num - 1].datasbit = 8;
+    bcm_info.common.se[num - 1].parity = 'N';
+    bcm_info.common.se[num - 1].stopbits = 1;
+
     bps         = bcm_info.common.se[num - 1].baudrate;
     databit     = bcm_info.common.se[num - 1].datasbit;
     parity_temp = bcm_info.common.se[num - 1].parity;
@@ -149,6 +174,7 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
     }
 
     temp = UART_Init(num, bps, databit, parity, stopbit, msp);
+    
     
     return temp;
 

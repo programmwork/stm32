@@ -157,9 +157,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>43</LineNumber>
+          <LineNumber>47</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134272704</Address>
+          <Address>134276058</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -168,7 +168,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\APP\sensor\sensor_process.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\STM32L476G_Discovery\../APP/sensor/sensor_process.c\43</Expression>
+          <Expression>\\STM32L476G_Discovery\../APP/sensor/sensor_process.c\47</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -176,11 +176,6 @@
           <count>0</count>
           <WinNumber>1</WinNumber>
           <ItemText>bcm_info</ItemText>
-        </Ww>
-        <Ww>
-          <count>1</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>date</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -447,7 +442,7 @@
 
   <Group>
     <GroupName>Drivers/BSP</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

@@ -43,8 +43,8 @@ void time_task(void *pvParameters)
         if(p_sec!=m_tempdata.m_RtcTateTime.sec)
         {
             p_sec=m_tempdata.m_RtcTateTime.sec;
-            startupprint();
             //GPIO_toggleOutputOnPin(GPIO_PORT_P2,  GPIO_PIN1);
+            startupprint();
 
     
 #if (SENSOR != 2)   //·ç 
@@ -138,7 +138,7 @@ void uartprocess_task( void *pvParameters )
 
         if(rcv_len > 0)
         {
-            len = UartRead(UARTDEV_0, rcv_buffer, rcv_len);
+            len = UartRead(1, rcv_buffer, rcv_len);
         }
 
         if(len > 0)
@@ -156,7 +156,7 @@ void uartprocess_task( void *pvParameters )
             }
         }
         
-        checkuart(0);
+        checkuart(1);
         vTaskDelay(20);
     }
         
