@@ -120,6 +120,12 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
         return 0;
     }
 
+    
+    bcm_info.common.se[num - 1].baudrate = 9600;
+    bcm_info.common.se[num - 1].datasbit = 8;
+    bcm_info.common.se[num - 1].parity = 'N';
+    bcm_info.common.se[num - 1].stopbits = 1;
+
     bps         = bcm_info.common.se[num - 1].baudrate;
     databit     = bcm_info.common.se[num - 1].datasbit;
     parity_temp = bcm_info.common.se[num - 1].parity;
