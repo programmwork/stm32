@@ -225,6 +225,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
       _Error_Handler(__FILE__, __LINE__);
     }
 
+
     __HAL_LINKDMA(huart,hdmarx,hdma_usart2_rx);
 
     /* USART2_TX Init */
@@ -241,6 +242,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     {
       _Error_Handler(__FILE__, __LINE__);
     }
+
+    __HAL_LINKDMA(huart,hdmatx,hdma_usart2_tx);		
+	__HAL_UART_ENABLE_IT(huart, UART_IT_ERR);
+	__HAL_UART_ENABLE_IT(huart, UART_IT_IDLE);
+	HAL_NVIC_SetPriority(USART2_IRQn , 5, 0);
 
     __HAL_LINKDMA(huart,hdmatx,hdma_usart2_tx);
 
