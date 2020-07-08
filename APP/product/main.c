@@ -226,6 +226,7 @@ void main( void )
     HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
 
 	HAL_NVIC_EnableIRQ(USART1_IRQn);
+	HAL_NVIC_EnableIRQ(USART2_IRQn);
 		
 		osThreadDef(UART_PROCESS, uartprocess_task, UART_PROCESS_TASK_PRIORITY, 0, TASK_UART_PROCESS_STACK_SIZE);
 		
