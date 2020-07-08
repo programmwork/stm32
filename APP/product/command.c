@@ -35,8 +35,6 @@ volatile unsigned char EmulationDataType = 0;        // X4 ´«¸ÐÆ÷µ±Ç°µÄÄ£ÄâÖµÊý¾
 float                  EmulationData_1 = 0.0;
 
 #define DEV_TYPE_MAX  14
-#define FMT_LOG "%d\r\n%04d-%02d-%02d %02d:%02d %d,M16,DST\r\n01%6.2f;02%6.2f;03%6.2f;14%6.2f;60%6.2f;61%6.2f"
-
 char *dev_type[DEV_TYPE_MAX]={
     "YAWP",     //0 ³ÆÖØ½µË®ÒÇ
     //---------×Ô¶¯ÆøºòÕ¾--------------
@@ -5016,22 +5014,3 @@ int cmd_shsensor(char *buf,char *rbuf)
 err:
   return rlen;
 }
-char Fram_data(char rbuf)
-{
-    char data = 0;
-    data = sprintf((char *)rbuf,FMT_LOG    
-                                m_defdata.m_baseinfo.id,
-                                m_tempdata.m_RtcTateTime.year,
-                                m_tempdata.m_RtcTateTime.month,
-                                m_tempdata.m_RtcTateTime.day,
-                                m_tempdata.m_RtcTateTime.hour,
-                                m_tempdata.m_RtcTateTime.min,
-                                m_defdata.m_baseinfo.id,
-                                sensors_data.sensor[0].mindata
-                                sensors_data.sensor[1].mindata
-                                sensors_data.sensor[2].mindata
-                                sensors_data.sensor[3].mindata
-                                );
-
-    return data;
-
