@@ -34,11 +34,11 @@ const BPS_CFG TableBPS[] =
 //******************************************************************************
 void startupprint(void)
 {
-   char buf[256];
-   sprintf(buf,"VERSION INFORMATION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
+    char buf[256];
+    sprintf(buf,"VERSION INFORMATION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
 
-	uartSendStr(1,(unsigned char *)buf,strlen(buf));
-   return;
+    uartSendStr(0,(unsigned char *)buf,strlen(buf));
+    return;
 }
 
 
@@ -91,12 +91,13 @@ void sysinit(void)
 
     CBD.rw |= UART_WR;
     CBD.pri_t = COM_SEND_PRIORITY;
-    CBD.heap_t_size = TASK_SEND_STACK_SIZE;
+    CBD.heap_t_size = TASK_SEND_STACK_SIZE;    
+    CBD.Mes_queue_Send_size = MES_SEND_SIZE;
 
     CBD.rw |= UART_RD;
     CBD.pri_r = COM_RECV_PRIORITY;
     CBD.heap_r_size = TASK_RECV_STACK_SIZE;
-
+    
     UartOpen( &CBD );
     //´®¿Ú2³õÊ¼»¯
     uart_CBD CBD1 = {0};
@@ -105,7 +106,8 @@ void sysinit(void)
 
     CBD1.rw |= UART_WR;
     CBD1.pri_t = COM_SEND_PRIORITY;
-    CBD1.heap_t_size = TASK_SEND_STACK_SIZE;
+    CBD1.heap_t_size = TASK_SEND_STACK_SIZE;      
+    CBD1.Mes_queue_Send_size = MES_SEND_SIZE;
 
     CBD1.rw |= UART_RD;
     CBD1.pri_r = COM_RECV_PRIORITY;

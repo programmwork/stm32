@@ -228,23 +228,23 @@ void main( void )
 	HAL_NVIC_EnableIRQ(USART1_IRQn);
 	HAL_NVIC_EnableIRQ(USART2_IRQn);
 		
-		osThreadDef(UART_PROCESS, uartprocess_task, UART_PROCESS_TASK_PRIORITY, 0, TASK_UART_PROCESS_STACK_SIZE);
+    osThreadDef(UART_PROCESS, uartprocess_task, UART_PROCESS_TASK_PRIORITY, 0, TASK_UART_PROCESS_STACK_SIZE);
 		
-		osThreadDef(TIME, time_task, TIME_TASK_PRIORITY, 0, TASK_TIME_STACK_SIZE);
+    osThreadDef(TIME, time_task, TIME_TASK_PRIORITY, 0, TASK_TIME_STACK_SIZE);
 		
     //osThreadDef(EVENT_SAMPLE, check_event_sample_task, EVENT_SAMPLE_TASK_PRIORITY, 0, TASK_EVENT_SAMPLE_STACK_SIZE);
 	
-		osThreadDef(READDATA, readdata_task, READDATA_TASK_PRIORITY, 0, TASK_READDATA_STACK_SIZE);
+    osThreadDef(READDATA, readdata_task, READDATA_TASK_PRIORITY, 0, TASK_READDATA_STACK_SIZE);
 		
-		UART_PROCESS_Handle = osThreadCreate(osThread(UART_PROCESS), NULL);
+    UART_PROCESS_Handle = osThreadCreate(osThread(UART_PROCESS), NULL);
 		
-		TIME_Handle = osThreadCreate(osThread(TIME), NULL);
+    TIME_Handle = osThreadCreate(osThread(TIME), NULL);
 		
-		//EVENT_SAMPLE_Handle = osThreadCreate(osThread(EVENT_SAMPLE), NULL);
-		
-		READDATA_Handle = osThreadCreate(osThread(READDATA), NULL);
-    
-		osKernelStart();
+	//EVENT_SAMPLE_Handle = osThreadCreate(osThread(EVENT_SAMPLE), NULL);
+	
+	READDATA_Handle = osThreadCreate(osThread(READDATA), NULL);
+
+	osKernelStart();
 	
 	
 	
