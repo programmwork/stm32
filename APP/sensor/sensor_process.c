@@ -138,7 +138,7 @@ void uartprocess_task( void *pvParameters )
 
         if(rcv_len > 0)
         {
-            len = UartRead(1, rcv_buffer, rcv_len);
+            len = UartRead(0, rcv_buffer, rcv_len);
         }
 
         if(len > 0)
@@ -156,7 +156,7 @@ void uartprocess_task( void *pvParameters )
             }
         }
         
-        checkuart(1);
+        checkuart(UARTDEV_0);
         vTaskDelay(20);
     }
         
