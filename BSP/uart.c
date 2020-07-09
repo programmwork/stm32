@@ -292,19 +292,24 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 
 uint8_t USART_DMA_Restart(uint8_t num)
 {
-    uart_dma* dma = &dma_recv[num - 1];
+    uart_dma* dma = NULL;
+    uart* device = NULL;
     UART_HandleTypeDef* huart = 0;
 
     if(num == 1)
     {
-    		huart = &huart1;
+        huart = &huart1;
+        dma = &dma_recv[0];
+	    device = &uart_recv[0];
     }
     else
     {
-    	if(num ==2 )
-    	{
-    		 huart = &huart2;
-    	}
+        if(num ==2 )
+        {
+            huart = &huart2;
+            dma = &dma_recv[1];
+            device = &uart_recv[1];
+        }
     }
 
 
@@ -334,6 +339,8 @@ uint8_t USART_DMA_Restart(uint8_t num)
         HAL_DMA_Abort(huart->hdmarx);
         //
         HAL_UART_Receive_DMA(huart, (uint8_t *)(dma->buf[dma->wr].data), SWAPSIZE);
+
+        xSemaphoreGiveFromISR( device->SemDev, NULL );
     }
 
 
@@ -431,13 +438,13 @@ uint8_t UartOpen(uart_CBD* CBD)
         if(CBD->cid == CBD_UART_1)
         {        
             HAL_UART_Receive_DMA(&huart1, (dma->buf[dma->wr].data), SWAPSIZE);
-            xSemaphoreGive( device->SemBuf );
+            //xSemaphoreGive( device->SemBuf );
             xTaskCreate(UartRecv_1, "UartRecv1", CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
         }
         else if(CBD->cid == CBD_UART_2)
 		{        
             HAL_UART_Receive_DMA(&huart2, (dma->buf[dma->wr].data), SWAPSIZE);
-            xSemaphoreGive( device->SemBuf );
+            //xSemaphoreGive( device->SemBuf );
             xTaskCreate(UartRecv_2, "UartRecv2", CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
         } 
         else
@@ -498,61 +505,48 @@ void UartSend_1( void *pdata )
 
 void UartSend_2( void *pdata )
 {
-	uint8_t cnt;
+    uart* device = ( uart* )pdata;
 
-	uart* device = ( uart* )pdata;
+    if( device->cid==CBD_UART_2 )
+    {
+        
+    }
+    else
+    {
+        // Task stack size must big than 70
+        //uart_printf( 0, "Uart %d Send...\r\n", device->cid+1 );
 
-	uint32_t src = 0;
+        uart_printf( 1, "Uart Send...\r\n" );
+    }
 
-	if( device->cid==CBD_UART_2 )
-	{
-		
-	}
-	else
-	{
-		// Task stack size must big than 70
-		//uart_printf( 0, "Uart %d Send...\r\n", device->cid+1 );
+    while(1)
+    {
+        // Wait block here
+        xSemaphoreTake( device->SemBuf, portMAX_DELAY );
 
-		uart_printf( 0, "Uart Send...\r\n" );
-	}
+        memset(device->data, 0x00, SIZE_SEND_BUF);
 
-	while( 1 )
-	{
-		// Wait block here
-		xSemaphoreTake( device->SemBuf, portMAX_DELAY );
+        for(device->cnt = 0; device->cnt < SIZE_SEND_BUF; device->cnt++)
+        {
+            if(pdFALSE == xQueueReceive(device->Mes_queue_Send, (void *)&device->data[device->cnt], 0))//向队列中填充内容
+            {
+                break;
+            }
+        }
 
-		if( device->cnt>0 )
-		{
-			src = (uint32_t)( device->rp );
+        if(device->cnt > 0)
+        {
+            HAL_UART_Transmit_DMA(&huart2, (uint8_t *)device->data, device->cnt);
+        }
+        else
+        {
+            xSemaphoreGive( device->SemBuf );
 
-			if( device->rp>device->wp )
-			{
-				cnt = device->end+1-device->rp;
-
-				device->cnt = device->cnt - cnt;
-
-				device->rp = device->data;
-			}
-			else
-			{
-				cnt = device->cnt;
-
-				device->cnt = 0;
-
-				device->rp = device->wp;
-			}
-      
-			HAL_UART_Transmit_DMA(&huart2, (uint8_t *)src, cnt);
-
-		}
-		else
-		{
-			xSemaphoreGive( device->SemBuf );
-
-			vTaskDelay( 5 );
-		}
-	}
+            vTaskDelay( 5 );
+        }
+    }
 }
+
 
 
 void UartRecv_1( void *pdata )
@@ -571,10 +565,7 @@ void UartRecv_1( void *pdata )
 
 	while( 1 )
 	{
-		
-			
-		
-		xSemaphoreTake( device->SemBuf, portMAX_DELAY );
+	    xSemaphoreTake( device->SemDev, 0 );
 
 		if( dma->rd!=dma->wr )
 		{
@@ -616,9 +607,11 @@ void UartRecv_1( void *pdata )
 			dma->rd++;
 
 			dma->rd = dma->rd%RX_BUF_SIZE;
+            xSemaphoreGive( device->SemBuf );
 		}
 
-		xSemaphoreGive( device->SemBuf );
+		
+		//vTaskDelay( 5 );
 	}
 }
 
@@ -637,11 +630,8 @@ void UartRecv_2( void *pdata )
 	uint8_t stat = 0;
 
 	while( 1 )
-	{
-		
-			
-		
-		xSemaphoreTake( device->SemBuf, portMAX_DELAY );
+	{	
+		xSemaphoreTake( device->SemDev, 0 );
 
 		if( dma->rd!=dma->wr )
 		{
@@ -683,9 +673,9 @@ void UartRecv_2( void *pdata )
 			dma->rd++;
 
 			dma->rd = dma->rd%RX_BUF_SIZE;
-		}
-
-		xSemaphoreGive( device->SemBuf );
+            xSemaphoreGive( device->SemBuf );
+		}	
+		//vTaskDelay( 5 );
 	}
 }
 
@@ -696,11 +686,11 @@ uint16_t UartWrite( uint8_t cid, uint8_t* payload, uint16_t len )
 
 	uart* device = &uart_send[cid];
 
-	xSemaphoreTake( device->SemBuf, portMAX_DELAY );
+	//xSemaphoreTake( device->SemBuf, portMAX_DELAY );
     
 	for(i = 0; i < len; i++)
     {
-        if(pdTRUE == xQueueSend( device->Mes_queue_Send, ( void* )payload, 200 ))//向队列中填充内容
+        if(pdTRUE == xQueueSend( device->Mes_queue_Send, ( void* )payload, 20 ))//向队列中填充内容
         {
             payload++;
         }
@@ -711,7 +701,7 @@ uint16_t UartWrite( uint8_t cid, uint8_t* payload, uint16_t len )
     } 
     
 
-	xSemaphoreGive( device->SemBuf );
+	//xSemaphoreGive( device->SemBuf );
 
 	return i;
 }
@@ -835,6 +825,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
     huart->RxState = HAL_UART_STATE_READY;
     HAL_UART_Receive_DMA(huart, (uint8_t *)(dma->buf[dma->wr].data), SWAPSIZE);
+
+    xSemaphoreGiveFromISR( device->SemDev, NULL );
 }
 
 

@@ -27,21 +27,25 @@ Project File Date:  07/08/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\software\Keil\ARM\ARMCC\Bin'
 Build target 'STM32L476G-Discovery'
-compiling sensor_process.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+compiling uart.c...
 ..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
   void autosend();
 ..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
   void Self_test();
 ..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
   void Init_sys_cfg();
-..\APP\sensor\sensor_process.c: 4 warnings, 0 errors
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\BSP\uart.c(564): warning:  #177-D: variable "stat"  was declared but never referenced
+  	uint8_t stat = 0;
+..\BSP\uart.c(630): warning:  #177-D: variable "stat"  was declared but never referenced
+  	uint8_t stat = 0;
+..\BSP\uart.c: 6 warnings, 0 errors
 linking...
 STM32L476G-Discovery\STM32L476G-Discovery.axf: Warning: L6989W: Could not apply patch sdcomp-29491-629360 to instruction VPOP     {d8-d12} at offset 0x24, instruction is within an IT block and is not the last instruction for sin_i_x.o(i.____kernel_sin$lsc).
-Program Size: Code=61976 RO-data=2380 RW-data=328 ZI-data=37328  
+Program Size: Code=62016 RO-data=2496 RW-data=328 ZI-data=37872  
 Finished: 0 information, 1 warning and 0 error messages.
-"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 5 Warning(s).
+"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -64,7 +68,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

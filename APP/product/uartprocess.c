@@ -11,6 +11,46 @@
 
 
 uint8 rcvd_buffer[MAX_PKGLEN];
+
+void uart_rcv(uint8_t uartno)
+{
+    uint16 rcv_len = 0, i = 0;
+    uint16 len = 0;
+    U8 rcv_buffer[MAX_UARTRCV_LEN] = {0};
+
+    if(m_tempdata.m_uartrcv[uartno].WD < m_tempdata.m_uartrcv[uartno].RD)
+    {
+        rcv_len = m_tempdata.m_uartrcv[uartno].RD - m_tempdata.m_uartrcv[uartno].WD - 1;
+    }
+    else
+    {
+        rcv_len = MAX_UARTRCV_LEN - m_tempdata.m_uartrcv[uartno].WD + m_tempdata.m_uartrcv[uartno].RD - 1;
+    }
+
+    if(rcv_len > 0)
+    {
+        len = UartRead(uartno, rcv_buffer, rcv_len);
+    }
+
+    if(len > 0)
+    {
+
+
+
+        for(i = 0;i < len;i++)
+        {
+            if(((m_tempdata.m_uartrcv[uartno].WD + 1) % MAX_UARTRCV_LEN) != m_tempdata.m_uartrcv[uartno].RD)//可进行接收处理
+            {
+                 m_tempdata.m_uartrcv[uartno].buff[m_tempdata.m_uartrcv[uartno].WD]=rcv_buffer[i];
+                 m_tempdata.m_uartrcv[uartno].WD = (m_tempdata.m_uartrcv[uartno].WD + 1) % MAX_UARTRCV_LEN;
+            }
+        }
+    }
+
+
+}
+    
+
 void checkuart(U8 uartno)
 {
     uint16 len = 0, rd = 0, i = 0;

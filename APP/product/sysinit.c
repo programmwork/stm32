@@ -35,9 +35,16 @@ const BPS_CFG TableBPS[] =
 void startupprint(void)
 {
     char buf[256];
-    sprintf(buf,"VERSION INFORMATION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
+    sprintf(buf,"VERSION INFORMATION:1111111111111111\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
 
     uartSendStr(0,(unsigned char *)buf,strlen(buf));
+
+
+
+
+    sprintf(buf,"VERSION INFORMATION:2222222222222222\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
+
+    uartSendStr(1,(unsigned char *)buf,strlen(buf));
     return;
 }
 

@@ -36,10 +36,10 @@ enum{
 };
 /*´®¿ÚÐòºÅ*/
 enum {
-        UARTDEV_0=0,
-        //UARTDEV_1,
-        //UARTDEV_2,
-        //UARTDEV_3,
+        UARTDEV_1=0,
+        UARTDEV_2,
+        UARTDEV_3,
+        //UARTDEV_4,
         MAX_UARTNUM,
 };
 

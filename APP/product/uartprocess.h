@@ -8,6 +8,8 @@
 
 
 extern void checkuart(U8 uartno);
+void uart_rcv(uint8_t uartno);
+
 void processuartdata(U8 uartno);
 
 void uartSendStr(UINT8 uartno,UINT8 *pucStr,UINT16 len);

@@ -118,45 +118,18 @@ void time_task(void *pvParameters)
 }
 
 
-U8 rcv_buffer[MAX_UARTRCV_LEN] = {0};
 
 void uartprocess_task( void *pvParameters )
 {
-    uint16 rcv_len = 0, i = 0;
-    uint16 len = 0;
+
 
     while(1)
     {
-        if(m_tempdata.m_uartrcv[UARTDEV_0].WD < m_tempdata.m_uartrcv[UARTDEV_0].RD)
-        {
-            rcv_len = m_tempdata.m_uartrcv[UARTDEV_0].RD - m_tempdata.m_uartrcv[UARTDEV_0].WD - 1;
-        }
-        else
-        {
-            rcv_len = MAX_UARTRCV_LEN - m_tempdata.m_uartrcv[UARTDEV_0].WD + m_tempdata.m_uartrcv[UARTDEV_0].RD - 1;
-        }
-
-        if(rcv_len > 0)
-        {
-            len = UartRead(0, rcv_buffer, rcv_len);
-        }
-
-        if(len > 0)
-        {
-
-
-
-            for(i = 0;i < len;i++)
-            {
-                if(((m_tempdata.m_uartrcv[UARTDEV_0].WD + 1) % MAX_UARTRCV_LEN) != m_tempdata.m_uartrcv[UARTDEV_0].RD)//可进行接收处理
-                {
-                     m_tempdata.m_uartrcv[UARTDEV_0].buff[m_tempdata.m_uartrcv[UARTDEV_0].WD]=rcv_buffer[i];
-                     m_tempdata.m_uartrcv[UARTDEV_0].WD = (m_tempdata.m_uartrcv[UARTDEV_0].WD + 1) % MAX_UARTRCV_LEN;
-                }
-            }
-        }
+        uart_rcv(UARTDEV_1);
+        uart_rcv(UARTDEV_2);
         
-        checkuart(UARTDEV_0);
+        checkuart(UARTDEV_1);
+        checkuart(UARTDEV_2);
         vTaskDelay(20);
     }
         
