@@ -225,6 +225,8 @@ void main( void )
     //startupprint();      //开始信息  打印
     HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
 
+
+    //打开串口总中断
 	HAL_NVIC_EnableIRQ(USART1_IRQn);
 	HAL_NVIC_EnableIRQ(USART2_IRQn);
 		
