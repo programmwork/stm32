@@ -240,12 +240,13 @@ void main( void )
 		
     TIME_Handle = osThreadCreate(osThread(TIME), NULL);
 		
+
 	//EVENT_SAMPLE_Handle = osThreadCreate(osThread(EVENT_SAMPLE), NULL);
 	
 	READDATA_Handle = osThreadCreate(osThread(READDATA), NULL);
 
 	osKernelStart();
-	
+
 	
 	
 	

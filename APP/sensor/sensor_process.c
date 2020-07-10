@@ -1,7 +1,7 @@
 /*
  * sensor_process.c
  *
- *  Created on: 2017Äê10ÔÂ28ÈÕ
+ *  Created on: 2017Ã„Ãª10Ã”Ã‚28ÃˆÃ•
  *      Author: lenovo
  */
 
@@ -19,7 +19,7 @@ void time_task(void *pvParameters)
 
     //sysinit();
         
-    //startupprint();    //¿ªÊ¼ÐÅÏ¢  ´òÓ¡
+    //startupprint();    //Â¿ÂªÃŠÂ¼ÃÃ…ÃÂ¢  Â´Ã²Ã“Â¡
 
 
 
@@ -28,7 +28,7 @@ void time_task(void *pvParameters)
 
     while(1)
     {
-			//startupprint();
+			
         if(p_msec!=m_tempdata.m_RtcTateTime.msec)
         {
             p_msec=m_tempdata.m_RtcTateTime.msec;
@@ -43,11 +43,12 @@ void time_task(void *pvParameters)
         if(p_sec!=m_tempdata.m_RtcTateTime.sec)
         {
             p_sec=m_tempdata.m_RtcTateTime.sec;
+
             //GPIO_toggleOutputOnPin(GPIO_PORT_P2,  GPIO_PIN1);
             startupprint();
 
     
-#if (SENSOR != 2)   //·ç 
+#if (SENSOR != 2)   //Â·Ã§ 
 					  if(m_tempdata.m_RtcTateTime.sec%2 == 0)
             {
                 m_tempdata.event.secevent = true;
@@ -55,16 +56,16 @@ void time_task(void *pvParameters)
 #endif
 
 
-#if (SENSOR == 2)   //·ç
+#if (SENSOR == 2)   //Â·Ã§
 						m_tempdata.event.secevent = true;
 						m_tempdata.event.Flag_1s = true;
 #endif
         
-            //Ã¿30·ÖÖÓ µÄµÚ50Ãë¶ÁÓ²Ê±ÖÓ¸øÈíÊ±ÖÓÐ£Ê±
+            //ÃƒÂ¿30Â·Ã–Ã–Ã“ ÂµÃ„ÂµÃš50ÃƒÃ«Â¶ÃÃ“Â²ÃŠÂ±Ã–Ã“Â¸Ã¸ÃˆÃ­ÃŠÂ±Ã–Ã“ÃÂ£ÃŠÂ±
             if((m_tempdata.m_RtcTateTime.min%30 == 0)&&(m_tempdata.m_RtcTateTime.sec == 50))
             {
                 s_RtcTateTime_t time_struct_hardrtc_temp;
-                //if(DS3231_ReadTime(&time_struct_hardrtc_temp)==1)  //Ê±¼äÐ£ÑéÕýÈ·²Å¸øÈíÊ±ÖÓÐ£Ê±
+                //if(DS3231_ReadTime(&time_struct_hardrtc_temp)==1)  //ÃŠÂ±Â¼Ã¤ÃÂ£Ã‘Ã©Ã•Ã½ÃˆÂ·Â²Ã…Â¸Ã¸ÃˆÃ­ÃŠÂ±Ã–Ã“ÃÂ£ÃŠÂ±
                 {
                     m_tempdata.m_RtcTateTime = time_struct_hardrtc_temp;
                 }
@@ -80,7 +81,7 @@ void time_task(void *pvParameters)
         
             m_tempdata.SysPowerON++;
 
-            if(m_tempdata.SuperadMin == true) //È¨ÏÞÃüÁî¿ªÆô ²¢¼ÆÊ±
+            if(m_tempdata.SuperadMin == true) //ÃˆÂ¨ÃÃžÃƒÃ¼ÃÃ®Â¿ÂªÃ†Ã´ Â²Â¢Â¼Ã†ÃŠÂ±
             {
                 m_tempdata.SuperadMinCnt ++;
                 if(m_tempdata.SuperadMinCnt > 20)
@@ -89,14 +90,14 @@ void time_task(void *pvParameters)
                     m_tempdata.SuperadMinCnt = 0;
                 }
             }
-            if(m_tempdata.DebugON == true)    //µ÷ÊÔÃüÁî¿ªÆô ²¢¼ÆÊ±
+            if(m_tempdata.DebugON == true)    //ÂµÃ·ÃŠÃ”ÃƒÃ¼ÃÃ®Â¿ÂªÃ†Ã´ Â²Â¢Â¼Ã†ÃŠÂ±
             {
                 m_tempdata.DebugONCnt ++;
                 if(m_tempdata.DebugONCnt > 20)
                 {
                     m_tempdata.DebugON = false;
                     m_tempdata.DebugONCnt = 0;
-                   // m_tempdata.SecDataOut = false;    //¹Ø±ÕË½ÓÐÃüÁîÈ¨ÏÞÊ±  ¹Ø±ÕÃëÊý¾Ý·¢ËÍ
+                   // m_tempdata.SecDataOut = false;    //Â¹Ã˜Â±Ã•Ã‹Â½Ã“ÃÃƒÃ¼ÃÃ®ÃˆÂ¨ÃÃžÃŠÂ±  Â¹Ã˜Â±Ã•ÃƒÃ«ÃŠÃ½Â¾ÃÂ·Â¢Ã‹Ã
                     uartSendStr(0,"Close debug mode.\r\n",19);
                 }
             }
@@ -243,29 +244,29 @@ void Self_test()
             sensors_data.boardsvolt_data = (int)(banYa*10);
         }
 
-        if(sensors_data.boardstemp_data>board_temp_max)//Æ«¸ß3
+        if(sensors_data.boardstemp_data>board_temp_max)//Ã†Â«Â¸ÃŸ3
             sensor_state.board_temp = 3;
-        else if(sensors_data.boardstemp_data<board_temp_min)//Æ«µÍ4
+        else if(sensors_data.boardstemp_data<board_temp_min)//Ã†Â«ÂµÃ4
             sensor_state.board_temp = 4;
-        else if((sensors_data.boardstemp_data >= bcm_info.common.work_temp_min) && (sensors_data.boardstemp_data <= bcm_info.common.work_temp_max)) //Õý³£
+        else if((sensors_data.boardstemp_data >= bcm_info.common.work_temp_min) && (sensors_data.boardstemp_data <= bcm_info.common.work_temp_max)) //Ã•Ã½Â³Â£
             sensor_state.board_temp = 0;
 
-        //°åÑ¹²âÁ¿
-        if(sensors_data.boardsvolt_data>board_volt_max)//Æ«¸ß3
+        //Â°Ã¥Ã‘Â¹Â²Ã¢ÃÂ¿
+        if(sensors_data.boardsvolt_data>board_volt_max)//Ã†Â«Â¸ÃŸ3
         {
             sensor_state.board_volt = 3;
            /* sensor_state.bat_volt = 3;
             sensor_state.exter_volt = 3;
             sensor_state.board_current = 3;*/
         }
-        else if(sensors_data.boardsvolt_data<board_volt_min)//Æ«µÍ4
+        else if(sensors_data.boardsvolt_data<board_volt_min)//Ã†Â«ÂµÃ4
         {
             sensor_state.board_volt = 4;
            /* sensor_state.bat_volt = 4;
             sensor_state.exter_volt = 4;
             sensor_state.board_current = 4;*/
         }
-        else if((sensors_data.boardsvolt_data >= bcm_info.common.boardsvolt_min) && (sensors_data.boardsvolt_data <= bcm_info.common.boardsvolt_max)) //Õý³£
+        else if((sensors_data.boardsvolt_data >= bcm_info.common.boardsvolt_min) && (sensors_data.boardsvolt_data <= bcm_info.common.boardsvolt_max)) //Ã•Ã½Â³Â£
         {
             sensor_state.board_volt = 0;
          /*   sensor_state.bat_volt = 0;
@@ -292,6 +293,6 @@ void Self_test()
         sensor_state.self_test = 1;
     }
 
-    sensor_state.state_num = data + 2;  // ×Ô¼ìz  Ö±Á÷xA
+    sensor_state.state_num = data + 2;  // Ã—Ã”Â¼Ã¬z  Ã–Â±ÃÃ·xA
 }
 

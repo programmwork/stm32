@@ -49,7 +49,7 @@ unsigned char BanWenBanYa_engine(float *pT, float *pV)
  /* ²É¼¯°åÎÂ */
     for(i = 0 ; i < 10 ; i++)
     {
-        //if(DS3231_ReadTemperature(&value) == 1)
+        if(DS3231_ReadTemperature(&value) == 1)
         {
             valueTSum += value;
             counter++;

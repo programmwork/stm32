@@ -153,10 +153,12 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
         return 0;
     }
 
+
     bps         = bcm_info.common.se[num - 1].baudrate;
     databit     = bcm_info.common.se[num - 1].datasbit;
     parity_temp = bcm_info.common.se[num - 1].parity;
     stopbit     = bcm_info.common.se[num - 1].stopbits;
+
 
     if(parity_temp == 'N')
     {
@@ -176,7 +178,9 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
         }
     }
 
+
     if(bps_index > BPS_MAX)
+
     {
         return 0;
     }
