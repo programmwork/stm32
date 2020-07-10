@@ -20,6 +20,10 @@
 #define CBD_UART_2 1
 
 
+#define MES_SEND_SIZE 1024
+#define MES_RCV_SIZE 1024
+
+
 
 
 #define RX_BUF_SIZE 10
@@ -34,6 +38,9 @@ typedef struct {
 
 	uint8_t channelSelec;
 
+    SemaphoreHandle_t Mes_queue_Send;
+    SemaphoreHandle_t Mes_queue_Rec;
+    
 	SemaphoreHandle_t SemDev;
 	SemaphoreHandle_t SemBuf;
 }uart_device_t;
@@ -64,6 +71,9 @@ typedef struct{
 
 	uint16_t heap_r_size;
 	uint16_t heap_t_size;
+
+    uint16_t Mes_queue_Send_size;
+    uint16_t Mes_queue_Rec_size;
 
 	uint32_t bps;
 

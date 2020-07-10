@@ -1,7 +1,7 @@
 /*
  * sensor_process.c
  *
- *  Created on: 2017年10月28日
+ *  Created on: 2017脛锚10脭脗28脠脮
  *      Author: lenovo
  */
 
@@ -19,7 +19,7 @@ void time_task(void *pvParameters)
 
     //sysinit();
         
-    //startupprint();    //开始信息  打印
+    //startupprint();    //驴陋脢录脨脜脧垄  麓貌脫隆
 
 
 
@@ -44,11 +44,11 @@ void time_task(void *pvParameters)
         {
             p_sec=m_tempdata.m_RtcTateTime.sec;
 
-
             //GPIO_toggleOutputOnPin(GPIO_PORT_P2,  GPIO_PIN1);
+            startupprint();
 
     
-#if (SENSOR != 2)   //风 
+#if (SENSOR != 2)   //路莽 
 					  if(m_tempdata.m_RtcTateTime.sec%2 == 0)
             {
                 m_tempdata.event.secevent = true;
@@ -56,16 +56,16 @@ void time_task(void *pvParameters)
 #endif
 
 
-#if (SENSOR == 2)   //风
+#if (SENSOR == 2)   //路莽
 						m_tempdata.event.secevent = true;
 						m_tempdata.event.Flag_1s = true;
 #endif
         
-            //每30分钟 的第50秒读硬时钟给软时钟校时
+            //脙驴30路脰脰脫 碌脛碌脷50脙毛露脕脫虏脢卤脰脫赂酶脠铆脢卤脰脫脨拢脢卤
             if((m_tempdata.m_RtcTateTime.min%30 == 0)&&(m_tempdata.m_RtcTateTime.sec == 50))
             {
                 s_RtcTateTime_t time_struct_hardrtc_temp;
-                //if(DS3231_ReadTime(&time_struct_hardrtc_temp)==1)  //时间校验正确才给软时钟校时
+                //if(DS3231_ReadTime(&time_struct_hardrtc_temp)==1)  //脢卤录盲脨拢脩茅脮媒脠路虏脜赂酶脠铆脢卤脰脫脨拢脢卤
                 {
                     m_tempdata.m_RtcTateTime = time_struct_hardrtc_temp;
                 }
@@ -81,7 +81,7 @@ void time_task(void *pvParameters)
         
             m_tempdata.SysPowerON++;
 
-            if(m_tempdata.SuperadMin == true) //权限命令开启 并计时
+            if(m_tempdata.SuperadMin == true) //脠篓脧脼脙眉脕卯驴陋脝么 虏垄录脝脢卤
             {
                 m_tempdata.SuperadMinCnt ++;
                 if(m_tempdata.SuperadMinCnt > 20)
@@ -90,14 +90,14 @@ void time_task(void *pvParameters)
                     m_tempdata.SuperadMinCnt = 0;
                 }
             }
-            if(m_tempdata.DebugON == true)    //调试命令开启 并计时
+            if(m_tempdata.DebugON == true)    //碌梅脢脭脙眉脕卯驴陋脝么 虏垄录脝脢卤
             {
                 m_tempdata.DebugONCnt ++;
                 if(m_tempdata.DebugONCnt > 20)
                 {
                     m_tempdata.DebugON = false;
                     m_tempdata.DebugONCnt = 0;
-                   // m_tempdata.SecDataOut = false;    //关闭私有命令权限时  关闭秒数据发送
+                   // m_tempdata.SecDataOut = false;    //鹿脴卤脮脣陆脫脨脙眉脕卯脠篓脧脼脢卤  鹿脴卤脮脙毛脢媒戮脻路垄脣脥
                     uartSendStr(0,"Close debug mode.\r\n",19);
                 }
             }
@@ -119,45 +119,18 @@ void time_task(void *pvParameters)
 }
 
 
-U8 rcv_buffer[MAX_UARTRCV_LEN] = {0};
 
 void uartprocess_task( void *pvParameters )
 {
-    uint16 rcv_len = 0, i = 0;
-    uint16 len = 0;
+
 
     while(1)
     {
-        if(m_tempdata.m_uartrcv[UARTDEV_0].WD < m_tempdata.m_uartrcv[UARTDEV_0].RD)
-        {
-            rcv_len = m_tempdata.m_uartrcv[UARTDEV_0].RD - m_tempdata.m_uartrcv[UARTDEV_0].WD - 1;
-        }
-        else
-        {
-            rcv_len = MAX_UARTRCV_LEN - m_tempdata.m_uartrcv[UARTDEV_0].WD + m_tempdata.m_uartrcv[UARTDEV_0].RD - 1;
-        }
-
-        if(rcv_len > 0)
-        {
-            len = UartRead(UARTDEV_0, rcv_buffer, rcv_len);
-        }
-
-        if(len > 0)
-        {
-
-
-
-            for(i = 0;i < len;i++)
-            {
-                if(((m_tempdata.m_uartrcv[UARTDEV_0].WD + 1) % MAX_UARTRCV_LEN) != m_tempdata.m_uartrcv[UARTDEV_0].RD)//可进行接收处理
-                {
-                     m_tempdata.m_uartrcv[UARTDEV_0].buff[m_tempdata.m_uartrcv[UARTDEV_0].WD]=rcv_buffer[i];
-                     m_tempdata.m_uartrcv[UARTDEV_0].WD = (m_tempdata.m_uartrcv[UARTDEV_0].WD + 1) % MAX_UARTRCV_LEN;
-                }
-            }
-        }
+        uart_rcv(UARTDEV_1);
+        uart_rcv(UARTDEV_2);
         
-        checkuart(0);
+        checkuart(UARTDEV_1);
+        checkuart(UARTDEV_2);
         vTaskDelay(20);
     }
         
@@ -271,29 +244,29 @@ void Self_test()
             sensors_data.boardsvolt_data = (int)(banYa*10);
         }
 
-        if(sensors_data.boardstemp_data>board_temp_max)//偏高3
+        if(sensors_data.boardstemp_data>board_temp_max)//脝芦赂脽3
             sensor_state.board_temp = 3;
-        else if(sensors_data.boardstemp_data<board_temp_min)//偏低4
+        else if(sensors_data.boardstemp_data<board_temp_min)//脝芦碌脥4
             sensor_state.board_temp = 4;
-        else if((sensors_data.boardstemp_data >= bcm_info.common.work_temp_min) && (sensors_data.boardstemp_data <= bcm_info.common.work_temp_max)) //正常
+        else if((sensors_data.boardstemp_data >= bcm_info.common.work_temp_min) && (sensors_data.boardstemp_data <= bcm_info.common.work_temp_max)) //脮媒鲁拢
             sensor_state.board_temp = 0;
 
-        //板压测量
-        if(sensors_data.boardsvolt_data>board_volt_max)//偏高3
+        //掳氓脩鹿虏芒脕驴
+        if(sensors_data.boardsvolt_data>board_volt_max)//脝芦赂脽3
         {
             sensor_state.board_volt = 3;
            /* sensor_state.bat_volt = 3;
             sensor_state.exter_volt = 3;
             sensor_state.board_current = 3;*/
         }
-        else if(sensors_data.boardsvolt_data<board_volt_min)//偏低4
+        else if(sensors_data.boardsvolt_data<board_volt_min)//脝芦碌脥4
         {
             sensor_state.board_volt = 4;
            /* sensor_state.bat_volt = 4;
             sensor_state.exter_volt = 4;
             sensor_state.board_current = 4;*/
         }
-        else if((sensors_data.boardsvolt_data >= bcm_info.common.boardsvolt_min) && (sensors_data.boardsvolt_data <= bcm_info.common.boardsvolt_max)) //正常
+        else if((sensors_data.boardsvolt_data >= bcm_info.common.boardsvolt_min) && (sensors_data.boardsvolt_data <= bcm_info.common.boardsvolt_max)) //脮媒鲁拢
         {
             sensor_state.board_volt = 0;
          /*   sensor_state.bat_volt = 0;
@@ -320,6 +293,6 @@ void Self_test()
         sensor_state.self_test = 1;
     }
 
-    sensor_state.state_num = data + 2;  // 自检z  直流xA
+    sensor_state.state_num = data + 2;  // 脳脭录矛z  脰卤脕梅xA
 }
 

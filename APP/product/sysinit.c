@@ -34,10 +34,18 @@ const BPS_CFG TableBPS[] =
 //******************************************************************************
 void startupprint(void)
 {
-   char buf[256];
-   sprintf(buf,"VERSION INFORMATION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
-   uartSendStr(0,(unsigned char *)buf,strlen(buf));
-   return;
+    char buf[256];
+    sprintf(buf,"VERSION INFORMATION:1111111111111111\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
+
+    uartSendStr(0,(unsigned char *)buf,strlen(buf));
+
+
+
+
+    sprintf(buf,"VERSION INFORMATION:2222222222222222\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
+
+    uartSendStr(1,(unsigned char *)buf,strlen(buf));
+    return;
 }
 
 
@@ -72,7 +80,16 @@ void sysinit(void)
     //sys_cfg_init();     //系统参数从FLASH或内存中获取
     tempdata_init(&m_tempdata);//临时变量初始化，全局参数初始化
     /*BEGIN:add by guozikun 2020.5.25*/
+    bcm_info.common.se[1].baudrate = 115200;
+    bcm_info.common.se[1].datasbit = 8;
+    bcm_info.common.se[1].parity = 'N';
+    bcm_info.common.se[1].stopbits = 1;
+    bcm_info.common.se[0].baudrate = 115200;
+    bcm_info.common.se[0].datasbit = 8;
+    bcm_info.common.se[0].parity = 'N';
+    bcm_info.common.se[0].stopbits = 1;
     Uart_CFG(1, 1);
+    Uart_CFG(2, 1);
     /*END:add by guozikun 2020.5.25*/
     //主串口初始化
     uart_CBD CBD = {0};
@@ -81,13 +98,29 @@ void sysinit(void)
 
     CBD.rw |= UART_WR;
     CBD.pri_t = COM_SEND_PRIORITY;
-    CBD.heap_t_size = TASK_SEND_STACK_SIZE;
+    CBD.heap_t_size = TASK_SEND_STACK_SIZE;    
+    CBD.Mes_queue_Send_size = MES_SEND_SIZE;
 
     CBD.rw |= UART_RD;
     CBD.pri_r = COM_RECV_PRIORITY;
     CBD.heap_r_size = TASK_RECV_STACK_SIZE;
+    
+    UartOpen( &CBD );
+    //串口2初始化
+    uart_CBD CBD1 = {0};
 
-    UartOpen( &CBD );//
+    CBD1.cid = 1;
+
+    CBD1.rw |= UART_WR;
+    CBD1.pri_t = COM_SEND_PRIORITY;
+    CBD1.heap_t_size = TASK_SEND_STACK_SIZE;      
+    CBD1.Mes_queue_Send_size = MES_SEND_SIZE;
+
+    CBD1.rw |= UART_RD;
+    CBD1.pri_r = COM_RECV_PRIORITY;
+    CBD1.heap_r_size = TASK_RECV_STACK_SIZE;
+
+    UartOpen( &CBD1 );//
     //UART_Init(1, 38400, 8, 0, 1, 1);
 
     
@@ -120,10 +153,12 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
         return 0;
     }
 
-    bps     = bcm_info.common.se[num-1].baudrate;
-    databit = bcm_info.common.se[num-1].datasbit;
-    parity_temp  = bcm_info.common.se[num-1].parity;
-    stopbit = bcm_info.common.se[num-1].stopbits;
+
+    bps         = bcm_info.common.se[num - 1].baudrate;
+    databit     = bcm_info.common.se[num - 1].datasbit;
+    parity_temp = bcm_info.common.se[num - 1].parity;
+    stopbit     = bcm_info.common.se[num - 1].stopbits;
+
 
     if(parity_temp == 'N')
     {
@@ -132,13 +167,8 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
     else
     {
         parity = 1;
-    }
-    
-    if((num !=1)&&(num !=2)&&(num !=3))
-    {
-        return 0;
-    }
-    
+    }    
+
     for(i=0;i<BPS_MAX;i++)
     {
         if(bps == TableBPS[i].bps)
@@ -148,12 +178,15 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
         }
     }
 
-    if(bps_index>BPS_MAX)
+
+    if(bps_index > BPS_MAX)
+
     {
         return 0;
     }
 
     temp = UART_Init(num, bps, databit, parity, stopbit, msp);
+    
     
     return temp;
 
