@@ -36,14 +36,14 @@ compiling uart.c...
   void Init_sys_cfg();
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\uart.c(569): warning:  #177-D: variable "stat"  was declared but never referenced
+..\BSP\uart.c(574): warning:  #177-D: variable "stat"  was declared but never referenced
   	uint8_t stat = 0;
-..\BSP\uart.c(635): warning:  #177-D: variable "stat"  was declared but never referenced
+..\BSP\uart.c(640): warning:  #177-D: variable "stat"  was declared but never referenced
   	uint8_t stat = 0;
 ..\BSP\uart.c: 6 warnings, 0 errors
 linking...
 STM32L476G-Discovery\STM32L476G-Discovery.axf: Warning: L6989W: Could not apply patch sdcomp-29491-629360 to instruction VPOP     {d8-d12} at offset 0x24, instruction is within an IT block and is not the last instruction for sin_i_x.o(i.____kernel_sin$lsc).
-Program Size: Code=62336 RO-data=2496 RW-data=328 ZI-data=37872  
+Program Size: Code=62344 RO-data=2496 RW-data=328 ZI-data=37872  
 Finished: 0 information, 1 warning and 0 error messages.
 "STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 7 Warning(s).
 

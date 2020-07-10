@@ -285,8 +285,18 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
     //
     if((huart->ErrorCode & HAL_UART_ERROR_ORE) != RESET)
-	  {
-        USART_DMA_Restart(1);
+    {
+        if(huart->Instance == USART1)
+        {
+            USART_DMA_Restart(1);
+        }
+        else
+        {
+            if(huart->Instance == USART2)
+            {
+                USART_DMA_Restart(2);
+            }
+        } 
     }
 }
 
