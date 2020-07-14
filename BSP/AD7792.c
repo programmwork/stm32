@@ -12,7 +12,7 @@ void AD7792_Init( void )
 	
 	
 	
-	SPIInit(1);
+	SPIInit(2);
 
 	vTaskDelay( 10 );
 

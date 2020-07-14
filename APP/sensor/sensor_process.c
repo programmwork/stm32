@@ -15,11 +15,6 @@ void time_task(void *pvParameters)
     static U8 p_min=0xFF;
     static U8 p_hour=0xFF;
 
-	
-
-    //sysinit();
-        
-    //startupprint();    //¿ªÊ¼ÐÅÏ¢  ´òÓ¡
 
 
 
@@ -65,7 +60,7 @@ void time_task(void *pvParameters)
             if((m_tempdata.m_RtcTateTime.min%30 == 0)&&(m_tempdata.m_RtcTateTime.sec == 50))
             {
                 s_RtcTateTime_t time_struct_hardrtc_temp;
-                //if(DS3231_ReadTime(&time_struct_hardrtc_temp)==1)  //Ê±¼äÐ£ÑéÕýÈ·²Å¸øÈíÊ±ÖÓÐ£Ê±
+                if(DS3231_ReadTime(&time_struct_hardrtc_temp)==1)  //Ê±¼äÐ£ÑéÕýÈ·²Å¸øÈíÊ±ÖÓÐ£Ê±
                 {
                     m_tempdata.m_RtcTateTime = time_struct_hardrtc_temp;
                 }
