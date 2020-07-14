@@ -92,10 +92,10 @@ void Init_Timer1(unsigned short delayMS)
     TIM_ClockConfigTypeDef sClockSourceConfig;
     TIM_MasterConfigTypeDef sMasterConfig;
 
-    htim1.Instance = TIM1;
-    htim1.Init.Prescaler = 7199;
-    htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-    htim1.Init.Period = 4199;
+    htim1.Instance = TIM1;//时钟源
+    htim1.Init.Prescaler = TIM1_CROSSOVER;//分频系数
+    htim1.Init.CounterMode = TIM_COUNTERMODE_UP;//触发模式
+    htim1.Init.Period = TIM1_MIN_RELOAD;//重装值3964
     htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
     htim1.Init.RepetitionCounter = 0;
     htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
