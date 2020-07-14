@@ -256,6 +256,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         Flag_FengsuUpdate = 1;
         T3IntCounter = 0;
     }
+    
+    static unsigned char ledState = 0;
+        if (htim == (&htim1))
+        {
+            if (ledState == 0)
+                HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
+            else
+                HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_SET);
+            ledState = !ledState;
+        }
 }
 
 /*
