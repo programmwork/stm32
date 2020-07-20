@@ -52,7 +52,24 @@ void startupprint(void)
 
 void Init_Port()
 {
- //无用的IO 电平固定，降功耗
+    //无用的IO 电平固定，降功耗
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    /* GPIO Ports Clock Enable */
+    __HAL_RCC_GPIOH_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    /*Configure GPIO pin Output Level */
+    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_RESET);
+
+    /*Configure GPIO pin : PC0 */
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
     
 
     
@@ -61,17 +78,33 @@ void Init_Port()
 
 
 void sysinit(void)
-{
+{    
+    /*Configure GPIO pin : PC0 */
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
     //Init_Clock();//初始化系统时钟
 
     Init_Port();//IO 初始化  包括一些供电控制引脚
 
     harddog_init();    //外部硬狗 初始化
 
-    //端口初始化
-    /*
-    GPIO_setAsOutputPin( GPIO_PORT_P2,  GPIO_PIN1 );//LED 初始化
-*/
+
+    /* GPIO Ports Clock Enable */
+    GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+    /* EXTI interrupt init*/
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_SET);  //LED 初始化
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_1,GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_2,GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_3,GPIO_PIN_SET);
+    
+
+
+
 
 
 
@@ -131,7 +164,7 @@ void sysinit(void)
 
     hal_sensor_init();    //传感器对应IO 初始化
 
-    Self_test();
+    //Self_test();
 }
 
 //******************************************************************************
@@ -203,14 +236,25 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
 //******************************************************************************
 void harddog_init(void)
 {
-    //GPIO_setAsOutputPin( GPIO_PORT_P10,  GPIO_PIN7 );
-    //GPIO_setOutputLowOnPin( GPIO_PORT_P10,  GPIO_PIN7 );
+    /* GPIO Ports Clock Enable */
+
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_RESET);
 }
 void harddog_feed(void)
 {
-    //GPIO_setOutputHighOnPin( GPIO_PORT_P10,  GPIO_PIN7 );
-    delay_us(10);
-    //GPIO_setOutputLowOnPin( GPIO_PORT_P10,  GPIO_PIN7 );
+    uint32_t i = 10;
+    
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_SET);
+    while(i--);
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_RESET);
 }
 
 
