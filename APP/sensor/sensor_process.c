@@ -39,8 +39,8 @@ void time_task(void *pvParameters)
         {
             p_sec=m_tempdata.m_RtcTateTime.sec;
 
-            //GPIO_toggleOutputOnPin(GPIO_PORT_P2,  GPIO_PIN1);
             startupprint();
+            HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_0);
 
     
 #if (SENSOR != 2)   //·ç 
