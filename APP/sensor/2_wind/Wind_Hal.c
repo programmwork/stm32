@@ -247,21 +247,15 @@ unsigned char Fengsu_engine(float *pFengSu)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    T3IntCounter++;
+    //T3IntCounter++;
 
     //if(T3IntCounter > 4)  //250ms
     {
         EdgeNumber1S = EdgeCounter;
         EdgeCounter = 0;
         Flag_FengsuUpdate = 1;
-        T3IntCounter = 0;
+        //T3IntCounter = 0;
     }
-    
-    static unsigned char ledState = 0;
-        if (htim == (&htim1))
-        {
-            HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_0);
-        }
 }
 
 /*

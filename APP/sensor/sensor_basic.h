@@ -101,8 +101,6 @@
 #define     Flash_PAGE_NUMBER   (uint32)(FLASH_PAGE_NUM - FLASH_DATA_START)      // 芯片的page数量，  4M = 64block * 16sector * 16page
 #define     Flash_PAGE_SIZE     (uint32)256ul                  // 每个page的字节数
 
-#define     TIM1_MIN_RELOAD       661                 //定时器重载一毫秒的重载值
-#define     TIM1_CROSSOVER        5                    //定时器分频系数
 //---------------------------------------------------------------------------------------
 
 #define CHECK_QC_IS_OK(pQCArray,index)  (pQCArray[index / 8] & (1u << (index % 8)))
