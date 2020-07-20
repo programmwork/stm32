@@ -5,6 +5,7 @@
 #include "AD7792.h"
 #include "sys_config.h"
 
+
 void AD7792_Init( void )
 {
 	uint8_t buf[2] = {0};
@@ -12,13 +13,15 @@ void AD7792_Init( void )
 	
 	
 	
-	SPIInit(2);
+	SPIInit(2);//
 
 	vTaskDelay( 10 );
 
 	AD7792_Reset();
 
 	vTaskDelay( 10 );
+	
+	AD7792_Set_IO(0x0b);
 
 	// 80
 	AD7792_Red_Reg( AD7792_REG_STAT, buf, 1 );

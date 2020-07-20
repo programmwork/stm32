@@ -18,6 +18,7 @@
 #include "cmsis_os.h"
 #include "stm32l4xx_hal.h"
 #include "sys_config.h"
+#include "AD7792.h"
 #include "W25Q128.h"
 
 

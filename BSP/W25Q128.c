@@ -94,7 +94,7 @@ void W25Q128_Reset(void)
 
 uint8_t W25Q128_Data_Read( uint32_t addr, uint8_t *rbuf, uint16_t len )
 {
-	uint8_t tmp = 0;
+	uint32_t tmp = 0;
 
 	uint8_t buf[4] = {0};
 
@@ -104,7 +104,7 @@ uint8_t W25Q128_Data_Read( uint32_t addr, uint8_t *rbuf, uint16_t len )
 
 		tmp++;
 
-		if( tmp>=100 )
+		if( tmp>=1000 )
 		{
 			uart_printf( 0, "Chip is still busy!\r\n" );
 
@@ -142,7 +142,7 @@ uint8_t W25Q128_Data_Read( uint32_t addr, uint8_t *rbuf, uint16_t len )
 
 uint8_t W25Q128_Data_Prog( uint32_t addr, uint8_t *tbuf, uint16_t len )
 {
-	uint8_t tmp = 0;
+	uint32_t tmp = 0;
 
 	uint8_t buf[4] = {0};
 
@@ -166,7 +166,7 @@ uint8_t W25Q128_Data_Prog( uint32_t addr, uint8_t *tbuf, uint16_t len )
 
 		tmp++;
 
-		if( tmp>=100 )
+		if( tmp>=1000 )
 		{
 			uart_printf( 0, "Chip is still busy!\r\n" );
 

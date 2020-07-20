@@ -1,9 +1,9 @@
 stm32l476g-discovery\ad7792.o: ..\BSP\AD7792.c
 stm32l476g-discovery\ad7792.o: ..\BSP\bsp_led.h
-stm32l476g-discovery\ad7792.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+stm32l476g-discovery\ad7792.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 stm32l476g-discovery\ad7792.o: ..\BSP\uart.h
 stm32l476g-discovery\ad7792.o: ..\FreeRTOS\Source\include\FreeRTOS.h
-stm32l476g-discovery\ad7792.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+stm32l476g-discovery\ad7792.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 stm32l476g-discovery\ad7792.o: ..\APP\FreeRTOSConfig.h
 stm32l476g-discovery\ad7792.o: ..\FreeRTOS\Source\include\projdefs.h
 stm32l476g-discovery\ad7792.o: ..\FreeRTOS\Source\include\portable.h

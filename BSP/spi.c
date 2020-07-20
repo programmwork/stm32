@@ -61,9 +61,15 @@ uint8_t SPIInit( uint8_t num )
 			return 0;
 		}
 
-    hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;	
-		hspi->Init.Direction = SPI_DIRECTION_2LINES;
-    hspi->Init.CLKPhase = SPI_PHASE_1EDGE;
+    if(num == 1)
+			hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+		if(num == 2)
+			hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+		if(num == 3)
+			hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+		
+    hspi->Init.Direction = SPI_DIRECTION_2LINES;
+		hspi->Init.CLKPhase = SPI_PHASE_1EDGE;
     hspi->Init.CLKPolarity = SPI_POLARITY_LOW;
     hspi->Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
     hspi->Init.CRCPolynomial = 7;
