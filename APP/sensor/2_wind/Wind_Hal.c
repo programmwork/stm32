@@ -93,9 +93,9 @@ void Init_Timer1(unsigned short delayMS)
     TIM_MasterConfigTypeDef sMasterConfig;
 
     htim1.Instance = TIM1;//时钟源
-    htim1.Init.Prescaler = TIM1_CROSSOVER ;//分频系数
+    htim1.Init.Prescaler = 799 ;//分频系数
     htim1.Init.CounterMode = TIM_COUNTERMODE_UP;//触发模式
-    htim1.Init.Period = TIM1_MIN_RELOAD *20;//重装值3964
+    htim1.Init.Period = 2500;//重装值
     htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
     htim1.Init.RepetitionCounter = 0;
     htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
@@ -260,11 +260,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     static unsigned char ledState = 0;
         if (htim == (&htim1))
         {
-            if (ledState == 0)
-                HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
-            else
-                HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_SET);
-            ledState = !ledState;
+            HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_0);
         }
 }
 
