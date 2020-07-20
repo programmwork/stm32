@@ -344,6 +344,8 @@ void Datetime_up(void)
     {
         m_tempdata.m_RtcTateTime.msec=0;
         Rtc_UpdateTime(1);
+
+        harddog_feed();
     }
 }
 
