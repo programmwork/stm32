@@ -170,9 +170,7 @@ void SystemClock_Config(void)
 
     /**Configure the main internal regulator output voltage 
     */
-	RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART1;
-    RCC_PeriphCLKInitStruct.I2c1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
-    HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct);
+	
 	
 	if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
   {
