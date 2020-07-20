@@ -55,7 +55,7 @@ void Sensor_Init(void)
     HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
-    Init_Timer1(50);
+    Init_Timer1(250);
 
     /*Four way selector*/ 
     //PC6 7 8 9
@@ -95,7 +95,7 @@ void Init_Timer1(unsigned short delayMS)
     htim1.Instance = TIM1;//时钟源
     htim1.Init.Prescaler = 799 ;//分频系数
     htim1.Init.CounterMode = TIM_COUNTERMODE_UP;//触发模式
-    htim1.Init.Period = 2500;//重装值
+    htim1.Init.Period = 20 * delayMS;//重装值
     htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
     htim1.Init.RepetitionCounter = 0;
     htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
