@@ -1,0 +1,15 @@
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\timers.c
+stm32l476g-discovery\timers.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\include\FreeRTOS.h
+stm32l476g-discovery\timers.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+stm32l476g-discovery\timers.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+stm32l476g-discovery\timers.o: ..\APP\FreeRTOSConfig.h
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\include\projdefs.h
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\include\portable.h
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\include\deprecated_definitions.h
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F\portmacro.h
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\include\mpu_wrappers.h
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\include\task.h
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\include\list.h
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\include\queue.h
+stm32l476g-discovery\timers.o: ..\FreeRTOS\Source\include\timers.h
