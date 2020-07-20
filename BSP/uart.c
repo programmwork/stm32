@@ -126,13 +126,13 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     __HAL_RCC_USART1_CLK_ENABLE();
   
     //__HAL_RCC_GPIOA_CLK_ENABLE();
-		RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART1;
+    RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART1;
     RCC_PeriphCLKInitStruct.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
 		
-		if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK)
-		{
-			_Error_Handler(__FILE__, __LINE__);
-		}
+	if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK)
+	{
+		_Error_Handler(__FILE__, __LINE__);
+	}
     
     /**USART1 GPIO Configuration    
     PA9     ------> USART1_TX
@@ -195,6 +195,13 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     /* Peripheral clock enable */
     __HAL_RCC_USART2_CLK_ENABLE();
   
+    RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART2;
+    RCC_PeriphCLKInitStruct.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+		
+	if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK)
+	{
+		_Error_Handler(__FILE__, __LINE__);
+	}
     //__HAL_RCC_GPIOA_CLK_ENABLE();
 
     /**USART2 GPIO Configuration    
@@ -262,6 +269,13 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     /* USART3 clock enable */
     __HAL_RCC_USART3_CLK_ENABLE();
   
+    RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART3;
+    RCC_PeriphCLKInitStruct.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
+		
+	if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK)
+	{
+		_Error_Handler(__FILE__, __LINE__);
+	}
     //__HAL_RCC_GPIOC_CLK_ENABLE();
    /**USART3 GPIO Configuration    
     PC4     ------> USART3_TX
@@ -448,13 +462,13 @@ uint8_t UartOpen(uart_CBD* CBD)
         if(CBD->cid == CBD_UART_1)
         {        
             HAL_UART_Receive_DMA(&huart1, (dma->buf[dma->wr].data), SWAPSIZE);
-            //xSemaphoreGive( device->SemBuf );
+            xSemaphoreGive( device->SemBuf );
             xTaskCreate(UartRecv_1, "UartRecv1", CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
         }
         else if(CBD->cid == CBD_UART_2)
 		{        
             HAL_UART_Receive_DMA(&huart2, (dma->buf[dma->wr].data), SWAPSIZE);
-            //xSemaphoreGive( device->SemBuf );
+            xSemaphoreGive( device->SemBuf );
             xTaskCreate(UartRecv_2, "UartRecv2", CBD->heap_r_size, (void*)device, CBD->pri_r, NULL);
         } 
         else
@@ -575,7 +589,8 @@ void UartRecv_1( void *pdata )
 
 	while( 1 )
 	{
-	    xSemaphoreTake( device->SemDev, 0 );
+	    xSemaphoreTake( device->SemDev, portMAX_DELAY );
+        xSemaphoreTake( device->SemBuf, portMAX_DELAY );
 
 		if( dma->rd!=dma->wr )
 		{
@@ -621,7 +636,7 @@ void UartRecv_1( void *pdata )
 		}
 
 		
-		//vTaskDelay( 5 );
+		vTaskDelay( 5 );
 	}
 }
 
@@ -641,7 +656,8 @@ void UartRecv_2( void *pdata )
 
 	while( 1 )
 	{	
-		xSemaphoreTake( device->SemDev, 0 );
+		xSemaphoreTake( device->SemDev, portMAX_DELAY );
+        xSemaphoreTake( device->SemBuf, portMAX_DELAY );
 
 		if( dma->rd!=dma->wr )
 		{
@@ -685,7 +701,7 @@ void UartRecv_2( void *pdata )
 			dma->rd = dma->rd%RX_BUF_SIZE;
             xSemaphoreGive( device->SemBuf );
 		}	
-		//vTaskDelay( 5 );
+		vTaskDelay( 5 );
 	}
 }
 
