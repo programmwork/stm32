@@ -170,8 +170,6 @@ void SystemClock_Config(void)
 
     /**Configure the main internal regulator output voltage 
     */
-	
-	
 	if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
