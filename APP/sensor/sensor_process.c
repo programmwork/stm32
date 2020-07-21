@@ -56,11 +56,11 @@ void time_task(void *pvParameters)
 						m_tempdata.event.Flag_1s = true;
 #endif
         
-            //脙驴30路脰脰脫 碌脛碌脷50脙毛露脕脫虏脢卤脰脫赂酶脠铆脢卤脰脫脨拢脢卤
+            //每30分钟 的第50秒读硬时钟给软时钟校时
             if((m_tempdata.m_RtcTateTime.min%30 == 0)&&(m_tempdata.m_RtcTateTime.sec == 50))
             {
                 s_RtcTateTime_t time_struct_hardrtc_temp;
-                if(DS3231_ReadTime(&time_struct_hardrtc_temp)==1)  //脢卤录盲脨拢脩茅脮媒脠路虏脜赂酶脠铆脢卤脰脫脨拢脢卤
+                if(DS3231_ReadTime(&time_struct_hardrtc_temp)==1)  //时间校验正确才给软时钟校时
                 {
                     m_tempdata.m_RtcTateTime = time_struct_hardrtc_temp;
                 }

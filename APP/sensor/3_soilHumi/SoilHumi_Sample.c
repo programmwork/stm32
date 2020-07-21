@@ -95,15 +95,15 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
       if(m_tempdata.SecDataOut == true)//秒级采样 数据及质控码 打印
       {
         char temp[32];
-        uartSendStr(0,"<",1);
+        uartSendStr(UARTDEV_1,"<",1);
         for(i = 0;i<MAX_SENSOR_NUM;i++)
         {
           sprintf(temp,"%.2f,%d  ",
                   sensors_tempdata->sensor[i].secdata.data,
                   sensors_tempdata->sensor[i].secdata.qc);
-          uartSendStr(0,(unsigned char *)temp,strlen(temp));
+          uartSendStr(UARTDEV_1,(unsigned char *)temp,strlen(temp));
         }
-        uartSendStr(0,">\r\n",3);
+        uartSendStr(UARTDEV_1,">\r\n",3);
         return 1;
       }
     }

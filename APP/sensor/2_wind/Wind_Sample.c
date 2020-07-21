@@ -173,11 +173,11 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
         char temp[32];
         sprintf(temp,"<SEC_WD:%.0f,%d  ", sensors_tempdata->sensor[0].fengxiang_MomentaryValue.data,\
                                            sensors_tempdata->sensor[0].fengxiang_MomentaryValue.qc);
-        uartSendStr(0,(unsigned char*)temp,strlen(temp));
+        uartSendStr(UARTDEV_1,(unsigned char*)temp,strlen(temp));
 
         sprintf(temp,"SEC_WS:%.0f,%d>\r\n", sensors_tempdata->sensor[0].fengsu_3s.data,\
                                            sensors_tempdata->sensor[0].fengsu_3s.qc);
-        uartSendStr(0,(unsigned char*)temp,strlen(temp));
+        uartSendStr(UARTDEV_1,(unsigned char*)temp,strlen(temp));
       }
   }
   return 1;
