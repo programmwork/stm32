@@ -88,15 +88,15 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
             {
                 char temp[32];
                 float temp_data;
-                uartSendStr(0,"<",1);
+                uartSendStr(UARTDEV_1,"<",1);
                 for(i = 0;i<sensor_num;i++)
                 {
                     temp_data = sensors_tempdata->sensor[i].secdata.data;
                     
                     sprintf(temp,"%.2f,%d  ", temp_data, sensors_tempdata->sensor[i].secdata.qc);
-                    uartSendStr(0,(unsigned char *)temp,strlen(temp));
+                    uartSendStr(UARTDEV_1,(unsigned char *)temp,strlen(temp));
                 }
-                uartSendStr(0,">\r\n",3);
+                uartSendStr(UARTDEV_1,">\r\n",3);
                 return 1;
             }
         }
@@ -739,11 +739,11 @@ void GetSampleData(sensors_data_t *sensors_tempdata,float *dat,uint8 ch)
   
   //---------------------包头-------------------
   strcpy(Header_packet,"BG,");//包头
-  uartSendStr(0,(unsigned char *)Header_packet,0);
+  uartSendStr(UARTDEV_1,(unsigned char *)Header_packet,0);
   
-  uartSendStr(0,(unsigned char *)sensor_di,4);
+  uartSendStr(UARTDEV_1,(unsigned char *)sensor_di,4);
   
-  uartSendStr(0,",",0);
+  uartSendStr(UARTDEV_1,",",0);
   
   S32ToStrAlignRight(m_defdata.m_baseinfo.id, 3, Header_packet);//设备ID
   Header_packet[3]=',';
@@ -769,7 +769,7 @@ void GetSampleData(sensors_data_t *sensors_tempdata,float *dat,uint8 ch)
   Header_packet[lenlen]=',';
   lenlen++;
   Header_packet[lenlen]= '\0';
-  uartSendStr(0,(unsigned char *)Header_packet,0);
+  uartSendStr(UARTDEV_1,(unsigned char *)Header_packet,0);
   
   memset(Header_packet,0,40);
   //---------------------数据主体-------------------
@@ -796,7 +796,7 @@ void GetSampleData(sensors_data_t *sensors_tempdata,float *dat,uint8 ch)
   }
   Header_packet[5]='\0';
   
-  uartSendStr(0,(unsigned char *)Header_packet,0);
+  uartSendStr(UARTDEV_1,(unsigned char *)Header_packet,0);
   
   
   memset(Header_packet,0,40);
@@ -807,13 +807,13 @@ void GetSampleData(sensors_data_t *sensors_tempdata,float *dat,uint8 ch)
   for(i=0; i<SAMPLE_COUNT; i++)
   {
     S32ToStrAlignRight(data_sample_buf_history[(ch-1)*SAMPLE_COUNT+i], 4, int8_1);
-    uartSendStr(0,(unsigned char *)int8_1,0);
-    uartSendStr(0,",",0);
+    uartSendStr(UARTDEV_1,(unsigned char *)int8_1,0);
+    uartSendStr(UARTDEV_1,",",0);
   }
   
   //---------------------结束-------------------
   strcpy(Header_packet,"ED\r\n");  
   //  lenlen=strlen((char *)Header_packet);
-  uartSendStr(0,(unsigned char *)Header_packet,0);
+  uartSendStr(UARTDEV_1,(unsigned char *)Header_packet,0);
 }
 

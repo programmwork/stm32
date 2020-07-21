@@ -35,16 +35,10 @@ const BPS_CFG TableBPS[] =
 void startupprint(void)
 {
     char buf[256];
-    sprintf(buf,"VERSION INFORMATION:1111111111111111\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
+    sprintf(buf,"VERSION INFORMATION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
 
-    uartSendStr(0,(unsigned char *)buf,strlen(buf));
-
-
-
-
-    sprintf(buf,"VERSION INFORMATION:2222222222222222\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
-
-    uartSendStr(1,(unsigned char *)buf,strlen(buf));
+    uartSendStr(UARTDEV_1,(unsigned char *)buf,strlen(buf));
+    
     return;
 }
 
@@ -96,18 +90,10 @@ void sysinit(void)
     pam_init(&m_defdata);      //系统固定默认参数初始化
     sys_cfg_init();     //系统参数从FLASH或内存中获取
     tempdata_init(&m_tempdata);//临时变量初始化，全局参数初始化
-    /*BEGIN:add by guozikun 2020.5.25*/
-    bcm_info.common.se[1].baudrate = 115200;
-    bcm_info.common.se[1].datasbit = 8;
-    bcm_info.common.se[1].parity = 'N';
-    bcm_info.common.se[1].stopbits = 1;
-    bcm_info.common.se[0].baudrate = 115200;
-    bcm_info.common.se[0].datasbit = 8;
-    bcm_info.common.se[0].parity = 'N';
-    bcm_info.common.se[0].stopbits = 1;
+    
     Uart_CFG(1, 1);
     Uart_CFG(2, 1);
-    /*END:add by guozikun 2020.5.25*/
+    
     //主串口初始化
     uart_CBD CBD = {0};
 
@@ -123,6 +109,7 @@ void sysinit(void)
     CBD.heap_r_size = TASK_RECV_STACK_SIZE;
     
     UartOpen( &CBD );
+    
     //串口2初始化
     uart_CBD CBD1 = {0};
 
@@ -138,8 +125,6 @@ void sysinit(void)
     CBD1.heap_r_size = TASK_RECV_STACK_SIZE;
 
     UartOpen( &CBD1 );//
-    //UART_Init(1, 38400, 8, 0, 1, 1);
-
     
     DS3231_ReadTime(&m_tempdata.m_RtcTateTime);
 	Init_ADC();

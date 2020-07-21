@@ -119,7 +119,7 @@ void check_event_autosend(void)
             
             if(m_tempdata.DebugON==true)
             {
-                uartSendStr(0,(unsigned char *)sensors_data.sendpacket,sensors_data.sendpacketlen);
+                uartSendStr(UARTDEV_1,(unsigned char *)sensors_data.sendpacket,sensors_data.sendpacketlen);
             }
             else//运行模式
             {
@@ -128,10 +128,10 @@ void check_event_autosend(void)
 
                 }
                 else if(bcm_info.common.mo==1)//本地串口
-                    uartSendStr(0,(unsigned char *)sensors_data.sendpacket,sensors_data.sendpacketlen);
+                    uartSendStr(UARTDEV_1,(unsigned char *)sensors_data.sendpacket,sensors_data.sendpacketlen);
                 else if(bcm_info.common.mo == 2)
                 {
-                    uartSendStr(0,(unsigned char *)sensors_data.sendpacket,sensors_data.sendpacketlen);
+                    uartSendStr(UARTDEV_1,(unsigned char *)sensors_data.sendpacket,sensors_data.sendpacketlen);
                 }
             }
         }

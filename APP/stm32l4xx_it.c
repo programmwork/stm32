@@ -35,9 +35,8 @@
 #include "stm32l4xx.h"
 #include "stm32l4xx_it.h"
 
-/* USER CODE BEGIN 0 */
 
-/* USER CODE END 0 */
+uint32_t watchdog_num = 0;
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_usart1_rx;
@@ -159,15 +158,17 @@ void DebugMon_Handler(void)
 */
 void SysTick_Handler(void)
 {
-  HAL_IncTick();
-  osSystickHandler();
-  /* USER CODE BEGIN SysTick_IRQn 1 */
-	if((m_tempdata.m_RtcTateTime.msec % 10)  ==  0)
-	{
-	    //USART_DMA_Restart(1);
-	}
-  
-	Datetime_up();
+    HAL_IncTick();
+    osSystickHandler();
+    /* USER CODE BEGIN SysTick_IRQn 1 */
+    watchdog_num++;
+    if(watchdog_num >= 1000)
+    {
+        harddog_feed();
+    }
+
+
+    Datetime_up();
 	
 	/* USER CODE END SysTick_IRQn 1 */
 }
