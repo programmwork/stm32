@@ -291,5 +291,6 @@ void Self_test()
     }
 
     sensor_state.state_num = data + 2;  // ×Ô¼ìz  Ö±Á÷xA
+    }
 }
 
