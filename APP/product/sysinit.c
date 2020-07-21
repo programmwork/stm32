@@ -93,6 +93,7 @@ void sysinit(void)
     
     Uart_CFG(1, 1);
     Uart_CFG(2, 1);
+    UART_Init(3, 19200, 8, 'N', 1, 1);
     
     //主串口初始化
     uart_CBD CBD = {0};
@@ -149,11 +150,6 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
     char parity_temp = 'N';//奇偶检验
     uint8_t stopbit = 1;
     uint8_t temp = 0, parity = 0;
-
-    if((num !=1)&&(num !=2))
-    {
-        return 0;
-    }
 
 
     bps         = bcm_info.common.se[num - 1].baudrate;

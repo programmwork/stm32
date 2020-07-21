@@ -7,7 +7,10 @@
 
 
 #include "sensor_basic.h"
+extern UART_HandleTypeDef huart3;
 
+
+//UART_HandleTypeDef huart3;
 
 void time_task(void *pvParameters)
 {
@@ -42,6 +45,9 @@ void time_task(void *pvParameters)
 
             startupprint();
             HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_0);
+          
+            uint8_t TxData[10]= "01234abcde";
+            HAL_UART_Transmit(&huart3,TxData,10,10);
 
     
 #if (SENSOR != 2)   //·ç 

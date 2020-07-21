@@ -46,6 +46,7 @@ extern DMA_HandleTypeDef hdma_usart2_tx;
 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart3;
 
 extern TIM_HandleTypeDef htim1;
 
@@ -265,6 +266,18 @@ void USART2_IRQHandler(void)
 		}
 		
 		HAL_UART_IRQHandler(&huart2);
+}
+
+
+void USART3_IRQHandler(void)
+{
+    
+    if((huart3.Instance->ISR & USART_ISR_IDLE) != 0)
+		{
+		    __HAL_UART_CLEAR_IDLEFLAG(&huart3); 
+		}
+		
+		HAL_UART_IRQHandler(&huart3);
 }
 
 /**
