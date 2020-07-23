@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32L476G-Discovery\STM32L476G-Discovery.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32L476G-Discovery\STM32L476G-Discovery.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Jul 23 11:14:42 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Jul 23 13:11:17 2020
 <BR><P>
 <H3>Maximum Stack Usage =       1440 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1747,8 +1747,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_RX
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;time_task
+<BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;time_task
 </UL>
 
 <P><STRONG><a name="[124]"></a>HAL_UART_Transmit_DMA</STRONG> (Thumb, 122 bytes, Stack size 16 bytes, stm32l4xx_hal_uart.o(i.HAL_UART_Transmit_DMA))
@@ -2071,11 +2070,10 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l431xx.o(RESET)
 </UL>
-<P><STRONG><a name="[147]"></a>USART3_RX</STRONG> (Thumb, 72 bytes, Stack size 24 bytes, sensor_process.o(i.USART3_RX))
-<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = USART3_RX &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+<P><STRONG><a name="[147]"></a>USART3_RX</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, sensor_process.o(i.USART3_RX))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = USART3_RX &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
-<LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<BR>[Calls]<UL><LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_IRQHandler
 </UL>

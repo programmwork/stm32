@@ -146,7 +146,7 @@ void USART3_RX()
 								error++;
                 uint8_t TxData[10];
                 sprintf(TxData,"error: %d\r\n",error);
-                HAL_UART_Transmit(&huart3,TxData,10,10);		
+                //HAL_UART_Transmit(&huart3,TxData,10,10);		
 
                 break;
             }
