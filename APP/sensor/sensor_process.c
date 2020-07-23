@@ -122,6 +122,7 @@ void time_task(void *pvParameters)
 
 uint8_t UART3_TxRxBuffer[1024];
 uint32_t UART3_TxRxIndex = 0;
+uint32_t error = 0;
 
 void USART3_RX()
 {
@@ -138,11 +139,13 @@ void USART3_RX()
         {
             if(i == UART3_TxRxBuffer[i])
             {
-
+								
             }
             else
             {
-                uint8_t TxData[10]= "ERROR";
+								error++;
+                uint8_t TxData[10];
+                sprintf(TxData,"error: %d\r\n",error);
                 HAL_UART_Transmit(&huart3,TxData,10,10);		
 
                 break;
