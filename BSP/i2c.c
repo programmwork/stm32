@@ -57,7 +57,7 @@ uint8_t I2CInit( uint8_t num )
     
     if(hi2c->Instance == I2C1)
 		{
-				hi2c->Init.Timing           = 1000;
+				hi2c->Init.Timing           = 0x10909CEC;
 				hi2c->Init.OwnAddress1      = 0;
 				hi2c->Init.AddressingMode   = I2C_ADDRESSINGMODE_7BIT;
 				hi2c->Init.DualAddressMode  = I2C_DUALADDRESS_DISABLE;
