@@ -288,9 +288,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /* USER CODE BEGIN USART3_MspInit 1 */
+    __HAL_UART_ENABLE_IT(huart, UART_IT_ERR);
+    __HAL_UART_ENABLE_IT(huart, UART_IT_RXNE);
+    //__HAL_UART_ENABLE_IT(huart, UART_IT_IDLE);
+    HAL_NVIC_SetPriority(USART3_IRQn , 5, 0);
 
-  /* USER CODE END USART3_MspInit 1 */
   }
 }
 
@@ -378,6 +380,13 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
             {
                 USART_DMA_Restart(2);
             }
+						else 
+						{
+							if(huart->Instance == USART3)
+							{
+								huart->RxState = HAL_UART_STATE_READY;								
+							}
+						}
         } 
     }
 }
@@ -870,17 +879,24 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 
     if(huart->Instance == USART1)
     {
-        device = &uart_send[0];
+        device = &uart_send[0];        
     }
     else
     {
         if(huart->Instance == USART2)
         {
-            device = &uart_send[1];
+            device = &uart_send[1];        
+        }
+        else
+        {
+            if(huart->Instance == USART3)
+            {
+                return;
+            }
         }
     }
     
-    xSemaphoreGiveFromISR( device->SemBuf, NULL );
+    xSemaphoreGiveFromISR( device->SemBuf, NULL );  
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
@@ -901,6 +917,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         {
             dma = &dma_recv[1];
     	    device = &uart_recv[1];
+        }
+        else
+        {
+            if(huart->Instance == USART3)
+            {
+                //USART3_RX();
+                return;
+            }
         }
     }
     		
