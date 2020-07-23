@@ -289,7 +289,8 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
     __HAL_UART_ENABLE_IT(huart, UART_IT_ERR);
-    __HAL_UART_ENABLE_IT(huart, UART_IT_IDLE);
+    __HAL_UART_ENABLE_IT(huart, UART_IT_RXNE);
+    //__HAL_UART_ENABLE_IT(huart, UART_IT_IDLE);
     HAL_NVIC_SetPriority(USART3_IRQn , 5, 0);
 
   }

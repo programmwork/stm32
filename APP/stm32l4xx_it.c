@@ -276,8 +276,16 @@ void USART3_IRQHandler(void)
 		{
 		    __HAL_UART_CLEAR_IDLEFLAG(&huart3); 
 		}
+
+
+    if((huart3.Instance->ISR & USART_ISR_RXNE) != 0)
+    {
+		USART3_RX();
+    }
 		
-		HAL_UART_IRQHandler(&huart3);
+	HAL_UART_IRQHandler(&huart3);
+
+    __HAL_UART_ENABLE_IT(&huart3, UART_IT_RXNE);
 }
 
 /**

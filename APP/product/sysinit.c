@@ -93,7 +93,7 @@ void sysinit(void)
     
     Uart_CFG(1, 1);
     Uart_CFG(2, 1);
-    UART_Init(3, 19200, 8, 'N', 1, 1);
+    UART_Init(3, 115200, 8, 'N', 1, 1);
     
     //主串口初始化
     uart_CBD CBD = {0};
