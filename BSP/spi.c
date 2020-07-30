@@ -62,7 +62,7 @@ uint8_t SPIInit( uint8_t num )
 		}
 
     if(num == 1)
-			hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+			hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
 		if(num == 2)
 			hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
 		if(num == 3)

@@ -88,7 +88,8 @@ void sysinit(void)
     W25Q128_Init();//extern FLASH
     
     pam_init(&m_defdata);      //系统固定默认参数初始化
-    sys_cfg_init();     //系统参数从FLASH或内存中获取
+    while(1){
+    sys_cfg_init();   }  //系统参数从FLASH或内存中获取
     tempdata_init(&m_tempdata);//临时变量初始化，全局参数初始化
     
     Uart_CFG(1, 1);
