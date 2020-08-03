@@ -31,5 +31,5 @@ extern void hal_sensor_init();
 extern unsigned char Sensor_Init(void);
 extern unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM]);
 extern void Reset_Sensor(void);
-extern void USART1_RX(void);
+extern void USART3_RX(void);
 #endif

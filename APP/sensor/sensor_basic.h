@@ -74,6 +74,16 @@
 #define DI "YHMS"
 #endif
 
+#if (SENSOR == 7)   //红外地温
+#include "infraredTemp_hal.h"
+#include "infraredTemp_Sample.h"
+#include "infraredTemp_Sensor.h"
+#define HARD_VER  "IT_V02_1814"     //硬件版本
+#define SOFT_VER  "IT_V102_20180917" //软件版本,此处必须统一为3字节长度
+#define DI "YIST"
+#endif
+
+
 #define WIND_VELOCITY_1_M          1
 #define WIND_VELOCITY_2_M          2
 #define WIND_VELOCITY_10_M         3
