@@ -233,7 +233,7 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
         result[i] = INVALID_DATA;
     }
 
-    return 0;																													// 数据无效
+    return 1;																												// 数据无效
 }
 
 /*
