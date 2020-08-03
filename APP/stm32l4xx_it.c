@@ -36,7 +36,7 @@
 #include "stm32l4xx_it.h"
 
 
-
+uint32_t watchdog_num = 0;
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_usart1_rx;
@@ -162,6 +162,11 @@ void SysTick_Handler(void)
     HAL_IncTick();
     osSystickHandler();
     /* USER CODE BEGIN SysTick_IRQn 1 */
+    watchdog_num++;
+    if(watchdog_num >= 1000)
+    {
+        harddog_feed();
+    }
 
 
     Datetime_up();
@@ -275,7 +280,7 @@ void USART3_IRQHandler(void)
 
     if((huart3.Instance->ISR & USART_ISR_RXNE) != 0)
     {
-		
+		USART3_RX();
     }
 		
 	HAL_UART_IRQHandler(&huart3);
