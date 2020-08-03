@@ -171,7 +171,7 @@ unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM])
         //通道1的采样值
         result_0 = readAD[0] << 8 + readAD[1];
         //通道2的采样值
-        result_1 = readAD_1[0] << 8 + readAD[1];
+        result_1 = readAD_1[0] << 8 + readAD_1[1];
 
         // 计算电阻值
         fp32_1 = (((float)result_0) * STD_R_VALUE) / result_1;
