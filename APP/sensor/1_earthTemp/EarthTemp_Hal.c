@@ -30,35 +30,24 @@
 
 
 static unsigned char DiWenChlNumber;							// 第几通道的地温
-static unsigned char AD7792ChlNumber;							// AD7792第几通道
+//static unsigned char AD7792ChlNumber;							// AD7792第几通道
 
 
 // 通道1配置寄存器的值：偏置禁用、单极性编码、4倍增益、内部基准电压、缓冲使能、通道1采样
-#define DI_WEN_CHL0_CFG_REG_VAL 		0x1290
+//0x1290
 
 // 通道2配置寄存器的值：偏置禁用、单极性编码、4倍增益、内部基准电压、缓冲使能、通道2采样
-#define DI_WEN_CHL1_CFG_REG_VAL 		0x1291
+//0x1291
 
 // 通道管脚配置
-/*#define SWITCH0_BIT   BIT4 //P9.4
-#define SWITCH1_BIT   BIT5 //P9.5
-#define SWITCH2_BIT   BIT6 //P9.6
+#define SWITCH0_LOW()                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+#define SWITCH0_HIGH()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
 
-#define SWITCH0_FUNC_IO()            P9SEL &= ~SWITCH0_BIT
-#define SWITCH0_PIN_OUT()            P9DIR |=  SWITCH0_BIT
-#define SWITCH0_LOW()                P9OUT &= ~SWITCH0_BIT
-#define SWITCH0_HIGH()               P9OUT |=  SWITCH0_BIT
+#define SWITCH1_LOW()                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
+#define SWITCH1_HIGH()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
 
-#define SWITCH1_FUNC_IO()            P9SEL &= ~SWITCH1_BIT
-#define SWITCH1_PIN_OUT()            P9DIR |=  SWITCH1_BIT
-#define SWITCH1_LOW()                P9OUT &= ~SWITCH1_BIT
-#define SWITCH1_HIGH()               P9OUT |=  SWITCH1_BIT
-
-#define SWITCH2_FUNC_IO()            P9SEL &= ~SWITCH2_BIT
-#define SWITCH2_PIN_OUT()            P9DIR |=  SWITCH2_BIT
-#define SWITCH2_LOW()                P9OUT &= ~SWITCH2_BIT
-#define SWITCH2_HIGH()               P9OUT |=  SWITCH2_BIT*?
-/*
+#define SWITCH2_LOW()                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
+#define SWITCH2_HIGH()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_SET);
 ********************************************************************************
 ** 函数名称 ：void Sensor_Init(void)
 ** 函数功能 ：
@@ -68,18 +57,28 @@ static unsigned char AD7792ChlNumber;							// AD7792第几通道
 ********************************************************************************
 */ 
 unsigned char Sensor_Init(void) 
-{		/*
-    SWITCH0_FUNC_IO();
-    SWITCH0_PIN_OUT();
+{	
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-    SWITCH1_FUNC_IO();
-    SWITCH1_PIN_OUT();
+    /* GPIO Ports Clock Enable */
+    __HAL_RCC_GPIOB_CLK_ENABLE();
 
-    SWITCH2_FUNC_IO();
-    SWITCH2_PIN_OUT();*/
+    /*Configure GPIO pin Output Level */
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
 
+    /*Configure GPIO pin : PA4 */
+    GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
+    
     AD7792_Init();
-  return 1;																						// 初始化成功
+    return 1;																						// 初始化成功
 }
 
 /*
@@ -107,7 +106,7 @@ void hal_sensor_init()
 ** 出口参数 ：
 *********************************************************************************************************
 */
-void USART1_RX(void)
+void USART3_RX(void)
 {
 
 }
@@ -120,76 +119,121 @@ void USART1_RX(void)
 ** 出口参数 ：0:数据无效  1:数据有效
 ********************************************************************************
 */ 
-
 unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
 {
-  static float earthTemp_1[MAX_SENSOR_NUM];        // 存放前四个通道的温度数据
-  static unsigned long result_0;
-  unsigned char i = 0, ChlNumber = 0;
-  unsigned long result_1;
+    unsigned long result_0;
+    unsigned char i = 0, ChlNumber = 0;
+    unsigned long result_1;
+    uint8 count = 50, readAD[2], readSTAT = 0;
   
-  float fp32_1;
+    float fp32_1;
 
-  ChlNumber = bcm_info.sensor.SensorNum;
+    ChlNumber = bcm_info.sensor.SensorNum;
 
-  if(ChlNumber > MAX_SENSOR_NUM)
-      ChlNumber = MAX_SENSOR_NUM;
-/*
-  if(DiWenChlNumber == 0)		    {SWITCH0_LOW();  SWITCH1_LOW();  SWITCH2_LOW();}
-  else if(DiWenChlNumber == 1)  	{SWITCH0_HIGH(); SWITCH1_LOW();  SWITCH2_LOW();}
-  else if(DiWenChlNumber == 2)  	{SWITCH0_LOW();  SWITCH1_HIGH(); SWITCH2_LOW();}
-  else if(DiWenChlNumber == 3)  	{SWITCH0_HIGH(); SWITCH1_HIGH(); SWITCH2_LOW();}
-  else if(DiWenChlNumber == 4)  	{SWITCH0_LOW();  SWITCH1_LOW();  SWITCH2_HIGH();}
-  else if(DiWenChlNumber == 5)      {SWITCH0_HIGH(); SWITCH1_LOW();  SWITCH2_HIGH();}
-  else if(DiWenChlNumber == 6)      {SWITCH0_LOW();  SWITCH1_HIGH();  SWITCH2_HIGH();}
-  else if(DiWenChlNumber == 7)      {SWITCH0_HIGH();  SWITCH1_HIGH();  SWITCH2_HIGH();}
+    if(ChlNumber > MAX_SENSOR_NUM)
+        ChlNumber = MAX_SENSOR_NUM;
 
-  // AD7792转换第1通道的数据
-  if(AD7792ChlNumber == 0)																					
-  {
-    if(AD7792_SingleConversion(DI_WEN_CHL0_CFG_REG_VAL,&result_0))	// 数据有效
-      AD7792ChlNumber = 1;   
-    else return 0;
-  }
-  
-  
-  // AD7792转换第2通道的数据
-  if(AD7792_SingleConversion(DI_WEN_CHL1_CFG_REG_VAL,&result_1))	  // 数据有效
-  {
-    AD7792ChlNumber = 0;		      
-    
-    // 计算电阻值
-    fp32_1 = (((float)result_0) * STD_R_VALUE) / result_1;
-    
-    // 计算温度值
-    fp32_1 = (float)(((-PARA_A+sqrt(PARA_A*PARA_A-4*PARA_B*(1-(fp32_1)/100)))/(2*PARA_B)));
-    
-    if(DiWenChlNumber < (ChlNumber-1))
+    for(i = 0;i < ChlNumber; i++)
     {
-      earthTemp_1[DiWenChlNumber] = fp32_1;
-      DiWenChlNumber++;
-    }
-    else 
-    {
-        for(i = 0;i < ChlNumber;i++)
+        if(i == 0)		     {SWITCH0_LOW();  SWITCH1_LOW();  SWITCH2_LOW();}
+        else if(i == 1)  	 {SWITCH0_HIGH(); SWITCH1_LOW();  SWITCH2_LOW();}
+        else if(i == 2)   	 {SWITCH0_LOW();  SWITCH1_HIGH(); SWITCH2_LOW();}
+        else if(i == 3)   	 {SWITCH0_HIGH(); SWITCH1_HIGH(); SWITCH2_LOW();}
+        else if(i == 4)      {SWITCH0_LOW();  SWITCH1_LOW();  SWITCH2_HIGH();}
+        else if(i == 5)      {SWITCH0_HIGH(); SWITCH1_LOW();  SWITCH2_HIGH();}
+        else if(i == 6)      {SWITCH0_LOW();  SWITCH1_HIGH(); SWITCH2_HIGH();}
+        else if(i == 7)      {SWITCH0_HIGH(); SWITCH1_HIGH(); SWITCH2_HIGH();}
+
+        // AD7792转换第1通道的数据
+        AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
+                      |AD7792_CFG_POR_U
+                      |AD7792_CFG_GAIN_128
+                      |AD7792_CFG_REF_IN
+                      |AD7792_CFG_BUFFER
+                      |AD7792_CFG_SEL_CH1
+                      );
+    
+        AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
+                      |AD7792_MODE_CLK_INT64
+                      |AD7792_MODE_RATE_17
+                      );
+        
+        AD7792_Red_Reg( AD7792_REG_STAT, readSTAT, 1 );
+           
+        //通道2转换
+        count = 50;
+        while(count--)
         {
-            if(i < (ChlNumber - 1))
+            vTaskDelay(10);
+
+            if((readSTAT & AD7792_STAT_NRDY) == 0)
             {
-                result[i] = earthTemp_1[i];
+               break;        
             }
-            else
+
+            AD7792_Red_Reg( AD7792_REG_STAT, readSTAT, 1 );
+        }
+        
+        if(count > 0)
+        {            
+            AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
+            
+            //通道1的采样值
+            result_0 = readAD[0] << 8 + readAD[1];
+
+            // AD7792转换第2通道的数据
+            AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
+                      |AD7792_CFG_POR_U
+                      |AD7792_CFG_GAIN_128
+                      |AD7792_CFG_REF_IN
+                      |AD7792_CFG_BUFFER
+                      |AD7792_CFG_SEL_CH2
+                      );
+
+            AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
+                      |AD7792_MODE_CLK_INT64
+                      |AD7792_MODE_RATE_17
+                      );
+
+            AD7792_Red_Reg( AD7792_REG_STAT, readSTAT, 1 );
+        
+            //通道2转换
+            count = 50;
+            while(count--)
             {
+                vTaskDelay(10);
+                
+                if((readSTAT & AD7792_STAT_NRDY) == 0)
+                {
+                    break;        
+                }
+
+                AD7792_Red_Reg( AD7792_REG_STAT, readSTAT, 1 );
+            }
+
+            if(count > 0)
+            {
+                AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
+
+                //通道2的采样值
+                result_1 = readAD[0] << 8 + readAD[1];
+
+                 // 计算电阻值
+                fp32_1 = (((float)result_0) * STD_R_VALUE) / result_1;
+                
+                // 计算温度值
+                fp32_1 = (float)(((-PARA_A+sqrt(PARA_A*PARA_A-4*PARA_B*(1-(fp32_1)/100)))/(2*PARA_B)));
+
                 result[i] = fp32_1;
             }
+            
+           result[i] = INVALID_DATA;
         }
+        
+        result[i] = INVALID_DATA;
+    }
 
-        DiWenChlNumber = 0;
-      
-      return 1;																						
-    }		
-  }
-  */
-  return 0;																													// 数据无效
+    return 0;																													// 数据无效
 }
 
 /*

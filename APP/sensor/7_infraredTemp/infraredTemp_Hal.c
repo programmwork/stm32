@@ -149,8 +149,7 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
         
         if((readAD[0] & AD7792_STAT_NRDY) == 0)
         {
-            break;
-        
+            break;        
         }
 
         AD7792_Red_Reg( AD7792_REG_STAT, readAD, 1 );
