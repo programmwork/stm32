@@ -81,6 +81,7 @@ void sysinit(void)
     
 
 
+    AD7792_Init();
 
 
 
@@ -89,6 +90,13 @@ void sysinit(void)
     
     pam_init(&m_defdata);      //系统固定默认参数初始化
     while(1){
+        AD7792_Set_Cfg(	AD7792_CFG_VBIAS_DIS
+    				|AD7792_CFG_POR_U
+    				|AD7792_CFG_GAIN_128
+    				|AD7792_CFG_REF_IN
+    				|AD7792_CFG_BUFFER
+    				|AD7792_CFG_SEL_CH1
+    				);
     sys_cfg_init();   }  //系统参数从FLASH或内存中获取
     tempdata_init(&m_tempdata);//临时变量初始化，全局参数初始化
     

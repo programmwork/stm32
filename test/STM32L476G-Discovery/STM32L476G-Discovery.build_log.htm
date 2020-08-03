@@ -27,41 +27,23 @@ Project File Date:  07/20/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\software\Keil\ARM\ARMCC\Bin'
 Build target 'STM32L476G-Discovery'
-compiling main.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+compiling spi.c...
 ..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
   void autosend();
 ..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
   void Self_test();
 ..\APP\sensor\2_wind\Wind_Sensor.h(126): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
   void Init_sys_cfg();
-..\APP\product\main.c(141): warning:  #177-D: variable "RCC_PeriphCLKInitStruct"  was declared but never referenced
-    RCC_PeriphCLKInitTypeDef  RCC_PeriphCLKInitStruct;
-..\APP\product\main.c(207): warning:  #951-D: return type of function "main" must be "int"
-  void main( void )
-..\APP\product\main.c(230): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
-      osThreadDef(UART_PROCESS, uartprocess_task, UART_PROCESS_TASK_PRIORITY, 0, TASK_UART_PROCESS_STACK_SIZE);
-..\APP\product\main.c(230): warning:  #188-D: enumerated type mixed with another type
-      osThreadDef(UART_PROCESS, uartprocess_task, UART_PROCESS_TASK_PRIORITY, 0, TASK_UART_PROCESS_STACK_SIZE);
-..\APP\product\main.c(232): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
-      osThreadDef(TIME, time_task, TIME_TASK_PRIORITY, 0, TASK_TIME_STACK_SIZE);
-..\APP\product\main.c(232): warning:  #188-D: enumerated type mixed with another type
-      osThreadDef(TIME, time_task, TIME_TASK_PRIORITY, 0, TASK_TIME_STACK_SIZE);
-..\APP\product\main.c(236): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
-      osThreadDef(READDATA, readdata_task, READDATA_TASK_PRIORITY, 0, TASK_READDATA_STACK_SIZE);
-..\APP\product\main.c(236): warning:  #188-D: enumerated type mixed with another type
-      osThreadDef(READDATA, readdata_task, READDATA_TASK_PRIORITY, 0, TASK_READDATA_STACK_SIZE);
-..\APP\product\main.c(442): warning:  #177-D: variable "ulCounter"  was declared but never referenced
-      static unsigned long ulCounter = 0;
-..\APP\product\main.c(444): warning:  #177-D: variable "ulCheckFrequency"  was declared but never referenced
-      static const unsigned long ulCheckFrequency = 5000UL / portTICK_PERIOD_MS;
-..\APP\product\main.c: 14 warnings, 0 errors
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\BSP\spi.c(90): warning:  #940-D: missing return statement at end of non-void function "SPIInit" 
+  }
+..\BSP\spi.c: 5 warnings, 0 errors
 linking...
 STM32L476G-Discovery\STM32L476G-Discovery.axf: Warning: L6989W: Could not apply patch sdcomp-29491-629360 to instruction VPOP     {d8-d12} at offset 0x24, instruction is within an IT block and is not the last instruction for sin_i_x.o(i.____kernel_sin$lsc).
-Program Size: Code=54464 RO-data=2308 RW-data=256 ZI-data=37768  
+Program Size: Code=54956 RO-data=2312 RW-data=256 ZI-data=37768  
 Finished: 0 information, 1 warning and 0 error messages.
-"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 15 Warning(s).
+"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -84,7 +66,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
