@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32L476G-Discovery\STM32L476G-Discovery.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32L476G-Discovery\STM32L476G-Discovery.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Jul 21 10:16:53 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Aug 03 09:14:53 2020
 <BR><P>
 <H3>Maximum Stack Usage =       1440 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -102,7 +102,7 @@ Function Pointers
  <LI><a href="#[57]">UART_DMATxHalfCplt</a> from stm32l4xx_hal_uart.o(i.UART_DMATxHalfCplt) referenced from stm32l4xx_hal_uart.o(i.HAL_UART_Transmit_DMA)
  <LI><a href="#[2e]">USART1_IRQHandler</a> from stm32l4xx_it.o(i.USART1_IRQHandler) referenced from startup_stm32l431xx.o(RESET)
  <LI><a href="#[2f]">USART2_IRQHandler</a> from stm32l4xx_it.o(i.USART2_IRQHandler) referenced from startup_stm32l431xx.o(RESET)
- <LI><a href="#[30]">USART3_IRQHandler</a> from startup_stm32l431xx.o(.text) referenced from startup_stm32l431xx.o(RESET)
+ <LI><a href="#[30]">USART3_IRQHandler</a> from stm32l4xx_it.o(i.USART3_IRQHandler) referenced from startup_stm32l431xx.o(RESET)
  <LI><a href="#[5a]">UartRecv_1</a> from uart.o(i.UartRecv_1) referenced from uart.o(i.UartOpen)
  <LI><a href="#[5b]">UartRecv_2</a> from uart.o(i.UartRecv_2) referenced from uart.o(i.UartOpen)
  <LI><a href="#[58]">UartSend_1</a> from uart.o(i.UartSend_1) referenced from uart.o(i.UartOpen)
@@ -378,9 +378,6 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l431xx.o(RESET)
 </UL>
 <P><STRONG><a name="[47]"></a>TSC_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32l431xx.o(.text))
-<BR>[Address Reference Count : 1]<UL><LI> startup_stm32l431xx.o(RESET)
-</UL>
-<P><STRONG><a name="[30]"></a>USART3_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32l431xx.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l431xx.o(RESET)
 </UL>
 <P><STRONG><a name="[b]"></a>WWDG_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32l431xx.o(.text))
@@ -1691,7 +1688,8 @@ Global Symbols
 <LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort_IT
 <LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_EndRxTransfer
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_IRQHandler
+<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 <LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
 
@@ -1949,7 +1947,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BanWenBanYa_engine
 </UL>
 
-<P><STRONG><a name="[a]"></a>SysTick_Handler</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, stm32l4xx_it.o(i.SysTick_Handler))
+<P><STRONG><a name="[a]"></a>SysTick_Handler</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, stm32l4xx_it.o(i.SysTick_Handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = SysTick_Handler &rArr; osSystickHandler &rArr; xPortSysTickHandler &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osSystickHandler
@@ -2049,6 +2047,13 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DMA_Restart
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup_stm32l431xx.o(RESET)
+</UL>
+<P><STRONG><a name="[30]"></a>USART3_IRQHandler</STRONG> (Thumb, 38 bytes, Stack size 8 bytes, stm32l4xx_it.o(i.USART3_IRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = USART3_IRQHandler &rArr; HAL_UART_IRQHandler &rArr; HAL_UART_ErrorCallback &rArr; USART_DMA_Restart &rArr; HAL_UART_Receive_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
+</UL>
+<BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l431xx.o(RESET)
 </UL>

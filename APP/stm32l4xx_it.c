@@ -166,6 +166,7 @@ void SysTick_Handler(void)
     if(watchdog_num >= 1000)
     {
         harddog_feed();
+        watchdog_num = 0;
     }
 
 
@@ -280,7 +281,7 @@ void USART3_IRQHandler(void)
 
     if((huart3.Instance->ISR & USART_ISR_RXNE) != 0)
     {
-		USART3_RX();
+		//USART3_RX();
     }
 		
 	HAL_UART_IRQHandler(&huart3);
