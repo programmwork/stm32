@@ -26,6 +26,12 @@ void Init_sys_cfg()
     bcm_info.common.se[0].parity   ='N';
     bcm_info.common.se[0].stopbits = 1;
 
+    bcm_info.common.se[1].baudrate = 19200;
+    bcm_info.common.se[1].datasbit = 8;
+    bcm_info.common.se[1].parity   ='N';
+    bcm_info.common.se[1].stopbits = 1;
+
+
     bcm_info.common.version = 1;            //版本号
     bcm_info.common.qz = 85794;             //区站号
     bcm_info.common.st = 1;                 //服务类型

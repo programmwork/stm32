@@ -58,10 +58,10 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
     {
       //读计数清零计数
 
-        if(EarthTemp_engine(temp_value))//没有采集完成
+        if(infraredTemp_engine(temp_value))//没有采集完成
         {
 
-            sensor_num = 1;
+            sensor_num = bcm_info.sensor.SensorNum;
 
 
 
@@ -125,7 +125,7 @@ unsigned char Element_MinSample(sensors_data_t *sensors_tempdata)
 	
 	memset(sample_qc,0,sizeof(sample_qc));
 
-	sensor_num = 1;
+	sensor_num = bcm_info.sensor.SensorNum;
 
     if(sensor_num > MAX_SENSOR_NUM)
         sensor_num = MAX_SENSOR_NUM;
@@ -166,7 +166,7 @@ static unsigned char Quality_Sec_Ctrl(sensors_data_t *sensors_tempdata)
 {
     unsigned char i = 0, sensor_num = 0;
 
-    sensor_num = 1;
+    sensor_num = bcm_info.sensor.SensorNum;
 
     if(sensor_num > MAX_SENSOR_NUM)
         sensor_num = MAX_SENSOR_NUM;
@@ -422,7 +422,7 @@ int GetMinData(char *Header_packet,sensors_data_t *sensors_tempdata,unsigned cha
   FLASH_Store_MinData_t Mindata_temp;//定义一个临时的数据结构体  sensors_data_t
   float standardDeviation_1 = 0;
 
-    sensor_num = 1;
+    sensor_num = bcm_info.sensor.SensorNum;
 
     if(sensor_num > MAX_SENSOR_NUM)
         sensor_num = MAX_SENSOR_NUM;

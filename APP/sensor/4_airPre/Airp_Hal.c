@@ -54,8 +54,109 @@ unsigned char Sensor_Init(void)
 *********************************************************************************/
 unsigned char Airp_engine(float *result)
 {// 閸欐牕锟借壈瀵栭崶锟�?0-5,0:PTB301,1:PTB210,2:PTB330,3:閸楀簼绨▔鎵�?
-
+    uint8 count = 50;
     unsigned char buffer[10];
+
+    while(count--)
+    {
+        if(AirP_USART1_PROCESSING_FINISH == AirP_UartProcessingPhase)
+        {
+            break;        
+        }
+    }
+
+    if(count > 0)
+    {
+        if(bcm_info.sensor.ce == 0)//PTB301
+        {
+            unsigned char phase = AirP_USART1_GetProcessingPhase();
+
+            if(phase == AirP_USART1_PROCESSING_IDEL)												// 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
+            {
+                AirP_TxRxIndex = 0;
+                AirP_TxRxLength = 0;
+                strcpy((char *)buffer,"01:R\r\n");
+                AirP_RevStep = 1;
+                uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("01:R\r\n") - 1);
+
+                AirP_UartProcessingPhase = AirP_USART1_PROCESSING_SENDING;
+                AirP_T3_START_COUNTING();
+
+                return 0;																							        // 韫囷�?
+            }
+
+            if(phase == AirP_USART1_PROCESSING_FINISH)											// 閸掋倖鏌囬弰顖氭儊閹恒儲鏁圭�瑰本鍨�?
+            {    
+                AirP_USART1_ResetProcessingPhase();
+
+            if((AirP_TxRxLength != 9) && (AirP_TxRxLength != 10))
+            {
+                AirP_TxRxIndex = 0;
+                AirP_TxRxLength = 0;
+                return 2;
+            }
+            else
+            {
+                AirP_TxRxIndex = 0;
+                AirP_TxRxLength = 0;
+            }
+
+            if(memcmp("01:",AirP_TxRxBuffer,3)) return 2;		              // 濮ｆ棁绶濋崜宥勭瑏娑擃亜鐡ч懞锟�
+
+            *result = atof(&AirP_TxRxBuffer[3]);
+
+            if((phase == AirP_USART1_PROCESSING_IDEL) && (Num_sample < (SAMPLE_COUNT-1)))                                         // 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
+            {
+                AirP_TxRxIndex = 0;
+                AirP_TxRxLength = 0;
+                strcpy((char *)buffer,"01:R\r\n");
+                AirP_RevStep = 1;
+                uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("01:R\r\n") - 1);
+
+                AirP_UartProcessingPhase = AirP_USART1_PROCESSING_SENDING;
+                AirP_T3_START_COUNTING();                                                                                                // 韫囷�?
+            }
+                return 1;																							    // 鐠佸墽鐤嗛幋鎰�?
+            }
+
+            if(phase == AirP_USART1_PROCESSING_ERR)											// 閸掋倖鏌囬弰顖氭儊閸戞椽鏁�
+            {
+                AirP_TxRxIndex = 0;
+                AirP_TxRxLength = 0;
+
+                AirP_USART1_ResetProcessingPhase();
+                return 2;																							// 閸戞椽鏁�?
+            }
+            return 0;		
+        }
+        else if(bcm_info.sensor.ce == 3)//閸楀簼绨▔鎵�?
+        {//ljj濞ｈ濮為敍�?冪箲閸ョ偛锟介棿璐熺拠璇插絿閸掓壆娈戞导鐘冲妳閸ｃ劌锟藉ジ娅�?10閿涘苯褰囨稉锟芥担宥呯毈閺侊�?
+            unsigned long Airp;
+
+            if(Airp_USART1_TK_Check(&Airp))  //閺嶏繝鐛欓幋鎰�?
+            {
+                *result = (float)Airp / 10.0;
+                return 1;
+            }
+            else return 0;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    return 0;
+}
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+/////////////////////////////�ָ���/////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+/*    unsigned char buffer[10];
 
   if(bcm_info.sensor.ce == 0)//PTB301
   {
@@ -137,7 +238,7 @@ unsigned char Airp_engine(float *result)
   }
   
   // 韫囷�?
-}
+}*/
 
 /*******************************************************************************
 ** 閸戣姤鏆熼崥宥囆�? 閿涙oid Reset_Sensor(void)

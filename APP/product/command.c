@@ -284,7 +284,7 @@ int cmd_setcom(char *buf,char *rbuf)
         {
         case 0: break;
         case 1: break;//{temp_di = p;break;}
-       case 2:break;
+        case 2: break;
          /* {
             if(-1 == check_digit(p, 3))//校验 ID是否为数字
             {goto err;}
@@ -4857,6 +4857,7 @@ int cmd_stsensor(char *buf,char *rbuf)
                     goto err;
                 }
                 bcm_info.sensor.SensorNum = atoi(p);
+                bcm_info.sensor.data_num = atoi(p) * 2;
                 //校验传感器个数是否超范围
                 if((bcm_info.sensor.SensorNum == 9) || (bcm_info.sensor.SensorNum == 0))
                 {

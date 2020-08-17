@@ -18,10 +18,16 @@ void Init_sys_cfg()
 
     memset(&bcm_info,0,sizeof(bcm_info_t));
     //通讯参数
-    bcm_info.common.se.baudrate = 19200;
-    bcm_info.common.se.datasbit = 8;
-    bcm_info.common.se.parity   ='N';
-    bcm_info.common.se.stopbits = 1;
+    bcm_info.common.se[0].baudrate = 19200;
+    bcm_info.common.se[0].datasbit = 8;
+    bcm_info.common.se[0].parity   ='N';
+    bcm_info.common.se[0].stopbits = 1;
+
+    bcm_info.common.se[1].baudrate = 19200;
+    bcm_info.common.se[1].datasbit = 8;
+    bcm_info.common.se[1].parity   ='N';
+    bcm_info.common.se[1].stopbits = 1;
+
 
     bcm_info.common.version = 1;            //版本号
     bcm_info.common.qz = 85794;             //区站号
@@ -167,11 +173,11 @@ void Init_sys_cfg()
 
 
     //传感器第二个结构体sensor放本要素专用参数
-    bcm_info.sensor.data_num  = 1;                //观测要素数量
+    bcm_info.sensor.data_num  = 2;                //观测要素数量
     bcm_info.sensor.status_num = 0;                //状态变量数量
 	bcm_info.sensor.ce = 0;               // 气压传感器类型  0-华云   3-泰科
     bcm_info.sensor.apunit = 1;           // 气压参数单位配置 单位默认为百帕
-    bcm_info.sensor.SensorNum = 2;        // 传感器个数
+    bcm_info.sensor.SensorNum = 1;        // 传感器个数
 
     memset(&sensor_state,0,sizeof(sensor_state_t));  //板卡状态初始化
 

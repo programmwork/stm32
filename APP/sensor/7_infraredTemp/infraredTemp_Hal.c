@@ -107,7 +107,7 @@ void USART1_RX(void)
 }
 /*
 ********************************************************************************
-** 函数名称 ：unsigned char EarthTemp_engine(float Result[5]) 
+** 函数名称 ：unsigned char infraredTemp_engine(float Result[5]) 
 ** 函数功能 ：
 ** 入口参数 ：
 **
@@ -115,25 +115,24 @@ void USART1_RX(void)
 ********************************************************************************
 */ 
 
-unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
+unsigned char infraredTemp_engine(float result[MAX_SENSOR_NUM])
 {
-    static float earthTemp_1[MAX_SENSOR_NUM];        // 存放前四个通道的温度数据
-    static unsigned long result_0;
+    unsigned long result_0, result_1;
   
     unsigned long temp_r = 0;
-    uint8 count = 50, readAD[2];
+    uint8 count = 50, readAD[2], readSTAT = 0;
 
     float v_out = 0, R_result = 0, A_t = 0.001129241, B_t = 0.0002341077, C_t = 0.00000008775468;
     float m_t = 0, b_t = 0, tc = 0;
 
     
-    // AD7792转换第1通道的数据
+    // AD7792转换第0通道的数据
     AD7792_Set_Cfg(	AD7792_CFG_VBIAS_DIS
     				|AD7792_CFG_POR_U
-    				|AD7792_CFG_GAIN_128
-    				|AD7792_CFG_REF_IN
+    				|AD7792_CFG_GAIN_4
+    				|AD7792_CFG_REF_EXT
     				|AD7792_CFG_BUFFER
-    				|AD7792_CFG_SEL_CH1
+    				|AD7792_CFG_SEL_CH0
     				);
 
     AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
@@ -141,18 +140,18 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
 					|AD7792_MODE_RATE_17
 					);
 
-    AD7792_Red_Reg( AD7792_REG_STAT, readAD, 1 );
+    AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
 
     while(count--)
     {
         vTaskDelay(10);
         
-        if((readAD[0] & AD7792_STAT_NRDY) == 0)
+        if((readSTAT & AD7792_STAT_NRDY) == 0)
         {
             break;        
         }
 
-        AD7792_Red_Reg( AD7792_REG_STAT, readAD, 1 );
+        AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
     }
 
 
@@ -161,40 +160,63 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
 
         AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
 
-        result_0 = readAD[0] << 8 + readAD[1];
+        result_0 = (readAD[0] << 8) + readAD[1];
 
-        
-        //Start_ADC(1);
+        // AD7792转换第0通道的数据
+        AD7792_Set_Cfg(	AD7792_CFG_VBIAS_DIS
+        				|AD7792_CFG_POR_U
+        				|AD7792_CFG_GAIN_4
+        				|AD7792_CFG_REF_EXT
+        				|AD7792_CFG_BUFFER
+        				|AD7792_CFG_SEL_CH1
+        				);
 
+        AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
+    					|AD7792_MODE_CLK_INT64
+    					|AD7792_MODE_RATE_17
+    					);
 
-        //if(Check_ADC_temp(&temp_r) == 1)
+        AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
+
+        count = 50;
+        while(count--)
         {
-        v_out = (3.3 * (float)temp_r) / 4096;
-        // 计算温度值
-        R_result = 24900 * (2.5 / v_out - 1);
+            vTaskDelay(10);
+            
+            if((readSTAT & AD7792_STAT_NRDY) == 0)
+            {
+                break;        
+            }
 
-        //计算导数
-        R_result = logf(R_result);
-        tc = 1 / (A_t + B_t * R_result + C_t * powf(R_result, 3));
+            AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
+        }
+        if(count > 0)
+        {            
+            AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
+        
+            result_1 = (readAD[0] << 8) + readAD[1];
 
-        //
-        m_t = bcm_info.sensor.cr[0].a * powf(tc, 2) + bcm_info.sensor.cr[0].b * tc + bcm_info.sensor.cr[0].c;
-        b_t = bcm_info.sensor.cr[1].a * powf(tc, 2) + bcm_info.sensor.cr[1].b * tc + bcm_info.sensor.cr[1].c;
+            v_out = (3.3 * (float)result_1) / 65535;
+            // 计算温度值
+            R_result = 24900 * (2.5 / v_out - 1);
 
-          result[0] = powf((powf(tc, 4) + ((result_0 * 2.5) * m_t) / 65535 * 4 + b_t), 0.25) - 273.15;
+            //计算导数
+            R_result = logf(R_result);
+            tc = 1 / (A_t + B_t * R_result + C_t * powf(R_result, 3));
 
+            //
+            m_t = bcm_info.sensor.cr[0].a * powf(tc, 2) + bcm_info.sensor.cr[0].b * tc + bcm_info.sensor.cr[0].c;
+            b_t = bcm_info.sensor.cr[1].a * powf(tc, 2) + bcm_info.sensor.cr[1].b * tc + bcm_info.sensor.cr[1].c;
 
+            result[0] = powf((powf(tc, 4) + ((result_0 * 1.17) * m_t) / 65535 * 4 + b_t), 0.25) - 273.15;
 
+            /*m_t = 65874.8*powf(tc, 2) + 6593650 * tc + 1285780000;
+            b_t = 3977.69*powf(tc, 2) + 111083 * tc - 7004620;
 
-          /*m_t = 65874.8*powf(tc, 2) + 6593650 * tc + 1285780000;
-          b_t = 3977.69*powf(tc, 2) + 111083 * tc - 7004620;
-
-
-
-          result[0] = powf((powf(tc, 4) + ((result_0 * 2.5) * m_t)/65535 * 4 + b_t),0.25);
-          result[0] = result[0] - 273.15;*/
-
-          return 1;
+            result[0] = powf((powf(tc, 4) + ((result_0 * 2.5) * m_t)/65535 * 4 + b_t),0.25);
+            result[0] = result[0] - 273.15;*/
+            
+            return 1;
         }
   }
   

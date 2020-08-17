@@ -112,7 +112,7 @@ void USART3_RX(void)
 }
 /*
 ********************************************************************************
-** 函数名称 ：unsigned char EarthTemp_engine(float Result[5]) 
+** 函数名称 ：unsigned char infraredTemp_engine(float Result[5]) 
 ** 函数功能 ：
 ** 入口参数 ：
 **
@@ -144,13 +144,13 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
         else if(i == 6)      {SWITCH0_LOW();  SWITCH1_HIGH(); SWITCH2_HIGH();}
         else if(i == 7)      {SWITCH0_HIGH(); SWITCH1_HIGH(); SWITCH2_HIGH();}
 
-        // AD7792转换第1通道的数据
+        // AD7792转换第0通道的数据
         AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
                       |AD7792_CFG_POR_U
-                      |AD7792_CFG_GAIN_128
-                      |AD7792_CFG_REF_IN
+                      |AD7792_CFG_GAIN_4
+                      |AD7792_CFG_REF_EXT
                       |AD7792_CFG_BUFFER
-                      |AD7792_CFG_SEL_CH1
+                      |AD7792_CFG_SEL_CH0
                       );
     
         AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
@@ -158,9 +158,9 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
                       |AD7792_MODE_RATE_17
                       );
         
-        AD7792_Red_Reg( AD7792_REG_STAT, readSTAT, 1 );
+        AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
            
-        //通道2转换
+        //通道0转换
         count = 50;
         while(count--)
         {
@@ -171,7 +171,7 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
                break;        
             }
 
-            AD7792_Red_Reg( AD7792_REG_STAT, readSTAT, 1 );
+            AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
         }
         
         if(count > 0)
@@ -179,15 +179,15 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
             AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
             
             //通道1的采样值
-            result_0 = readAD[0] << 8 + readAD[1];
+            result_0 = (readAD[0] << 8) + readAD[1];
 
-            // AD7792转换第2通道的数据
+            // AD7792转换第1通道的数据
             AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
                       |AD7792_CFG_POR_U
-                      |AD7792_CFG_GAIN_128
-                      |AD7792_CFG_REF_IN
+                      |AD7792_CFG_GAIN_4
+                      |AD7792_CFG_REF_EXT
                       |AD7792_CFG_BUFFER
-                      |AD7792_CFG_SEL_CH2
+                      |AD7792_CFG_SEL_CH1
                       );
 
             AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
@@ -195,7 +195,7 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
                       |AD7792_MODE_RATE_17
                       );
 
-            AD7792_Red_Reg( AD7792_REG_STAT, readSTAT, 1 );
+            AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
         
             //通道2转换
             count = 50;
@@ -208,7 +208,7 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
                     break;        
                 }
 
-                AD7792_Red_Reg( AD7792_REG_STAT, readSTAT, 1 );
+                AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
             }
 
             if(count > 0)
@@ -216,7 +216,7 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
                 AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
 
                 //通道2的采样值
-                result_1 = readAD[0] << 8 + readAD[1];
+                result_1 = (readAD[0] << 8) + readAD[1];
 
                  // 计算电阻值
                 fp32_1 = (((float)result_0) * STD_R_VALUE) / result_1;
