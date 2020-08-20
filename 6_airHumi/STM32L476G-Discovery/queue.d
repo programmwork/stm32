@@ -1,9 +1,9 @@
 stm32l476g-discovery\queue.o: ..\FreeRTOS\Source\queue.c
-stm32l476g-discovery\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-stm32l476g-discovery\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+stm32l476g-discovery\queue.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+stm32l476g-discovery\queue.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l476g-discovery\queue.o: ..\FreeRTOS\Source\include\FreeRTOS.h
-stm32l476g-discovery\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-stm32l476g-discovery\queue.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+stm32l476g-discovery\queue.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+stm32l476g-discovery\queue.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 stm32l476g-discovery\queue.o: ..\APP\FreeRTOSConfig.h
 stm32l476g-discovery\queue.o: ..\FreeRTOS\Source\include\projdefs.h
 stm32l476g-discovery\queue.o: ..\FreeRTOS\Source\include\portable.h

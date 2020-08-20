@@ -1,8 +1,8 @@
 stm32l476g-discovery\heap_4.o: ..\FreeRTOS\Source\portable\MemMang\heap_4.c
-stm32l476g-discovery\heap_4.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+stm32l476g-discovery\heap_4.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l476g-discovery\heap_4.o: ..\FreeRTOS\Source\include\FreeRTOS.h
-stm32l476g-discovery\heap_4.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-stm32l476g-discovery\heap_4.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+stm32l476g-discovery\heap_4.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+stm32l476g-discovery\heap_4.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 stm32l476g-discovery\heap_4.o: ..\APP\FreeRTOSConfig.h
 stm32l476g-discovery\heap_4.o: ..\FreeRTOS\Source\include\projdefs.h
 stm32l476g-discovery\heap_4.o: ..\FreeRTOS\Source\include\portable.h

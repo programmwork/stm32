@@ -28,24 +28,24 @@
 unsigned char AirP_TxRxIndex;
 
 extern unsigned char   AirP_UartProcessingPhase;
-extern unsigned char AirP_RevStep;
+extern unsigned char RevStep;
 
 static unsigned int AirP_T3IntCounter;
-extern char AirP_TxRxBuffer[];															// 缓冲区
-extern unsigned char  AirP_TxRxLength;						          // 字节长度
+extern char TxRxBuffer[];															// 缓冲区
+extern unsigned char  TxRxLength;						          // 字节长度
 extern unsigned char T3Timer_start;
 
-#define AirP_T3_START_COUNTING()         T3Timer_start = 1; AirP_T3IntCounter = 0
+#define AirP_T3_START_COUNTING()         T3Timer_start = 1; T3IntCounter = 0
 
-#define AirP_T3_RESTART_COUNTING()   AirP_T3IntCounter = 0
+#define AirP_T3_RESTART_COUNTING()   T3IntCounter = 0
 
-#define AirP_T3_STOP_COUNTING()      T3Timer_start = 0; AirP_T3IntCounter = 0
+#define AirP_T3_STOP_COUNTING()      T3Timer_start = 0; T3IntCounter = 0
 
 
 void USART1_RX(void);
-extern void AirP_USART1_Init(void);
-extern unsigned char AirP_USART1_SendBytes(void);
-extern unsigned char AirP_USART1_GetProcessingPhase(void);
+extern void AirH_USART3_Init(void);
+extern unsigned char AirH_USART3_SendBytes(void);
+extern unsigned char AirH_USART3_GetProcessingPhase(void);
 extern void AirP_USART1_ResetProcessingPhase(void);
 
 extern unsigned char Airp_USART1_TK_Check(unsigned long *pAirp);

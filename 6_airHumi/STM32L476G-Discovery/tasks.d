@@ -1,9 +1,9 @@
 stm32l476g-discovery\tasks.o: ..\FreeRTOS\Source\tasks.c
-stm32l476g-discovery\tasks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-stm32l476g-discovery\tasks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+stm32l476g-discovery\tasks.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+stm32l476g-discovery\tasks.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l476g-discovery\tasks.o: ..\FreeRTOS\Source\include\FreeRTOS.h
-stm32l476g-discovery\tasks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-stm32l476g-discovery\tasks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+stm32l476g-discovery\tasks.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+stm32l476g-discovery\tasks.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 stm32l476g-discovery\tasks.o: ..\APP\FreeRTOSConfig.h
 stm32l476g-discovery\tasks.o: ..\FreeRTOS\Source\include\projdefs.h
 stm32l476g-discovery\tasks.o: ..\FreeRTOS\Source\include\portable.h

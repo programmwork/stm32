@@ -59,7 +59,7 @@ unsigned char Airp_engine(float *result)
 
     while(count--)
     {
-        if(AirP_USART1_PROCESSING_FINISH == AirP_UartProcessingPhase)
+        if(USART_PROCESSING_FINISH == AirP_UartProcessingPhase)
         {
             break;        
         }
@@ -71,58 +71,58 @@ unsigned char Airp_engine(float *result)
         {
             unsigned char phase = AirP_USART1_GetProcessingPhase();
 
-            if(phase == AirP_USART1_PROCESSING_IDEL)												// 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
+            if(phase == USART_PROCESSING_IDEL)												// 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
             {
-                AirP_TxRxIndex = 0;
-                AirP_TxRxLength = 0;
+                TxRxIndex = 0;
+                TxRxLength = 0;
                 strcpy((char *)buffer,"01:R\r\n");
-                AirP_RevStep = 1;
+                RevStep = 1;
                 uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("01:R\r\n") - 1);
 
-                AirP_UartProcessingPhase = AirP_USART1_PROCESSING_SENDING;
+                AirP_UartProcessingPhase = USART_PROCESSING_SENDING;
                 AirP_T3_START_COUNTING();
 
                 return 0;																							        // 韫囷�?
             }
 
-            if(phase == AirP_USART1_PROCESSING_FINISH)											// 閸掋倖鏌囬弰顖氭儊閹恒儲鏁圭�瑰本鍨�?
+            if(phase == USART_PROCESSING_FINISH)											// 閸掋倖鏌囬弰顖氭儊閹恒儲鏁圭�瑰本鍨�?
             {    
                 AirP_USART1_ResetProcessingPhase();
 
-            if((AirP_TxRxLength != 9) && (AirP_TxRxLength != 10))
+            if((TxRxLength != 9) && (TxRxLength != 10))
             {
-                AirP_TxRxIndex = 0;
-                AirP_TxRxLength = 0;
+                TxRxIndex = 0;
+                TxRxLength = 0;
                 return 2;
             }
             else
             {
-                AirP_TxRxIndex = 0;
-                AirP_TxRxLength = 0;
+                TxRxIndex = 0;
+                TxRxLength = 0;
             }
 
-            if(memcmp("01:",AirP_TxRxBuffer,3)) return 2;		              // 濮ｆ棁绶濋崜宥勭瑏娑擃亜鐡ч懞锟�
+            if(memcmp("01:",TxRxBuffer,3)) return 2;		              // 濮ｆ棁绶濋崜宥勭瑏娑擃亜鐡ч懞锟�
 
-            *result = atof(&AirP_TxRxBuffer[3]);
+            *result = atof(&TxRxBuffer[3]);
 
-            if((phase == AirP_USART1_PROCESSING_IDEL) && (Num_sample < (SAMPLE_COUNT-1)))                                         // 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
+            if((phase == USART_PROCESSING_IDEL) && (Num_sample < (SAMPLE_COUNT-1)))                                         // 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
             {
-                AirP_TxRxIndex = 0;
-                AirP_TxRxLength = 0;
+                TxRxIndex = 0;
+                TxRxLength = 0;
                 strcpy((char *)buffer,"01:R\r\n");
-                AirP_RevStep = 1;
+                RevStep = 1;
                 uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("01:R\r\n") - 1);
 
-                AirP_UartProcessingPhase = AirP_USART1_PROCESSING_SENDING;
+                AirP_UartProcessingPhase = USART_PROCESSING_SENDING;
                 AirP_T3_START_COUNTING();                                                                                                // 韫囷�?
             }
                 return 1;																							    // 鐠佸墽鐤嗛幋鎰�?
             }
 
-            if(phase == AirP_USART1_PROCESSING_ERR)											// 閸掋倖鏌囬弰顖氭儊閸戞椽鏁�
+            if(phase == USART_PROCESSING_ERR)											// 閸掋倖鏌囬弰顖氭儊閸戞椽鏁�
             {
-                AirP_TxRxIndex = 0;
-                AirP_TxRxLength = 0;
+                TxRxIndex = 0;
+                TxRxLength = 0;
 
                 AirP_USART1_ResetProcessingPhase();
                 return 2;																							// 閸戞椽鏁�?
@@ -133,7 +133,7 @@ unsigned char Airp_engine(float *result)
         {//ljj濞ｈ濮為敍�?冪箲閸ョ偛锟介棿璐熺拠璇插絿閸掓壆娈戞导鐘冲妳閸ｃ劌锟藉ジ娅�?10閿涘苯褰囨稉锟芥担宥呯毈閺侊�?
             unsigned long Airp;
 
-            if(Airp_USART1_TK_Check(&Airp))  //閺嶏繝鐛欓幋鎰�?
+            if(AirH_USART3_TK_Check(&Airp))  //閺嶏繝鐛欓幋鎰�?
             {
                 *result = (float)Airp / 10.0;
                 return 1;
@@ -162,59 +162,59 @@ unsigned char Airp_engine(float *result)
   {
     unsigned char phase = AirP_USART1_GetProcessingPhase();
     
-    if(phase == AirP_USART1_PROCESSING_IDEL)												// 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
+    if(phase == USART_PROCESSING_IDEL)												// 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
     {
-        AirP_TxRxIndex = 0;
-        AirP_TxRxLength = 0;
+        TxRxIndex = 0;
+        TxRxLength = 0;
         strcpy((char *)buffer,"01:R\r\n");
-        AirP_RevStep = 1;
+        RevStep = 1;
         uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("01:R\r\n") - 1);
 
-        AirP_UartProcessingPhase = AirP_USART1_PROCESSING_SENDING;
+        AirP_UartProcessingPhase = USART_PROCESSING_SENDING;
         AirP_T3_START_COUNTING();
 
         return 0;																							        // 韫囷�?
     }
     
-    if(phase == AirP_USART1_PROCESSING_FINISH)											// 閸掋倖鏌囬弰顖氭儊閹恒儲鏁圭�瑰本鍨�?
+    if(phase == USART_PROCESSING_FINISH)											// 閸掋倖鏌囬弰顖氭儊閹恒儲鏁圭�瑰本鍨�?
     {    
       AirP_USART1_ResetProcessingPhase();
       
-      if((AirP_TxRxLength != 9) && (AirP_TxRxLength != 10))
+      if((TxRxLength != 9) && (TxRxLength != 10))
       {
-          AirP_TxRxIndex = 0;
-          AirP_TxRxLength = 0;
+          TxRxIndex = 0;
+          TxRxLength = 0;
           return 2;
       }
       else
       {
-          AirP_TxRxIndex = 0;
-          AirP_TxRxLength = 0;
+          TxRxIndex = 0;
+          TxRxLength = 0;
       }
       
-      if(memcmp("01:",AirP_TxRxBuffer,3)) return 2;		              // 濮ｆ棁绶濋崜宥勭瑏娑擃亜鐡ч懞锟�
+      if(memcmp("01:",TxRxBuffer,3)) return 2;		              // 濮ｆ棁绶濋崜宥勭瑏娑擃亜鐡ч懞锟�
       
-      *result = atof(&AirP_TxRxBuffer[3]);
+      *result = atof(&TxRxBuffer[3]);
       
-      if((phase == AirP_USART1_PROCESSING_IDEL) && (Num_sample < (SAMPLE_COUNT-1)))                                         // 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
+      if((phase == USART_PROCESSING_IDEL) && (Num_sample < (SAMPLE_COUNT-1)))                                         // 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
       {
-          AirP_TxRxIndex = 0;
-          AirP_TxRxLength = 0;
+          TxRxIndex = 0;
+          TxRxLength = 0;
           strcpy((char *)buffer,"01:R\r\n");
-          AirP_RevStep = 1;
+          RevStep = 1;
           uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("01:R\r\n") - 1);
 
-          AirP_UartProcessingPhase = AirP_USART1_PROCESSING_SENDING;
+          AirP_UartProcessingPhase = USART_PROCESSING_SENDING;
           AirP_T3_START_COUNTING();                                                                                                // 韫囷�?
       }
 
       return 1;																							    // 鐠佸墽鐤嗛幋鎰�?
     }
     
-    if(phase == AirP_USART1_PROCESSING_ERR)											// 閸掋倖鏌囬弰顖氭儊閸戞椽鏁�
+    if(phase == USART_PROCESSING_ERR)											// 閸掋倖鏌囬弰顖氭儊閸戞椽鏁�
     {
-        AirP_TxRxIndex = 0;
-        AirP_TxRxLength = 0;
+        TxRxIndex = 0;
+        TxRxLength = 0;
 
       AirP_USART1_ResetProcessingPhase();
       return 2;																							// 閸戞椽鏁�?
@@ -284,11 +284,11 @@ __interrupt void TIMERB0_ISR(void)
 {
     if(T3Timer_start != 0)
     {
-        AirP_T3IntCounter++;
+        T3IntCounter++;
 
-        if(AirP_T3IntCounter > 19)  //1绉�
+        if(T3IntCounter > 19)  //1绉�
         {
-            AirP_UartProcessingPhase = AirP_USART1_PROCESSING_ERR;
+            AirP_UartProcessingPhase = USART_PROCESSING_ERR;
 
             AirP_T3_STOP_COUNTING();
         }
