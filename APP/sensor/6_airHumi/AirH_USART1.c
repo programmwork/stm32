@@ -29,6 +29,8 @@ unsigned char T3Timer_start = 0;
 volatile unsigned char Flag_DataValid;
 unsigned long AirpValue;
 
+void uart1Init(){}
+
 /**********************************************************************************************************
 ** 函数名称 ：void USART_Init(void)
 ** 函数功能 ：
@@ -90,7 +92,7 @@ void AirP_USART1_ResetProcessingPhase(void)
 **********************************************************************************************************/
 unsigned char AirP_USART1_SendBytes(void)
 {	
-    if(AirP_TxRxLength > AirP_TX_RX_BUFF_LEN)  return 0;
+    /*if(AirP_TxRxLength > AirP_TX_RX_BUFF_LEN)  return 0;
 
     if(AirP_UartProcessingPhase != AirP_USART1_PROCESSING_IDEL)	return 0;		// 串口忙
 
@@ -107,7 +109,7 @@ unsigned char AirP_USART1_SendBytes(void)
 
     AirP_UartProcessingPhase = AirP_USART1_PROCESSING_SENDING;// 正在发送数据
     
-    return 1;                                       // 成功
+    return 1;   */                                    // 成功
 }
 
 /**********************************************************************************************************
@@ -118,7 +120,7 @@ unsigned char AirP_USART1_SendBytes(void)
 ** 出口参数 ：
 **********************************************************************************************************/
 void USART1_TX(void)
-{
+{/*
 	if(AirP_TxRxIndex < AirP_TxRxLength)
 	{
 	    USCI_A_UART_transmitData(USCI_A1_BASE, AirP_TxRxBuffer[AirP_TxRxIndex++]);
@@ -135,7 +137,7 @@ void USART1_TX(void)
         AirP_RevStep = 1;
 		
 		AirP_T3_START_COUNTING();					// 启动接收超时定时器
-	}
+	}*/
 }
 
 /**********************************************************************************************************
@@ -168,7 +170,7 @@ void USART1_RX(void)
     unsigned char td;
 
     //URX1IF = 0;
-    td = UCA1RXBUF;										      // 读取缓冲区数据
+    td = UARTDEV_1;										      // 读取缓冲区数据
     
     if(bcm_info.sensor.ce == 0)
     {

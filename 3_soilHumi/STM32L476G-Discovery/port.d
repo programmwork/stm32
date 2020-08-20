@@ -1,7 +1,7 @@
 stm32l476g-discovery\port.o: ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F\port.c
 stm32l476g-discovery\port.o: ..\FreeRTOS\Source\include\FreeRTOS.h
-stm32l476g-discovery\port.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-stm32l476g-discovery\port.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+stm32l476g-discovery\port.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+stm32l476g-discovery\port.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 stm32l476g-discovery\port.o: ..\APP\FreeRTOSConfig.h
 stm32l476g-discovery\port.o: ..\FreeRTOS\Source\include\projdefs.h
 stm32l476g-discovery\port.o: ..\FreeRTOS\Source\include\portable.h

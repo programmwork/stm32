@@ -123,7 +123,7 @@ void UartDmaInfo( uint8_t cid );
 uint16_t UartWrite_RAW( uint8_t cid, uint8_t* payload, uint16_t len );
 void DMA_IRQHandler(uint8_t num);
 
-
+//void uart1Init(U32 baud,UINT8 databit,UINT8 parity,UINT8 stopbit);
 #endif
 
 /*********************************************************************************************************
