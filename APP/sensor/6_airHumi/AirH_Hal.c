@@ -84,83 +84,89 @@ void AirH_rotronic(char *buf,float *result)
 ** 闁告垵鎼ぐ娑㈠矗閸屾稒娈? 闁挎冻鎷?0闁挎稒纰嶉婊堝捶閵婎煈鍤㈤柛娆愮墧閼碉拷 1闁挎稒淇洪浼村矗閺嶃劌鐏囬柛鏃撴嫹  2闁挎稒淇洪浼村矗閺嵮冩瘔闂佸尅鎷?
 *********************************************************************************/
 unsigned char Airp_engine(float *result)
-{
-    uint8 count = 50;
-    uint32 Airp;
+{// 闁告瑦鐗曢敓鍊熷鐎垫牠宕堕敓锟?0-5,0:PTB301,1:PTB210,2:PTB330,3:闁告绨肩花顖氣枖閹殿噮娼?
+
     unsigned char buffer[10];
+
+  if(bcm_info.sensor.ce == 0)//PTB301
+  {
+    unsigned char phase = AirP_USART1_GetProcessingPhase();
     
-    while(count--)
+    if(phase == AirP_USART1_PROCESSING_IDEL)												// 闁告帇鍊栭弻鍥及椤栨碍鍎婄紒灞炬そ濡拷
     {
-        if(bcm_info.sensor.ce == 0)
-        {
-            switch(AirP_USART1_GetProcessingPhase())//获取传感器状态
-                case AirP_USART1_PROCESSING_IDEL:
-                    break;                
-                case AirP_USART1_PROCESSING_SENDING:
-                case AirP_USART1_PROCESSING_RECEIVING:
-                case AirP_USART1_PROCESSING_FINISH:  
-                {
-                    AirP_USART1_ResetProcessingPhase();
+        AirP_TxRxIndex = 0;
+        AirP_TxRxLength = 0;
+        strcpy((char *)buffer,"{F00RDD}\r\n");
+        AirP_RevStep = 1;
+        uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("{F00RDD}\r\n") - 1);
 
-                    if(AirP_TxRxLength != 104)
-                    {
-                        result[0] = INVALID_DATA;
-                        result[1] = INVALID_DATA;
-                        result[2] = INVALID_DATA;    
-                    }
-                    else
-                    {                        
-                        AirH_rotronic(AirP_TxRxBuffer, result);
-                    }
+        AirP_UartProcessingPhase = AirP_USART1_PROCESSING_SENDING;
+        AirP_T3_START_COUNTING();
 
-                    AirP_TxRxIndex = 0;
-                    AirP_TxRxLength = 0;
-
-                    return 1;
-                }
-                case AirP_USART1_PROCESSING_ERR:
-                {
-                    AirP_TxRxIndex = 0;
-                    AirP_TxRxLength = 0;
-
-                    AirP_USART1_ResetProcessingPhase();
-
-                    result[0] = INVALID_DATA;
-                    result[1] = INVALID_DATA;
-                    result[2] = INVALID_DATA;																						// 闂佸憡鍨跺浠嬪极閿燂拷
-                }
-        }
-        else if(bcm_info.sensor.ce == 3)
-        {
-            if(Airp_USART1_TK_Check(&Airp))  //闂佸搫绋勭换婵嬫偘濞嗘挸绠ｉ柟閭﹀墮椤拷
-            {
-                *result = (float)Airp / 10.0;
-                return 1;
-            }
-            else return 0;
-        }
+        return 0;																							        // 闊浄鎷?
     }
     
-    if(count > 0)
-    {
-        if(AirP_USART1_PROCESSING_IDEL == AirP_USART1_GetProcessingPhase())
-        {
-            AirP_TxRxIndex = 0;
-            AirP_TxRxLength = 0;
-            strcpy((char *)buffer,"{F00RDD}\r\n");
-            AirP_RevStep = 1;
-            uartSendStr(3, (UINT8 *)&buffer, sizeof("{F00RDD}\r\n") - 1);
+    if(phase == AirP_USART1_PROCESSING_FINISH)											// 闁告帇鍊栭弻鍥及椤栨碍鍎婇柟鎭掑劜閺佸湱锟界懓鏈崹锟?
+    {    
+      AirP_USART1_ResetProcessingPhase();
+      
+      if(AirP_TxRxLength != 104)    //闁挎瑨顕?
+      {
+          AirP_TxRxIndex = 0;
+          AirP_TxRxLength = 0;
+          return 2;
+      }
+      else
+      {
+          AirP_TxRxIndex = 0;
+          AirP_TxRxLength = 0;
+      }
+      
+      //缂冩宕滅亸鐓庡帬娑撴彃褰涢弫鐗堝祦婢跺嫮鎮婇崙鑺ユ殶
+      AirH_rotronic(AirP_TxRxBuffer, result);
+      
+      if((phase == AirP_USART1_PROCESSING_IDEL) && (Num_sample < (SAMPLE_COUNT-1)))                                         // 闁告帇鍊栭弻鍥及椤栨碍鍎婄紒灞炬そ濡拷
+      {
+          AirP_TxRxIndex = 0;
+          AirP_TxRxLength = 0;
+          strcpy((char *)buffer,"{F00RDD}\r\n");
+          AirP_RevStep = 1;
+          uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("{F00RDD}\r\n") - 1);
 
-            AirP_UartProcessingPhase = AirP_USART1_PROCESSING_SENDING;
-            AirP_T3_START_COUNTING();
+          AirP_UartProcessingPhase = AirP_USART1_PROCESSING_SENDING;
+          AirP_T3_START_COUNTING();                                                                                                // 闊浄鎷?
+      }
 
-            return 0;		
-        }
-        else:
-            return 1;
+      return 1;																							    // 閻犱礁澧介悿鍡涘箣閹邦剙顫?
     }
-    else
-        return 1;
+    
+    if(phase == AirP_USART1_PROCESSING_ERR)											// 闁告帇鍊栭弻鍥及椤栨碍鍎婇柛鎴炴そ閺侊拷
+    {
+        AirP_TxRxIndex = 0;
+        AirP_TxRxLength = 0;
+
+      AirP_USART1_ResetProcessingPhase();
+      return 2;																							// 闁告垶妞介弫锟?
+    }
+    return 0;		
+  }
+  else if(bcm_info.sensor.ce == 3)//闁告绨肩花顖氣枖閹殿噮娼?
+  {//ljj婵烇綀顕ф慨鐐烘晬瀹?鍐闁搞儳鍋涢敓浠嬫？鐠愮喓鎷犵拠鎻掔悼闁告帗澹嗗▓鎴炲閻樺啿濡抽柛锝冨妼閿熻棄銈稿▍锟?10闁挎稑鑻ぐ鍥ㄧ▔閿熻姤鎷呭鍛瘓闁轰緤鎷?
+    unsigned long Airp;
+    
+    if(Airp_USART1_TK_Check(&Airp))  //闁哄稄绻濋悰娆撳箣閹邦剙顫?
+    {
+      *result = (float)Airp / 10.0;
+      return 1;
+    }
+    else return 0;
+  }
+  else
+  {
+    return 0;
+  }
+  
+  // 闊浄鎷?
 }
 
 /*******************************************************************************
@@ -172,7 +178,7 @@ unsigned char Airp_engine(float *result)
 *******************************************************************************/
 void Reset_Sensor(void)
 {
-    AirP_USART1_Init();
+  AirP_USART1_Init();
 }
 
 void Init_Timer1(unsigned short delayMS)
