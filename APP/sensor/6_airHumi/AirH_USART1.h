@@ -25,7 +25,7 @@
 #define	AirP_USART1_PROCESSING_FINISH				3
 #define	AirP_USART1_PROCESSING_ERR					  4
 
-//unsigned char AirP_TxRxIndex;
+unsigned char AirP_TxRxIndex;
 
 extern unsigned char   AirP_UartProcessingPhase;
 extern unsigned char AirP_RevStep;

@@ -48,7 +48,7 @@ static unsigned char DiWenChlNumber;							// 第几通道的地温
 
 #define SWITCH2_LOW()                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
 #define SWITCH2_HIGH()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_SET);
-/*********************************************************************************
+********************************************************************************
 ** 函数名称 ：void Sensor_Init(void)
 ** 函数功能 ：
 ** 入口参数 ：

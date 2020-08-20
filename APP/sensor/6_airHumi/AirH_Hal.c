@@ -15,9 +15,6 @@
 */
 #include "sensor_basic.h"
 
-TIM_HandleTypeDef htim1;
-
-extern unsigned char AirP_TxRxIndex;
 /********************************************************************************
 ** 閸戣姤鏆熼崥宥囆�? 閿涳�?
 ** 閸戣姤鏆熼崝鐔诲�? 閿涳�?
@@ -97,44 +94,40 @@ unsigned char Airp_engine(float *result)
         if(bcm_info.sensor.ce == 0)
         {
             switch(AirP_USART1_GetProcessingPhase())//��ȡ������״̬
+                case AirP_USART1_PROCESSING_IDEL:
+                    break;                
+                case AirP_USART1_PROCESSING_SENDING:
+                case AirP_USART1_PROCESSING_RECEIVING:
+                case AirP_USART1_PROCESSING_FINISH:  
                 {
-                    case AirP_USART1_PROCESSING_IDEL:
-                    {break;   }             
-                    case AirP_USART1_PROCESSING_SENDING:
-        			{}
-                    case AirP_USART1_PROCESSING_RECEIVING:
-        			{}
-                    case AirP_USART1_PROCESSING_FINISH:  
+                    AirP_USART1_ResetProcessingPhase();
+
+                    if(AirP_TxRxLength != 104)
                     {
-                        AirP_USART1_ResetProcessingPhase();
-
-                        if(AirP_TxRxLength != 104)
-                        {
-                            result[0] = INVALID_DATA;
-                            result[1] = INVALID_DATA;
-                            result[2] = INVALID_DATA;    
-                        }
-                        else
-                        {                        
-                            AirH_rotronic(AirP_TxRxBuffer, result);
-                        }
-
-                        AirP_TxRxIndex = 0;
-                        AirP_TxRxLength = 0;
-
-                        return 1;
-                    }
-                    case AirP_USART1_PROCESSING_ERR:
-                    {
-                        AirP_TxRxIndex = 0;
-                        AirP_TxRxLength = 0;
-
-                        AirP_USART1_ResetProcessingPhase();
-
                         result[0] = INVALID_DATA;
                         result[1] = INVALID_DATA;
-                        result[2] = INVALID_DATA;																						// 闁告垶妞介弫锟�
+                        result[2] = INVALID_DATA;    
                     }
+                    else
+                    {                        
+                        AirH_rotronic(AirP_TxRxBuffer, result);
+                    }
+
+                    AirP_TxRxIndex = 0;
+                    AirP_TxRxLength = 0;
+
+                    return 1;
+                }
+                case AirP_USART1_PROCESSING_ERR:
+                {
+                    AirP_TxRxIndex = 0;
+                    AirP_TxRxLength = 0;
+
+                    AirP_USART1_ResetProcessingPhase();
+
+                    result[0] = INVALID_DATA;
+                    result[1] = INVALID_DATA;
+                    result[2] = INVALID_DATA;																						// 闁告垶妞介弫锟�
                 }
         }
         else if(bcm_info.sensor.ce == 3)
@@ -163,7 +156,7 @@ unsigned char Airp_engine(float *result)
 
             return 0;		
         }
-        else
+        else:
             return 1;
     }
     else
@@ -184,39 +177,21 @@ void Reset_Sensor(void)
 
 void Init_Timer1(unsigned short delayMS)
 {
+    //Start timer
+    UINT16 Period=(UINT16)(1000.0*(float)delayMS);
+    Timer_B_clearTimerInterrupt(TIMER_B0_BASE);
 
-    TIM_ClockConfigTypeDef sClockSourceConfig;
-    TIM_MasterConfigTypeDef sMasterConfig;
-
-    htim1.Instance = TIM1;//ʱ��Դ
-    htim1.Init.Prescaler = 799 ;//��Ƶϵ��
-    htim1.Init.CounterMode = TIM_COUNTERMODE_UP;//����ģʽ
-    htim1.Init.Period = 20 * delayMS;//��װֵ
-    htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-    htim1.Init.RepetitionCounter = 0;
-    htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-    if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
-    {
-        _Error_Handler(__FILE__, __LINE__);
-    }
-
-    sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-    if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
-    {
-        _Error_Handler(__FILE__, __LINE__);
-    }
-
-    sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-    sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
-    sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-    if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
-    {
-        _Error_Handler(__FILE__, __LINE__);
-    }
-    HAL_TIM_Base_Start_IT(&htim1);
-
+    Timer_B_initUpModeParam param = {0};
+    param.clockSource = TIMER_B_CLOCKSOURCE_SMCLK;
+    param.clockSourceDivider = TIMER_B_CLOCKSOURCE_DIVIDER_8;
+    param.timerPeriod = Period;
+    param.timerInterruptEnable_TBIE = TIMER_B_TBIE_INTERRUPT_DISABLE;
+    param.captureCompareInterruptEnable_CCR0_CCIE =
+        TIMER_B_CAPTURECOMPARE_INTERRUPT_ENABLE;
+    param.timerClear = TIMER_B_DO_CLEAR;
+    param.startTimer = true;
+    Timer_B_initUpMode(TIMER_B0_BASE, &param);
 }
-
 
 /*
 ********************************************************************************
@@ -227,3 +202,18 @@ void Init_Timer1(unsigned short delayMS)
 ** 闁告垵鎼ぐ娑㈠矗閸屾稒娈� 闁挎冻鎷�?
 ********************************************************************************
 */ 
+#pragma vector=TIMERB0_VECTOR
+__interrupt void TIMERB0_ISR(void)
+{
+    if(T3Timer_start != 0)
+    {
+        AirP_T3IntCounter++;
+
+        if(AirP_T3IntCounter > 19)  //1绉�
+        {
+            AirP_UartProcessingPhase = AirP_USART1_PROCESSING_ERR;
+
+            AirP_T3_STOP_COUNTING();
+        }
+    }
+}

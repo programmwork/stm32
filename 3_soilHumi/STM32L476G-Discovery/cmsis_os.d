@@ -1,9 +1,9 @@
 stm32l476g-discovery\cmsis_os.o: ..\FreeRTOS\Source\CMSIS_RTOS\cmsis_os.c
-stm32l476g-discovery\cmsis_os.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h
+stm32l476g-discovery\cmsis_os.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 stm32l476g-discovery\cmsis_os.o: ..\FreeRTOS\Source\CMSIS_RTOS\cmsis_os.h
 stm32l476g-discovery\cmsis_os.o: ..\FreeRTOS\Source\include\FreeRTOS.h
-stm32l476g-discovery\cmsis_os.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stddef.h
-stm32l476g-discovery\cmsis_os.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+stm32l476g-discovery\cmsis_os.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+stm32l476g-discovery\cmsis_os.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 stm32l476g-discovery\cmsis_os.o: ..\APP\FreeRTOSConfig.h
 stm32l476g-discovery\cmsis_os.o: ..\FreeRTOS\Source\include\projdefs.h
 stm32l476g-discovery\cmsis_os.o: ..\FreeRTOS\Source\include\portable.h
@@ -16,4 +16,4 @@ stm32l476g-discovery\cmsis_os.o: ..\FreeRTOS\Source\include\timers.h
 stm32l476g-discovery\cmsis_os.o: ..\FreeRTOS\Source\include\queue.h
 stm32l476g-discovery\cmsis_os.o: ..\FreeRTOS\Source\include\semphr.h
 stm32l476g-discovery\cmsis_os.o: ..\FreeRTOS\Source\include\event_groups.h
-stm32l476g-discovery\cmsis_os.o: D:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armcc.h
+stm32l476g-discovery\cmsis_os.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include\cmsis_armcc.h
