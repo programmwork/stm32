@@ -16,15 +16,13 @@
 #include "sensor_basic.h"
 
 
-char AirH_TxRxBuffer[AirH_TX_RX_BUFF_LEN];								// 接收发送缓冲区
-unsigned char AirH_TxRxLength;											// 接收发送数据长度
-unsigned char AirH_TxRxIndex;
+char TxRxBuffer[TX_RX_BUFF_LEN];								// 接收发送缓冲区
+unsigned char TxRxLength;											// 接收发送数据长度
+unsigned char TxRxIndex;
 
 unsigned char UartProcessingPhase;
 unsigned char RevStep;
 
-volatile unsigned char Flag_DataValid;
-unsigned long AirHValue;
 
 /**********************************************************************************************************
 ** 函数名称 ：void AirH_Init(void)
@@ -86,9 +84,7 @@ void USART3_RX(void)
             if(td == 0x0D)
             {
                 TxRxBuffer[TxRxIndex] = 0;              // 将接收的数据转换成字符串（不是必须）
-                TxRxLength = TxRxIndex;                     // 数据帧长度，不包括字符串最后接收的回车换行
-                //UartProcessingPhase = USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
-
+                
                 RevStep = 2;
             }
             else
@@ -109,7 +105,8 @@ void USART3_RX(void)
             if(td == 0x0A)
             {
                 RevStep = 1;
-                UartProcessingPhase = USART_PROCESSING_FINISH;
+                TxRxLength = TxRxIndex;                        // 数据帧长度，不包括字符串最后接收的回车换行
+                UartProcessingPhase = USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
             }
             else
             {

@@ -16,7 +16,7 @@
 #ifndef __AIRH_USART1_H_
 #define	__AIRH_USART1_H_
 
-#define	AirH_TX_RX_BUFF_LEN		110
+#define	TX_RX_BUFF_LEN		110
 
 /* 串口处理ADU数据帧的阶段描述 */
 #define	USART_PROCESSING_IDEL					0
