@@ -281,7 +281,7 @@ void USART3_IRQHandler(void)
 
     if((huart3.Instance->ISR & USART_ISR_RXNE) != 0)
     {
-		//USART3_RX();
+	     USART3_RX();
     }
 		
 	HAL_UART_IRQHandler(&huart3);

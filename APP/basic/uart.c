@@ -415,7 +415,7 @@ __interrupt void USCI_A1_ISR(void)
     {
         case 0:break;                             // Vector 0 - no interrupt
         case 2:                                   // Vector 2 - RXIFG
-        USART1_RX();
+        USART3_RX();
         break;
         case 4:break;                             // Vector 4 - TXIFG
         default: break;

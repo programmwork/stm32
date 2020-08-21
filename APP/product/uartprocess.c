@@ -8,6 +8,7 @@
 
 #include "main.h"
 
+extern UART_HandleTypeDef huart3;
 
 
 uint8 rcvd_buffer[MAX_PKGLEN];
@@ -151,9 +152,13 @@ void uartSendStr(UINT8 uartno,UINT8 *pucStr,UINT16 len)
             UartWrite(uartno, pucStr, len);
         }
     }
-    else
+    else if(uartno == 1)
     {
         UartWrite(uartno, pucStr, len);
+    }
+    else if(uartno == 2)
+    {
+        HAL_UART_Transmit(&huart3,pucStr,len,10);
     }
     
     

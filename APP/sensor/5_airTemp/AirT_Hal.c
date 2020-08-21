@@ -154,7 +154,7 @@ unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM])
     
         //Í¨µÀ2×ª»»
         count = 50;
-        while(count--)
+        while(count)
         {
             vTaskDelay(10);
             
@@ -164,6 +164,8 @@ unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM])
             }
 
             AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
+
+            count--;
         }
 
         if(count > 0)

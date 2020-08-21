@@ -102,16 +102,12 @@ unsigned char AirH_engine(float *result)
         TxRxLength = 0;
         strcpy((char *)buffer,"{F00RDD}\r\n");
         RevStep = 1;
-
         
-        //uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("{F00RDD}\r\n") - 1);
-
-        
-        HAL_UART_Transmit(&huart3,(UINT8 *)buffer,sizeof(buffer),10);
+        uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof(buffer));
 
         UartProcessingPhase = USART_PROCESSING_SENDING;
 
-        while(count--)
+        while(count)
         {                
             if(USART_PROCESSING_FINISH == UartProcessingPhase)
             {
@@ -148,6 +144,10 @@ unsigned char AirH_engine(float *result)
 
                 break;
             }
+            
+            count--;
+
+            vTaskDelay(20);                       
         }
 
         if(count <= 0)

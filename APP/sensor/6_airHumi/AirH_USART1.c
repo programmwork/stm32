@@ -35,7 +35,7 @@ extern UART_HandleTypeDef huart3;
 **********************************************************************************************************/
 void AirH_Init(void)
 {
-    UART_Init(UARTDEV_3, 9600, 8, 'N', 1, 1);
+    UART_Init(3, 9600, 8, 'N', 1, 1);
 
     UartProcessingPhase = USART_PROCESSING_IDEL;  
 }
@@ -61,7 +61,7 @@ unsigned char AirH_USART3_GetProcessingPhase(void)
 **********************************************************************************************************/
 void AirH_USART3_ResetProcessingPhase(void)
 {
-  	RevStep = 0;
+  	RevStep = 1;
 	UartProcessingPhase = USART_PROCESSING_IDEL;
 }
 

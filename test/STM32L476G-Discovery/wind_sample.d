@@ -72,6 +72,3 @@ stm32l476g-discovery\wind_sample.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\st
 stm32l476g-discovery\wind_sample.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l476g-discovery\wind_sample.o: ..\APP\sensor\sensor_basic.h
 stm32l476g-discovery\wind_sample.o: ..\APP\sensor\sensor_process.h
-stm32l476g-discovery\wind_sample.o: ..\APP\sensor\2_wind\Wind_hal.h
-stm32l476g-discovery\wind_sample.o: ..\APP\sensor\2_wind\Wind_Sample.h
-stm32l476g-discovery\wind_sample.o: ..\APP\sensor\2_wind\Wind_Sensor.h

@@ -72,6 +72,3 @@ stm32l476g-discovery\adc12_a.o: ..\APP\sensor\sensor_basic.h
 stm32l476g-discovery\adc12_a.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\time.h
 stm32l476g-discovery\adc12_a.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\math.h
 stm32l476g-discovery\adc12_a.o: ..\APP\sensor\sensor_process.h
-stm32l476g-discovery\adc12_a.o: ..\APP\sensor\2_wind\Wind_hal.h
-stm32l476g-discovery\adc12_a.o: ..\APP\sensor\2_wind\Wind_Sample.h
-stm32l476g-discovery\adc12_a.o: ..\APP\sensor\2_wind\Wind_Sensor.h
