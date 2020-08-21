@@ -18,6 +18,8 @@
 
 TIM_HandleTypeDef htim1;
 
+extern UART_HandleTypeDef huart3;
+
 /********************************************************************************
 ** 閸戣姤鏆熼崥宥囆�? 閿涳�?
 ** 閸戣姤鏆熼崝鐔诲�? 閿涳�?
@@ -102,7 +104,10 @@ unsigned char AirH_engine(float *result)
         RevStep = 1;
 
         
-        uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("{F00RDD}\r\n") - 1);
+        //uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("{F00RDD}\r\n") - 1);
+
+        
+        HAL_UART_Transmit(&huart3,(UINT8 *)buffer,sizeof(buffer),10);
 
         UartProcessingPhase = USART_PROCESSING_SENDING;
 
