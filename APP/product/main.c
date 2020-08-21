@@ -231,7 +231,7 @@ void main( void )
 		
     osThreadDef(TIME, time_task, TIME_TASK_PRIORITY, 0, TASK_TIME_STACK_SIZE);
 		
-    //osThreadDef(EVENT_SAMPLE, check_event_sample_task, EVENT_SAMPLE_TASK_PRIORITY, 0, TASK_EVENT_SAMPLE_STACK_SIZE);
+    osThreadDef(EVENT_SAMPLE, check_event_sample_task, EVENT_SAMPLE_TASK_PRIORITY, 0, TASK_EVENT_SAMPLE_STACK_SIZE);
 	
     osThreadDef(READDATA, readdata_task, READDATA_TASK_PRIORITY, 0, TASK_READDATA_STACK_SIZE);
 		
@@ -240,7 +240,7 @@ void main( void )
     TIME_Handle = osThreadCreate(osThread(TIME), NULL);
 		
 
-	//EVENT_SAMPLE_Handle = osThreadCreate(osThread(EVENT_SAMPLE), NULL);
+	EVENT_SAMPLE_Handle = osThreadCreate(osThread(EVENT_SAMPLE), NULL);
 	
 	READDATA_Handle = osThreadCreate(osThread(READDATA), NULL);
 

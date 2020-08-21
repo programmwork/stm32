@@ -128,6 +128,7 @@ extern FLASH_Store_MinData_t  FLASH_Read_MinData;//读数据结构体
 extern uint32  check_offset;   //检定读取偏移地址
 extern uint32  cfc_offset;     //校正都取偏移地址
 
+
 void Convert_Sec_to_Time(s_RtcTateTime_t *rtc_temp, time_t sec_data);
 void Convert_Time_to_min(UINT32 *data);
 void check_event_storage(void);

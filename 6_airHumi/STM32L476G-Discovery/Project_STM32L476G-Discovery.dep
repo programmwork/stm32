@@ -41,14 +41,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\Legacy/stm32_hal_legacy.h)(0x5EC24D72)
@@ -205,7 +205,7 @@ I (..\FreeRTOS\Source\include\queue.h)(0x5EC24D71)
 I (..\FreeRTOS\Source\include\semphr.h)(0x5EC24D71)
 I (..\FreeRTOS\Source\include\event_groups.h)(0x5EC24D71)
 I (D:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5E8ED122)
-F (.\startup_stm32l431xx.s)(0x5EC24D72)(--cpu Cortex-M4.fp.sp -g --apcs=interwork --pd "__MICROLIB SETA 1" -I ..\\Inc-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include--pd "__UVISION_VERSION SETA 530" --pd "_RTE_ SETA 1" --pd "STM32L431xx SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32l431xx.lst --xref -o stm32l476g-discovery\startup_stm32l431xx.o --depend stm32l476g-discovery\startup_stm32l431xx.d)
+F (.\startup_stm32l431xx.s)(0x5F3F2A99)(--cpu Cortex-M4.fp.sp -g --apcs=interwork --pd "__MICROLIB SETA 1" -I ..\\Inc-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include--pd "__UVISION_VERSION SETA 530" --pd "_RTE_ SETA 1" --pd "STM32L431xx SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32l431xx.lst --xref -o stm32l476g-discovery\startup_stm32l431xx.o --depend stm32l476g-discovery\startup_stm32l431xx.d)
 F (..\BSP\AD7792.c)(0x5F1554A3)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\ad7792.o --omf_browse stm32l476g-discovery\ad7792.crf --depend stm32l476g-discovery\ad7792.d)
 I (..\BSP\bsp_led.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdint.h)(0x5E53505C)
@@ -228,7 +228,7 @@ I (..\FreeRTOS\Source\include\list.h)(0x5EC24D71)
 F (..\BSP\bsp_led.c)(0x5EC24D71)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\bsp_led.o --omf_browse stm32l476g-discovery\bsp_led.crf --depend stm32l476g-discovery\bsp_led.d)
 I (..\BSP\bsp_led.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdint.h)(0x5E53505C)
-F (..\BSP\i2c.c)(0x5F1FDEE4)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\i2c.o --omf_browse stm32l476g-discovery\i2c.crf --depend stm32l476g-discovery\i2c.d)
+F (..\BSP\i2c.c)(0x5F3F2A99)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\i2c.o --omf_browse stm32l476g-discovery\i2c.crf --depend stm32l476g-discovery\i2c.d)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal.h)(0x5F0C156B)
 I (..\APP\stm32l4xx_hal_conf.h)(0x5EC24D71)
 I (..\APP\product\main.h)(0x5F1554A3)
@@ -261,14 +261,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -336,14 +336,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -378,7 +378,7 @@ I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_tim_ex.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_uart.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_uart_ex.h)(0x5EC24D72)
 I (..\BSP\spi.h)(0x5EC24D71)
-F (..\BSP\uart.c)(0x5F221D78)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\uart.o --omf_browse stm32l476g-discovery\uart.crf --depend stm32l476g-discovery\uart.d)
+F (..\BSP\uart.c)(0x5F3F2A99)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\uart.o --omf_browse stm32l476g-discovery\uart.crf --depend stm32l476g-discovery\uart.d)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
@@ -412,14 +412,14 @@ I (..\FreeRTOS\Source\include\timers.h)(0x5EC24D71)
 I (..\FreeRTOS\Source\include\event_groups.h)(0x5EC24D71)
 I (..\BSP\AD7792.h)(0x5EC24D71)
 I (..\BSP\W25Q128.h)(0x5EC24D71)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -507,14 +507,14 @@ I (..\BSP\sys_config.h)(0x5F07C215)
 I (..\BSP\AD7792.h)(0x5EC24D71)
 I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -614,14 +614,14 @@ I (..\BSP\AD7792.h)(0x5EC24D71)
 I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 F (..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal.c)(0x5EC24D72)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\stm32l4xx_hal.o --omf_browse stm32l476g-discovery\stm32l4xx_hal.crf --depend stm32l476g-discovery\stm32l4xx_hal.d)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal.h)(0x5F0C156B)
 I (..\APP\stm32l4xx_hal_conf.h)(0x5EC24D71)
@@ -655,14 +655,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -729,14 +729,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -803,14 +803,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -877,14 +877,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -951,14 +951,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1025,14 +1025,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1099,14 +1099,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1173,14 +1173,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1247,14 +1247,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1321,14 +1321,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1395,14 +1395,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1469,14 +1469,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1543,14 +1543,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1617,14 +1617,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1691,14 +1691,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1765,14 +1765,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1839,14 +1839,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1913,14 +1913,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -1987,14 +1987,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -2061,14 +2061,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -2135,14 +2135,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -2209,14 +2209,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -2283,14 +2283,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -2357,14 +2357,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -2398,7 +2398,7 @@ I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_tim.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_tim_ex.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_uart.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_uart_ex.h)(0x5EC24D72)
-F (..\APP\stm32l4xx_it.c)(0x5F276501)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\stm32l4xx_it.o --omf_browse stm32l476g-discovery\stm32l4xx_it.crf --depend stm32l476g-discovery\stm32l4xx_it.d)
+F (..\APP\stm32l4xx_it.c)(0x5F3F2A99)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\stm32l4xx_it.o --omf_browse stm32l476g-discovery\stm32l4xx_it.crf --depend stm32l476g-discovery\stm32l4xx_it.d)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal.h)(0x5F0C156B)
 I (..\APP\stm32l4xx_hal_conf.h)(0x5EC24D71)
 I (..\APP\product\main.h)(0x5F1554A3)
@@ -2431,14 +2431,14 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_rcc.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_def.h)(0x5EC24D72)
 I (D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l4xx.h)(0x5DEE0C04)
@@ -2473,7 +2473,7 @@ I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_tim_ex.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_uart.h)(0x5EC24D72)
 I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_uart_ex.h)(0x5EC24D72)
 I (..\APP\stm32l4xx_it.h)(0x5EC4E58F)
-F (..\APP\product\command.c)(0x5F3A1C46)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\command.o --omf_browse stm32l476g-discovery\command.crf --depend stm32l476g-discovery\command.d)
+F (..\APP\product\command.c)(0x5F3F2A99)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\command.o --omf_browse stm32l476g-discovery\command.crf --depend stm32l476g-discovery\command.d)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
@@ -2540,15 +2540,15 @@ I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_uart_ex.h)(0x5EC24D72)
 I (..\BSP\sys_config.h)(0x5F07C215)
 I (..\BSP\AD7792.h)(0x5EC24D71)
 I (..\BSP\W25Q128.h)(0x5EC24D71)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
-F (..\APP\product\main.c)(0x5F223132)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\main.o --omf_browse stm32l476g-discovery\main.crf --depend stm32l476g-discovery\main.d)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
+F (..\APP\product\main.c)(0x5F3F3294)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\main.o --omf_browse stm32l476g-discovery\main.crf --depend stm32l476g-discovery\main.d)
 I (..\APP\product\main.h)(0x5F1554A3)
 I (..\APP\product\flash.h)(0x5EC24D71)
 I (..\APP\product\typedef.h)(0x5EC24D71)
@@ -2614,15 +2614,15 @@ I (..\BSP\AD7792.h)(0x5EC24D71)
 I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
-F (..\APP\product\sysinit.c)(0x5F3E078A)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\sysinit.o --omf_browse stm32l476g-discovery\sysinit.crf --depend stm32l476g-discovery\sysinit.d)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
+F (..\APP\product\sysinit.c)(0x5F3F2A99)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\sysinit.o --omf_browse stm32l476g-discovery\sysinit.crf --depend stm32l476g-discovery\sysinit.d)
 I (..\APP\product\main.h)(0x5F1554A3)
 I (..\APP\product\flash.h)(0x5EC24D71)
 I (..\APP\product\typedef.h)(0x5EC24D71)
@@ -2688,14 +2688,14 @@ I (..\BSP\AD7792.h)(0x5EC24D71)
 I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 F (..\APP\product\uartprocess.c)(0x5F07C215)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\uartprocess.o --omf_browse stm32l476g-discovery\uartprocess.crf --depend stm32l476g-discovery\uartprocess.d)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\stdio.h)(0x5E53505C)
@@ -2762,16 +2762,16 @@ I (..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_uart_ex.h)(0x5EC24D72)
 I (..\BSP\sys_config.h)(0x5F07C215)
 I (..\BSP\AD7792.h)(0x5EC24D71)
 I (..\BSP\W25Q128.h)(0x5EC24D71)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
 F (..\APP\sensor\sensor_basic.c)(0x5F2221C9)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\sensor_basic.o --omf_browse stm32l476g-discovery\sensor_basic.crf --depend stm32l476g-discovery\sensor_basic.d)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\product\main.h)(0x5F1554A3)
@@ -2840,12 +2840,12 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
-F (..\APP\sensor\sensor_process.c)(0x5F3200BC)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\sensor_process.o --omf_browse stm32l476g-discovery\sensor_process.crf --depend stm32l476g-discovery\sensor_process.d)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
+F (..\APP\sensor\sensor_process.c)(0x5F3F2A99)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\sensor_process.o --omf_browse stm32l476g-discovery\sensor_process.crf --depend stm32l476g-discovery\sensor_process.d)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\product\main.h)(0x5F1554A3)
@@ -2914,12 +2914,12 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
-F (..\APP\sensor\6_airHumi\AirH_Hal.c)(0x5F3E28BE)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\airh_hal.o --omf_browse stm32l476g-discovery\airh_hal.crf --depend stm32l476g-discovery\airh_hal.d)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
+F (..\APP\sensor\6_airHumi\AirH_Hal.c)(0x5F3F31A1)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\airh_hal.o --omf_browse stm32l476g-discovery\airh_hal.crf --depend stm32l476g-discovery\airh_hal.d)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\product\main.h)(0x5F1554A3)
@@ -2988,12 +2988,12 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
-F (..\APP\sensor\6_airHumi\AirH_Sample.c)(0x5F3E1554)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\airh_sample.o --omf_browse stm32l476g-discovery\airh_sample.crf --depend stm32l476g-discovery\airh_sample.d)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
+F (..\APP\sensor\6_airHumi\AirH_Sample.c)(0x5F3F2A99)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\airh_sample.o --omf_browse stm32l476g-discovery\airh_sample.crf --depend stm32l476g-discovery\airh_sample.d)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\product\main.h)(0x5F1554A3)
@@ -3062,12 +3062,12 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
-F (..\APP\sensor\6_airHumi\AirH_Sensor.c)(0x5F3A18A8)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\airh_sensor.o --omf_browse stm32l476g-discovery\airh_sensor.crf --depend stm32l476g-discovery\airh_sensor.d)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
+F (..\APP\sensor\6_airHumi\AirH_Sensor.c)(0x5F3F2A99)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\airh_sensor.o --omf_browse stm32l476g-discovery\airh_sensor.crf --depend stm32l476g-discovery\airh_sensor.d)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\product\main.h)(0x5F1554A3)
@@ -3136,12 +3136,12 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
-F (..\APP\sensor\6_airHumi\AirH_USART1.c)(0x5F3E28EB)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\airh_usart1.o --omf_browse stm32l476g-discovery\airh_usart1.crf --depend stm32l476g-discovery\airh_usart1.d)
-I (..\APP\sensor\sensor_basic.h)(0x5F3E2753)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)
+F (..\APP\sensor\6_airHumi\AirH_USART1.c)(0x5F3F2F7A)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\APP -I ..\STM32L4xx_HAL_Driver\Inc\Legacy -I ..\STM32L4xx_HAL_Driver\Inc -I ..\BSP -I ..\FreeRTOS\Source\portable\RVDS\ARM_CM4F -I ..\FreeRTOS\Source\CMSIS_RTOS -I ..\FreeRTOS\Source\include -I ..\APP\product -I ..\APP\sensor -I ..\APP\sensor\6_airHumi-I.\RTE\_STM32L476G-Discovery-ID:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-D__UVISION_VERSION="530" -D_RTE_ -DSTM32L431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32L431xx-o stm32l476g-discovery\airh_usart1.o --omf_browse stm32l476g-discovery\airh_usart1.crf --depend stm32l476g-discovery\airh_usart1.d)
+I (..\APP\sensor\sensor_basic.h)(0x5F3F2CC2)
 I (D:\software\Keil\ARM\ARMCC\include\time.h)(0x5E53505A)
 I (D:\software\Keil\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\APP\product\main.h)(0x5F1554A3)
@@ -3210,7 +3210,7 @@ I (..\BSP\W25Q128.h)(0x5EC24D71)
 I (D:\software\Keil\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\software\Keil\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\APP\sensor\sensor_process.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3E1554)
+I (..\APP\sensor\6_airHumi\AirH_Hal.h)(0x5F3F2A99)
 I (..\APP\sensor\6_airHumi\AirH_Sample.h)(0x5EC24D71)
 I (..\APP\sensor\6_airHumi\AirH_Sensor.h)(0x5EC24D71)
-I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3E1EE2)
+I (..\APP\sensor\6_airHumi\AirH_USART1.h)(0x5F3F2F81)

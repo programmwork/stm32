@@ -15,6 +15,9 @@
 */
 #include "sensor_basic.h"
 
+
+TIM_HandleTypeDef htim1;
+
 /********************************************************************************
 ** 閸戣姤鏆熼崥宥囆�? 閿涳�?
 ** 閸戣姤鏆熼崝鐔诲�? 閿涳�?
@@ -97,6 +100,8 @@ unsigned char AirH_engine(float *result)
         TxRxLength = 0;
         strcpy((char *)buffer,"{F00RDD}\r\n");
         RevStep = 1;
+
+        
         uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("{F00RDD}\r\n") - 1);
 
         UartProcessingPhase = USART_PROCESSING_SENDING;

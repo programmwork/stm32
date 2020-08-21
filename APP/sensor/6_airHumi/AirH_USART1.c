@@ -16,6 +16,7 @@
 #include "sensor_basic.h"
 
 
+
 char TxRxBuffer[TX_RX_BUFF_LEN];								// 接收发送缓冲区
 unsigned char TxRxLength;											// 接收发送数据长度
 unsigned char TxRxIndex;
@@ -23,6 +24,7 @@ unsigned char TxRxIndex;
 unsigned char UartProcessingPhase;
 unsigned char RevStep;
 
+extern UART_HandleTypeDef huart3;
 
 /**********************************************************************************************************
 ** 函数名称 ：void AirH_Init(void)
@@ -76,7 +78,7 @@ void USART3_RX(void)
     unsigned char td;
 
     //URX1IF = 0;
-    td = UCA1RXBUF;										      // 读取缓冲区数据
+    td = (uint8_t)(huart3.Instance->RDR);					      // 读取缓冲区数据
 
     switch(RevStep)
     {
@@ -89,7 +91,7 @@ void USART3_RX(void)
             }
             else
             {
-                if(TxRxIndex >= AirH_TX_RX_BUFF_LEN)
+                if(TxRxIndex >= TX_RX_BUFF_LEN)
                 {
                     RevStep = 0;	              // 不接收任何数据
                     

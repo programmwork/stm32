@@ -25,7 +25,8 @@
 #define	USART_PROCESSING_FINISH				3
 #define	USART_PROCESSING_ERR					  4
 
-unsigned char TxRxIndex;
+extern unsigned char TxRxIndex;
+
 
 extern unsigned char   UartProcessingPhase;
 extern unsigned char RevStep;
