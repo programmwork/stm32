@@ -72,6 +72,3 @@ stm32l476g-discovery\sensor_basic.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\s
 stm32l476g-discovery\sensor_basic.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l476g-discovery\sensor_basic.o: ..\APP\sensor\sensor_basic.h
 stm32l476g-discovery\sensor_basic.o: ..\APP\sensor\sensor_process.h
-stm32l476g-discovery\sensor_basic.o: ..\APP\sensor\5_airTemp\AirT_Hal.h
-stm32l476g-discovery\sensor_basic.o: ..\APP\sensor\5_airTemp\AirT_Sensor.h
-stm32l476g-discovery\sensor_basic.o: ..\APP\sensor\5_airTemp\AirT_Sample.h

@@ -16,7 +16,7 @@
 
 #include "sensor_process.h"
  
-#define SENSOR 5
+#define SENSOR 6
 
 #if (SENSOR == 1)   //ตุฮย
 #include "EarthTemp_hal.h"
@@ -134,8 +134,6 @@ void Convert_Time_to_min(UINT32 *data);
 void check_event_storage(void);
 void check_event_autosend(void);
 unsigned char Readdata_event(void);
-uint8 Check_read_finish(uint8 state, uint32 timeout);
-
 
 extern unsigned char BanWenBanYa_engine(float *pT, float *pV);
 extern unsigned char read_record_min(unsigned long timep, unsigned char dat[], unsigned char len);
