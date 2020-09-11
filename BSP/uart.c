@@ -12,7 +12,7 @@
 #include "stm32l4xx_hal.h"
 #define DMA_TSIZE	128
 
-
+TIM_HandleTypeDef htim1;
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
