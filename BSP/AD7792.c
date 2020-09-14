@@ -24,12 +24,12 @@ void AD7792_Init( void )
 	AD7792_Set_IO(0x0b);
 
 	// 80
-	AD7792_Red_Reg( AD7792_REG_STAT, buf, 1 );
-	uart_printf( 0, "STAT: %02X\r\n", buf[0] );
+	//AD7792_Red_Reg( AD7792_REG_STAT, buf, 1 );
+	//uart_printf( 0, "STAT: %02X\r\n", buf[0] );
 
 	// 4A
-	AD7792_Red_Reg( AD7792_REG_ID, buf, 1 );
-	uart_printf( 0, "  ID: %02X\r\n", buf[0] );
+	//AD7792_Red_Reg( AD7792_REG_ID, buf, 1 );
+	//uart_printf( 0, "  ID: %02X\r\n", buf[0] );
 
 #if DEBUG
 	// 00 0A
@@ -132,8 +132,8 @@ void AD7792_Set_Mode( uint16_t mode )
 
 	vTaskDelay( 10 );
 
-	AD7792_Red_Reg( AD7792_REG_MODE, buf, 2 );
-	uart_printf( 0, "MODE: %02X %02X\r\n", buf[0], buf[1] );
+	//AD7792_Red_Reg( AD7792_REG_MODE, buf, 2 );
+	//uart_printf( 0, "MODE: %02X %02X\r\n", buf[0], buf[1] );
 
 	return;
 }
@@ -149,8 +149,8 @@ void AD7792_Set_Cfg( uint16_t cfg )
 
 	vTaskDelay( 10 );
 
-	AD7792_Red_Reg( AD7792_REG_CFG, buf, 2 );
-	uart_printf( 0, " CFG: %02X %02X\r\n", buf[0], buf[1] );
+	//AD7792_Red_Reg( AD7792_REG_CFG, buf, 2 );
+	//uart_printf( 0, " CFG: %02X %02X\r\n", buf[0], buf[1] );
 
 	return;
 }
@@ -163,8 +163,8 @@ void AD7792_Set_IO( uint8_t ctl )
 
 	vTaskDelay( 10 );
 
-	AD7792_Red_Reg( AD7792_REG_IO, buf, 1 );
-	uart_printf( 0, "  IO: %02X\r\n", buf[0] );
+	//AD7792_Red_Reg( AD7792_REG_IO, buf, 1 );
+	//uart_printf( 0, "  IO: %02X\r\n", buf[0] );
 
 	return;
 }
@@ -173,8 +173,8 @@ void AD7792_Inter_Cali( uint16_t cali )
 {
 	uint8_t buf[2] = {0};
 
-	AD7792_Red_Reg( AD7792_REG_MODE, buf, 2 );
-	uart_printf( 0, "MODE: %02X %02X\r\n", buf[0], buf[1] );
+	//AD7792_Red_Reg( AD7792_REG_MODE, buf, 2 );
+	//uart_printf( 0, "MODE: %02X %02X\r\n", buf[0], buf[1] );
 
 
 	buf[0] &= 0X1F;
@@ -184,14 +184,14 @@ void AD7792_Inter_Cali( uint16_t cali )
 
 	vTaskDelay( 10 );
 
-	AD7792_Red_Reg( AD7792_REG_MODE, buf, 2 );
-	uart_printf( 0, "MODE: %02X %02X\r\n", buf[0], buf[1] );
+	//AD7792_Red_Reg( AD7792_REG_MODE, buf, 2 );
+	//uart_printf( 0, "MODE: %02X %02X\r\n", buf[0], buf[1] );
 
-	AD7792_Red_Reg( AD7792_REG_OFFS, buf, 2 );
-	uart_printf( 0, "OFFS: %02X %02X\r\n", buf[0], buf[1] );
+	//AD7792_Red_Reg( AD7792_REG_OFFS, buf, 2 );
+	//uart_printf( 0, "OFFS: %02X %02X\r\n", buf[0], buf[1] );
 
-	AD7792_Red_Reg( AD7792_REG_FSCA, buf, 2 );
-	uart_printf( 0, "FSCA: %02X %02X\r\n", buf[0], buf[1] );
+	//AD7792_Red_Reg( AD7792_REG_FSCA, buf, 2 );
+	//uart_printf( 0, "FSCA: %02X %02X\r\n", buf[0], buf[1] );
 
 	return;
 }
