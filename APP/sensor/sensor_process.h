@@ -12,9 +12,9 @@ void uartprocess_task( void *pvParameters );
 void check_event_sample_task( void *pvParameters );
 void readdata_task(void *pvParameters);
 void time_task(void *pvParameters);
-void autosend();
 
 
-void Self_test();
+
+void Self_test(void);
 
 #endif /* _SENSOR_PROCESS_H_ */
