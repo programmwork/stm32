@@ -694,19 +694,19 @@
           <GroupName>Application/sensor/7_infraredTemp</GroupName>
           <Files>
             <File>
-              <FileName>EarthTemp_Hal.c</FileName>
+              <FileName>infraredTemp_Hal.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\APP\sensor\7_IRTemp\EarthTemp_Hal.c</FilePath>
+              <FilePath>..\APP\sensor\7_infraredTemp\infraredTemp_Hal.c</FilePath>
             </File>
             <File>
-              <FileName>EarthTemp_Sample.c</FileName>
+              <FileName>infraredTemp_Sample.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\APP\sensor\7_IRTemp\EarthTemp_Sample.c</FilePath>
+              <FilePath>..\APP\sensor\7_infraredTemp\infraredTemp_Sample.c</FilePath>
             </File>
             <File>
-              <FileName>EarthTemp_Sensor.c</FileName>
+              <FileName>infraredTemp_Sensor.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\APP\sensor\7_IRTemp\EarthTemp_Sensor.c</FilePath>
+              <FilePath>..\APP\sensor\7_infraredTemp\infraredTemp_Sensor.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -68,6 +68,7 @@ stm32l476g-discovery\airt_sensor.o: ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_ua
 stm32l476g-discovery\airt_sensor.o: ..\BSP\sys_config.h
 stm32l476g-discovery\airt_sensor.o: ..\BSP\AD7792.h
 stm32l476g-discovery\airt_sensor.o: ..\BSP\W25Q128.h
+stm32l476g-discovery\airt_sensor.o: ..\BSP\ds3231.h
 stm32l476g-discovery\airt_sensor.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l476g-discovery\airt_sensor.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l476g-discovery\airt_sensor.o: ..\APP\sensor\sensor_basic.h

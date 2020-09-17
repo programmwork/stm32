@@ -78,7 +78,7 @@ unsigned char DS3231_ReadCtrReg(unsigned char *pdat);
 
 unsigned char char_trans_bcd(unsigned char char_data);
 
-//unsigned char DS3231_SetTime(s_RtcTateTime_t *prtc);
-//unsigned char DS3231_ReadTime(s_RtcTateTime_t *prtc);
+unsigned char DS3231_SetTime(s_RtcTateTime_t *prtc);
+unsigned char DS3231_ReadTime(s_RtcTateTime_t *prtc);
 
 #endif /* SOURCE_MODULE_RTC_DS3231_H_ */

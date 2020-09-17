@@ -25,12 +25,13 @@
 #ifndef __EARTH_TEMP_HAL_H_
 #define	__EARTH_TEMP_HAL_H_
 
-#include "EarthTemp_Sensor.h"
+#include "infraredTemp_Sensor.h"
 
-extern void hal_sensor_init();
+extern void hal_sensor_init(void);
 extern unsigned char Sensor_Init(void);
 extern unsigned char infraredTemp_engine(float result[MAX_SENSOR_NUM]);
 extern void Reset_Sensor(void);
-extern void USART1_RX(void);
+extern void USART3_RX(void);
+
 
 #endif

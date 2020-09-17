@@ -3,67 +3,197 @@
 <pre>
 <h1>礦ision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: μVision V5.24.2.0
-Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: a a, a, LIC=DSNVE-5G66K-IMA9B-2HARA-TK5DJ-3UB6V
+IDE-Version: μVision V5.30.0.0
+Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: asd 郭子坤, asd, LIC=IK1BF-6A255-Y8AFK-ZCQK6-9IMF3-T55MJ
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.24.1
-Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 5 (build 528)
-Assembler:       Armasm.exe V5.06 update 5 (build 528)
-Linker/Locator:  ArmLink.exe V5.06 update 5 (build 528)
-Library Manager: ArmAr.exe V5.06 update 5 (build 528)
-Hex Converter:   FromElf.exe V5.06 update 5 (build 528)
-CPU DLL:         SARMCM3.DLL V5.24.1
-Dialog DLL:      DCM.DLL V1.16.0.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
-Dialog DLL:      TCM.DLL V1.32.0.0
+Toolchain:       MDK-ARM Plus  Version: 5.30.0.0
+Toolchain Path:  D:\software\Keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.30.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.7.0
+Dialog DLL:      TCM.DLL V1.42.0.0
  
 <h2>Project:</h2>
-D:\work\FreeRTOS\MDK-ARM\Project.uvprojx
-Project File Date:  11/12/2019
+D:\software\GIT\project\stm32\4_airPre\Project.uvprojx
+Project File Date:  09/17/2020
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\software\Keil\ARM\ARMCC\Bin'
 Build target 'STM32L476G-Discovery'
-compiling uart.c...
-..\APP\sensor\sensor_process.h(15): warning:  #1295-D: Deprecated declaration autosend - give arg types
-  void autosend();
-..\APP\sensor\sensor_process.h(18): warning:  #1295-D: Deprecated declaration Self_test - give arg types
-  void Self_test();
-..\APP\sensor\1_earthTemp\EarthTemp_Sensor.h(85): warning:  #1295-D: Deprecated declaration Init_sys_cfg - give arg types
-  void Init_sys_cfg();
-..\APP\sensor\1_earthTemp\EarthTemp_hal.h(30): warning:  #1295-D: Deprecated declaration hal_sensor_init - give arg types
-  extern void hal_sensor_init();
-..\BSP\uart.c(483): warning:  #177-D: variable "stat"  was declared but never referenced
-  	uint8_t stat = 0;
-..\BSP\uart.c: 5 warnings, 0 errors
-linking...
-Program Size: Code=56924 RO-data=2352 RW-data=276 ZI-data=37148  
-"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 5 Warning(s).
+compiling Airp_Hal.c...
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\APP\sensor\4_airPre\Airp_Hal.c(47): warning:  #223-D: function "AirP_USART1_Init" declared implicitly
+    AirP_USART1_Init();
+..\APP\sensor\4_airPre\Airp_Hal.c(65): error:  #20: identifier "USART_PROCESSING_FINISH" is undefined
+          if(USART_PROCESSING_FINISH == AirP_UartProcessingPhase)
+..\APP\sensor\4_airPre\Airp_Hal.c(75): warning:  #223-D: function "AirP_USART1_GetProcessingPhase" declared implicitly
+              unsigned char phase = AirP_USART1_GetProcessingPhase();
+..\APP\sensor\4_airPre\Airp_Hal.c(77): error:  #20: identifier "USART_PROCESSING_IDEL" is undefined
+              if(phase == USART_PROCESSING_IDEL)												// 闁告帇鍊栭弻鍥及椤栨碍鍎婄紒灞炬そ濡拷
+..\APP\sensor\4_airPre\Airp_Hal.c(79): error:  #20: identifier "TxRxIndex" is undefined
+                  TxRxIndex = 0;
+..\APP\sensor\4_airPre\Airp_Hal.c(85): error:  #20: identifier "USART_PROCESSING_SENDING" is undefined
+                  AirP_UartProcessingPhase = USART_PROCESSING_SENDING;
+..\APP\sensor\4_airPre\Airp_Hal.c(86): error:  #20: identifier "T3IntCounter" is undefined
+                  AirP_T3_START_COUNTING();
+..\APP\sensor\4_airPre\Airp_Hal.c(91): error:  #20: identifier "USART_PROCESSING_FINISH" is undefined
+              if(phase == USART_PROCESSING_FINISH)											// 闁告帇鍊栭弻鍥及椤栨碍鍎婇柟鎭掑劜閺佸湱锟界懓鏈崹锟?
+..\APP\sensor\4_airPre\Airp_Hal.c(97): error:  #20: identifier "TxRxIndex" is undefined
+                  TxRxIndex = 0;
+..\APP\sensor\4_airPre\Airp_Hal.c(103): error:  #20: identifier "TxRxIndex" is undefined
+                  TxRxIndex = 0;
+..\APP\sensor\4_airPre\Airp_Hal.c(111): error:  #20: identifier "USART_PROCESSING_IDEL" is undefined
+              if((phase == USART_PROCESSING_IDEL) && (Num_sample < (SAMPLE_COUNT-1)))                                         // 闁告帇鍊栭弻鍥及椤栨碍鍎婄紒灞炬そ濡拷
+..\APP\sensor\4_airPre\Airp_Hal.c(113): error:  #20: identifier "TxRxIndex" is undefined
+                  TxRxIndex = 0;
+..\APP\sensor\4_airPre\Airp_Hal.c(119): error:  #20: identifier "USART_PROCESSING_SENDING" is undefined
+                  AirP_UartProcessingPhase = USART_PROCESSING_SENDING;
+..\APP\sensor\4_airPre\Airp_Hal.c(120): error:  #20: identifier "T3IntCounter" is undefined
+                  AirP_T3_START_COUNTING();                                                                                                // 闊浄鎷?
+..\APP\sensor\4_airPre\Airp_Hal.c(125): error:  #20: identifier "USART_PROCESSING_ERR" is undefined
+              if(phase == USART_PROCESSING_ERR)											// 闁告帇鍊栭弻鍥及椤栨碍鍎婇柛鎴炴そ閺侊拷
+..\APP\sensor\4_airPre\Airp_Hal.c(127): error:  #20: identifier "TxRxIndex" is undefined
+                  TxRxIndex = 0;
+..\APP\sensor\4_airPre\Airp_Hal.c(139): warning:  #223-D: function "AirH_USART3_TK_Check" declared implicitly
+              if(AirH_USART3_TK_Check(&Airp))  //闁哄稄绻濋悰娆撳箣閹邦剙顫?
+..\APP\sensor\4_airPre\Airp_Hal.c(141): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                  *result = (float)Airp / 10.0;
+..\APP\sensor\4_airPre\Airp_Hal.c(255): warning:  #223-D: function "AirP_USART1_Init" declared implicitly
+    AirP_USART1_Init();
+..\APP\sensor\4_airPre\Airp_Hal.c(261): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      UINT16 Period=(UINT16)(1000.0*(float)delayMS);
+..\APP\sensor\4_airPre\Airp_Hal.c(262): warning:  #223-D: function "Timer_B_clearTimerInterrupt" declared implicitly
+      Timer_B_clearTimerInterrupt(TIMER_B0_BASE);
+..\APP\sensor\4_airPre\Airp_Hal.c(262): error:  #20: identifier "TIMER_B0_BASE" is undefined
+      Timer_B_clearTimerInterrupt(TIMER_B0_BASE);
+..\APP\sensor\4_airPre\Airp_Hal.c(264): error:  #20: identifier "Timer_B_initUpModeParam" is undefined
+      Timer_B_initUpModeParam param = {0};
+..\APP\sensor\4_airPre\Airp_Hal.c(265): error:  #20: identifier "TIMER_B_CLOCKSOURCE_SMCLK" is undefined
+      param.clockSource = TIMER_B_CLOCKSOURCE_SMCLK;
+..\APP\sensor\4_airPre\Airp_Hal.c(266): error:  #20: identifier "TIMER_B_CLOCKSOURCE_DIVIDER_8" is undefined
+      param.clockSourceDivider = TIMER_B_CLOCKSOURCE_DIVIDER_8;
+..\APP\sensor\4_airPre\Airp_Hal.c(268): error:  #20: identifier "TIMER_B_TBIE_INTERRUPT_DISABLE" is undefined
+      param.timerInterruptEnable_TBIE = TIMER_B_TBIE_INTERRUPT_DISABLE;
+..\APP\sensor\4_airPre\Airp_Hal.c(270): error:  #20: identifier "TIMER_B_CAPTURECOMPARE_INTERRUPT_ENABLE" is undefined
+          TIMER_B_CAPTURECOMPARE_INTERRUPT_ENABLE;
+..\APP\sensor\4_airPre\Airp_Hal.c(271): error:  #20: identifier "TIMER_B_DO_CLEAR" is undefined
+      param.timerClear = TIMER_B_DO_CLEAR;
+..\APP\sensor\4_airPre\Airp_Hal.c(273): warning:  #223-D: function "Timer_B_initUpMode" declared implicitly
+      Timer_B_initUpMode(TIMER_B0_BASE, &param);
+..\APP\sensor\4_airPre\Airp_Hal.c(285): warning:  #161-D: unrecognized #pragma
+  #pragma vector=TIMERB0_VECTOR
+..\APP\sensor\4_airPre\Airp_Hal.c(286): error:  #77-D: this declaration has no storage class or type specifier
+  __interrupt void TIMERB0_ISR(void)
+..\APP\sensor\4_airPre\Airp_Hal.c(286): error:  #65: expected a ";"
+  __interrupt void TIMERB0_ISR(void)
+..\APP\sensor\4_airPre\Airp_Hal.c(314): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+..\APP\sensor\4_airPre\Airp_Hal.c: 12 warnings, 23 errors
+compiling Airp_USART1.c...
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\APP\sensor\4_airPre\Airp_USART1.c(45): warning:  #223-D: function "uart1Init" declared implicitly
+    uart1Init(9600,8,'N',1);
+..\APP\sensor\4_airPre\Airp_USART1.c(52): error:  #20: identifier "T3IntCounter" is undefined
+      AirP_T3_STOP_COUNTING();
+..\APP\sensor\4_airPre\Airp_USART1.c(54): error:  #20: identifier "USART_PROCESSING_IDEL" is undefined
+      AirP_UartProcessingPhase = USART_PROCESSING_IDEL;  // 串口空闲 
+..\APP\sensor\4_airPre\Airp_USART1.c(94): error:  #20: identifier "USART_PROCESSING_IDEL" is undefined
+    AirP_UartProcessingPhase = USART_PROCESSING_IDEL;
+..\APP\sensor\4_airPre\Airp_USART1.c(110): error:  #20: identifier "USART_PROCESSING_IDEL" is undefined
+    if(AirP_UartProcessingPhase != USART_PROCESSING_IDEL)	return 0;		// 串口忙
+..\APP\sensor\4_airPre\Airp_USART1.c(112): warning:  #223-D: function "USCI_A_UART_disableInterrupt" declared implicitly
+    USCI_A_UART_disableInterrupt(USCI_A1_BASE, USCI_A_UART_RECEIVE_INTERRUPT);																			// 禁止接收中断
+..\APP\sensor\4_airPre\Airp_USART1.c(112): error:  #20: identifier "USCI_A1_BASE" is undefined
+    USCI_A_UART_disableInterrupt(USCI_A1_BASE, USCI_A_UART_RECEIVE_INTERRUPT);																			// 禁止接收中断
+..\APP\sensor\4_airPre\Airp_USART1.c(112): error:  #20: identifier "USCI_A_UART_RECEIVE_INTERRUPT" is undefined
+    USCI_A_UART_disableInterrupt(USCI_A1_BASE, USCI_A_UART_RECEIVE_INTERRUPT);																			// 禁止接收中断
+..\APP\sensor\4_airPre\Airp_USART1.c(113): error:  #20: identifier "UCA1IFG" is undefined
+    UCA1IFG &= ~UCTXIFG;                                     // 接收中断标志位清零
+..\APP\sensor\4_airPre\Airp_USART1.c(113): error:  #20: identifier "UCTXIFG" is undefined
+    UCA1IFG &= ~UCTXIFG;                                     // 接收中断标志位清零
+..\APP\sensor\4_airPre\Airp_USART1.c(115): error:  #20: identifier "UCRXIFG" is undefined
+    UCA1IFG &= ~UCRXIFG;                                     // 发送中断标志位清零
+..\APP\sensor\4_airPre\Airp_USART1.c(117): error:  #20: identifier "TxRxIndex" is undefined
+  	TxRxIndex = 1;                                  // 下次发送TxRxBuffer[1]
+..\APP\sensor\4_airPre\Airp_USART1.c(119): warning:  #223-D: function "USCI_A_UART_transmitData" declared implicitly
+  	USCI_A_UART_transmitData(USCI_A1_BASE, TxRxBuffer[0]);					// 开始发送数据
+..\APP\sensor\4_airPre\Airp_USART1.c(121): warning:  #223-D: function "USCI_A_UART_enableInterrupt" declared implicitly
+  	USCI_A_UART_enableInterrupt(USCI_A1_BASE, USCI_A_UART_TRANSMIT_INTERRUPT);		// 使能发送中断
+..\APP\sensor\4_airPre\Airp_USART1.c(121): error:  #20: identifier "USCI_A_UART_TRANSMIT_INTERRUPT" is undefined
+  	USCI_A_UART_enableInterrupt(USCI_A1_BASE, USCI_A_UART_TRANSMIT_INTERRUPT);		// 使能发送中断
+..\APP\sensor\4_airPre\Airp_USART1.c(123): error:  #20: identifier "USART_PROCESSING_SENDING" is undefined
+  	AirP_UartProcessingPhase = USART_PROCESSING_SENDING;// 正在发送数据
+..\APP\sensor\4_airPre\Airp_USART1.c(139): error:  #20: identifier "TxRxIndex" is undefined
+  	if(TxRxIndex < TxRxLength)
+..\APP\sensor\4_airPre\Airp_USART1.c(141): warning:  #223-D: function "USCI_A_UART_transmitData" declared implicitly
+  	    USCI_A_UART_transmitData(USCI_A1_BASE, TxRxBuffer[TxRxIndex++]);
+..\APP\sensor\4_airPre\Airp_USART1.c(141): error:  #20: identifier "USCI_A1_BASE" is undefined
+  	    USCI_A_UART_transmitData(USCI_A1_BASE, TxRxBuffer[TxRxIndex++]);
+..\APP\sensor\4_airPre\Airp_USART1.c(145): warning:  #223-D: function "USCI_A_UART_disableInterrupt" declared implicitly
+  		USCI_A_UART_disableInterrupt(USCI_A1_BASE, USCI_A_UART_TRANSMIT_INTERRUPT);
+..\APP\sensor\4_airPre\Airp_USART1.c(145): error:  #20: identifier "USCI_A1_BASE" is undefined
+  		USCI_A_UART_disableInterrupt(USCI_A1_BASE, USCI_A_UART_TRANSMIT_INTERRUPT);
+..\APP\sensor\4_airPre\Airp_USART1.c(145): error:  #20: identifier "USCI_A_UART_TRANSMIT_INTERRUPT" is undefined
+  		USCI_A_UART_disableInterrupt(USCI_A1_BASE, USCI_A_UART_TRANSMIT_INTERRUPT);
+..\APP\sensor\4_airPre\Airp_USART1.c(147): error:  #20: identifier "USART_PROCESSING_RECEIVING" is undefined
+  		AirP_UartProcessingPhase = USART_PROCESSING_RECEIVING;		// 正在接收数据
+..\APP\sensor\4_airPre\Airp_USART1.c(149): warning:  #223-D: function "USCI_A_UART_enableInterrupt" declared implicitly
+  		USCI_A_UART_enableInterrupt(USCI_A1_BASE, USCI_A_UART_RECEIVE_INTERRUPT);    // 使能接收中断
+..\APP\sensor\4_airPre\Airp_USART1.c(149): error:  #20: identifier "USCI_A_UART_RECEIVE_INTERRUPT" is undefined
+  		USCI_A_UART_enableInterrupt(USCI_A1_BASE, USCI_A_UART_RECEIVE_INTERRUPT);    // 使能接收中断
+..\APP\sensor\4_airPre\Airp_USART1.c(154): error:  #20: identifier "T3IntCounter" is undefined
+  		AirP_T3_START_COUNTING();					// 启动接收超时定时器
+..\APP\sensor\4_airPre\Airp_USART1.c(194): error:  #20: identifier "UCA1RXBUF" is undefined
+  	td = UCA1RXBUF;										      // 读取缓冲区数据
+..\APP\sensor\4_airPre\Airp_USART1.c(198): error:  #20: identifier "T3IntCounter" is undefined
+      AirP_T3_RESTART_COUNTING();						// 重启超时定时器
+..\APP\sensor\4_airPre\Airp_USART1.c(206): error:  #20: identifier "TxRxIndex" is undefined
+          if(TxRxIndex >= AirP_TX_RX_BUFF_LEN)
+..\APP\sensor\4_airPre\Airp_USART1.c(212): error:  #20: identifier "USART_PROCESSING_ERR" is undefined
+            AirP_UartProcessingPhase = USART_PROCESSING_ERR;
+..\APP\sensor\4_airPre\Airp_USART1.c(226): error:  #20: identifier "TxRxIndex" is undefined
+          TxRxBuffer[TxRxIndex] = 0;				// 将接收的数据转换成字符串（不是必须）
+..\APP\sensor\4_airPre\Airp_USART1.c(228): error:  #20: identifier "USART_PROCESSING_FINISH" is undefined
+          AirP_UartProcessingPhase = USART_PROCESSING_FINISH;	// 已经接收到正确的ADU数据帧
+..\APP\sensor\4_airPre\Airp_USART1.c(232): error:  #20: identifier "USART_PROCESSING_ERR" is undefined
+          AirP_UartProcessingPhase = USART_PROCESSING_ERR;			// 接收的数据帧错误，串口空闲
+..\APP\sensor\4_airPre\Airp_USART1.c: 9 warnings, 26 errors
+"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 49 Error(s), 21 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.5.0.1.pack
-                ARM.CMSIS.5.0.1
+                http://www.keil.com/pack/ARM.CMSIS.5.7.0.pack
+                ARM.CMSIS.5.7.0
                 CMSIS (Cortex Microcontroller Software Interface Standard)
-   * Component: CORE Version: 5.0.1
+   * Component: CORE Version: 5.4.0
 
 Package Vendor: Keil
-                http://www.keil.com/pack/Keil.STM32L4xx_DFP.2.1.0.pack
-                Keil.STM32L4xx_DFP.2.1.0
+                https://www.keil.com/pack/Keil.STM32L4xx_DFP.2.3.0.pack
+                Keil.STM32L4xx_DFP.2.3.0
                 STMicroelectronics STM32L4 Series Device Support, Drivers and Examples
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_STM32L476G-Discovery
-  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include
-  C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include
+  D:\software\Keil\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+  D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:5.0.1
+   * Component: ARM::CMSIS:CORE:5.4.0
+Target not created.
 Build Time Elapsed:  00:00:03
 </pre>
 </body>

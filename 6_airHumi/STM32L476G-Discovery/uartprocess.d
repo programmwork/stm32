@@ -67,6 +67,7 @@ stm32l476g-discovery\uartprocess.o: ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_ua
 stm32l476g-discovery\uartprocess.o: ..\BSP\sys_config.h
 stm32l476g-discovery\uartprocess.o: ..\BSP\AD7792.h
 stm32l476g-discovery\uartprocess.o: ..\BSP\W25Q128.h
+stm32l476g-discovery\uartprocess.o: ..\BSP\ds3231.h
 stm32l476g-discovery\uartprocess.o: ..\APP\sensor\sensor_basic.h
 stm32l476g-discovery\uartprocess.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\time.h
 stm32l476g-discovery\uartprocess.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\math.h

@@ -8,6 +8,25 @@
 
 #include "sensor_basic.h"
 
+void autosend()
+{
+    //check ft time
+
+
+    if(m_tempdata.event.autosendevent==true)
+    {
+    
+        if(bcm_info.common.sw == 1)
+        {
+            check_event_autosend();
+        }
+        else
+        {
+            m_tempdata.event.autosendevent=false;
+        }
+    }
+
+}
 
 void time_task(void *pvParameters)
 {
@@ -171,25 +190,7 @@ void check_event_sample_task( void *pvParameters )
 
 }
 
-void autosend()
-{
-    //check ft time
 
-
-    if(m_tempdata.event.autosendevent==true)
-    {
-    
-        if(bcm_info.common.sw == 1)
-        {
-            check_event_autosend();
-        }
-        else
-        {
-            m_tempdata.event.autosendevent=false;
-        }
-    }
-
-}
 
 void readdata_task(void *pvParameters)
 {

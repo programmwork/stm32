@@ -28,6 +28,9 @@ unsigned char beenRun       [MAX_SENSOR_NUM];
 float         LastValue_H   [MAX_SENSOR_NUM];
 unsigned char beenRun_H     [MAX_SENSOR_NUM];
 
+TIM_HandleTypeDef htim1;
+
+
 /*=============================================================================================
 *函数功能：毫秒级定时采集 
 *入口参数：采样数据结构体

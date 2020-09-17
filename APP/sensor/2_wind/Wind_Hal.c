@@ -145,7 +145,7 @@ void hal_sensor_init()
 **
 ** 鍑哄彛鍙傛暟 锛�
 **********************************************************************************************************/
-void USART1_RX(void)
+void USART3_RX(void)
 {
 
 }
@@ -284,4 +284,5 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)               // 婵犮垼鍩栭�
     EdgeCounter++;
 
 }
+
 

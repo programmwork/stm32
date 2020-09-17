@@ -57,7 +57,7 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
   if(Num_sample<SAMPLE_COUNT)
   {
       if(temp_sample_event == 0)
-          temp_sample_event= infraredTemp_engine(temp_value);//读计数清零计数
+          temp_sample_event= EarthTemp_engine(temp_value);//读计数清零计数
 
     if((temp_sample_event == 1) && (sec_flag == 1))//没有采集完成
     {

@@ -42,7 +42,7 @@ extern unsigned char T3Timer_start;
 #define AirP_T3_STOP_COUNTING()      T3Timer_start = 0; T3IntCounter = 0
 
 
-void USART1_RX(void);
+void USART3_RX(void);
 extern void AirH_USART3_Init(void);
 extern unsigned char AirH_USART3_SendBytes(void);
 extern unsigned char AirH_USART3_GetProcessingPhase(void);

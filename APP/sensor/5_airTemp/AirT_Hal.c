@@ -28,6 +28,9 @@
 #define PARA_B 				-5.775E-7 
 #define STD_R_VALUE 	100.0       		            // 标准电阻值
 
+TIM_HandleTypeDef htim1;
+
+
 
 //static unsigned char DiWenChlNumber;							// 第几通道的地温
 //static unsigned char AD7792ChlNumber;							// AD7792第几通道

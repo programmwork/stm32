@@ -1,6 +1,7 @@
 #ifndef __AD7792_H
 #define __AD7792_H
 
+#include "main.h"
 
 
 #define AD7792_READ			0X40

@@ -120,9 +120,7 @@ typedef struct{
   uint16 historyPacketLen;
 }sensors_data_t;
 
-void check_event_sample(void);
-void check_event_calc(void);
-uint8 startupPrint(void);
-void Init_sys_cfg();
+
+void Init_sys_cfg(void);
 
 #endif

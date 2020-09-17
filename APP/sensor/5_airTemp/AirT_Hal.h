@@ -27,7 +27,7 @@
 
 #include "AirT_Sensor.h"
 
-extern void hal_sensor_init();
+extern void hal_sensor_init(void);
 extern unsigned char Sensor_Init(void);
 extern unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM]);
 extern void Reset_Sensor(void);

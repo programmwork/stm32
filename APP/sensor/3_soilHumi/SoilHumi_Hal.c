@@ -57,6 +57,9 @@ unsigned char T3Timer_start = 0;
 #define RS485_TX_EN()       P5OUT |=  RS485_BIT
 #define RS485_RX_EN()       P5OUT &=~ RS485_BIT
 
+TIM_HandleTypeDef htim1;
+
+
 /*
 *********************************************************************************************************
 ** 函数名称 ：void USART_Init(void)
@@ -175,7 +178,7 @@ unsigned char SOILMOISTURE_USART1_SendAudData(void)
 ** 出口参数 ：
 *********************************************************************************************************
 */
-void USART1_RX(void)
+void USART3_RX(void)
 { 
   static unsigned char revStep;
   

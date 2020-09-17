@@ -9,11 +9,6 @@
 
 #include "sensor_basic.h"
 
-extern unsigned char DS3231_ReadTime(s_RtcTateTime_t *prtc);
-extern unsigned char DS3231_SetTime(s_RtcTateTime_t *prtc);
-
-uint32 ChannelList[16] = {0x00000800,0x00001000,0x00002000,0x00004000,0x00008000,0x00010000,0x00020000,0x00040000,
-0x00080000,0x00100000,0x00200000,0x00400000,0x00800000,0x01000000,0x02000000,0x04000000};
 
 void Init_sys_cfg()
 {
@@ -101,50 +96,5 @@ void Init_sys_cfg()
 
     memset(&bcm_info.sensor.str_name,0,10*8);
     memset(&sensor_state,0,sizeof(sensor_state_t));  //板卡状态初始化
-}
-
-void check_event_sample(void)
-{
-    //查询是否到采样周期//秒级事件处理
-    if(m_tempdata.event.secevent==true)
-    {
-        m_tempdata.event.secevent=false;
-    
-        //每30分钟 的第50秒读硬时钟给软时钟校时
-        if((m_tempdata.m_RtcTateTime.min%30 == 0)&&(m_tempdata.m_RtcTateTime.sec == 50))
-        {
-            s_RtcTateTime_t time_struct_hardrtc_temp;
-            if(DS3231_ReadTime(&time_struct_hardrtc_temp)==1)  //时间校验正确才给软时钟校时
-            {
-                m_tempdata.m_RtcTateTime = time_struct_hardrtc_temp;
-            }
-        }
-
-        if(1 == Element_SecSample(&sensors_data))	//采集成功
-        {
-         //   flag_check_event = 0;//本采样周期内禁止采样
-        }
-    }
-}
-/*
-
-check_event_calc()
-check_event_storage()
-对实时性要求不高，可放到 MY_TEMP_EVT 事件里完成
-
-*/
-void check_event_calc(void)
-{
-    uint8 i = 0;
-
-    Element_MinSample(&sensors_data);
-
-    memset(&sensors_data.sendpacket,0,MAX_PKG_LEN);
-    sensors_data.sendpacketlen=GetMinData((char *)sensors_data.sendpacket,&sensors_data,1);
-    if(Flag_DataEmulationMode == 1)//需要输出采样数据包
-    {
-      for(i = 1;i<MAX_SENSOR_NUM;i++)
-        GetSampleData(&sensors_data,data_sample_buf_history,i);
-    } 
 }
 

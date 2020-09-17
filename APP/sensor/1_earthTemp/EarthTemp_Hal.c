@@ -28,6 +28,8 @@
 #define PARA_B 				-5.775E-7 
 #define STD_R_VALUE 	100.0       		            // 标准电阻值
 
+TIM_HandleTypeDef htim1;
+
 
 static unsigned char DiWenChlNumber;							// 第几通道的地温
 //static unsigned char AD7792ChlNumber;							// AD7792第几通道
@@ -48,7 +50,7 @@ static unsigned char DiWenChlNumber;							// 第几通道的地温
 
 #define SWITCH2_LOW()                HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
 #define SWITCH2_HIGH()               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_SET);
-********************************************************************************
+/********************************************************************************
 ** 函数名称 ：void Sensor_Init(void)
 ** 函数功能 ：
 ** 入口参数 ：

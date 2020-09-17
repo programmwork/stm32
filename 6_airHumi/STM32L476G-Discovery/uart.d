@@ -35,6 +35,7 @@ stm32l476g-discovery\uart.o: ..\FreeRTOS\Source\include\event_groups.h
 stm32l476g-discovery\uart.o: ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal.h
 stm32l476g-discovery\uart.o: ..\BSP\AD7792.h
 stm32l476g-discovery\uart.o: ..\BSP\W25Q128.h
+stm32l476g-discovery\uart.o: ..\BSP\ds3231.h
 stm32l476g-discovery\uart.o: ..\APP\sensor\sensor_basic.h
 stm32l476g-discovery\uart.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\time.h
 stm32l476g-discovery\uart.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\math.h

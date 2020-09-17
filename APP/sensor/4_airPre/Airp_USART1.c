@@ -134,7 +134,7 @@ unsigned char AirP_USART1_SendBytes(void)
 ** 出口参数 ：
 *********************************************************************************************************
 */
-void USART1_TX(void)
+void USART3_TX(void)
 {
 	if(TxRxIndex < TxRxLength)
 	{

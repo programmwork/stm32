@@ -20,6 +20,7 @@
 #include "sys_config.h"
 #include "AD7792.h"
 #include "W25Q128.h"
+#include "ds3231.h"
 
 
 

@@ -33,6 +33,6 @@ extern void Reset_Sensor(void);
 extern void hal_sensor_init(void);
 void Sensor_Init(void);
 void Init_Timer1(unsigned short delayMS);
-extern void USART1_RX(void);
+extern void USART3_RX(void);
 
 #endif

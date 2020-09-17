@@ -944,8 +944,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\APP\sensor\7_IRTemp\EarthTemp_Hal.c</PathWithFileName>
-      <FilenameWithoutPath>EarthTemp_Hal.c</FilenameWithoutPath>
+      <PathWithFileName>..\APP\sensor\7_infraredTemp\infraredTemp_Hal.c</PathWithFileName>
+      <FilenameWithoutPath>infraredTemp_Hal.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -956,8 +956,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\APP\sensor\7_IRTemp\EarthTemp_Sample.c</PathWithFileName>
-      <FilenameWithoutPath>EarthTemp_Sample.c</FilenameWithoutPath>
+      <PathWithFileName>..\APP\sensor\7_infraredTemp\infraredTemp_Sample.c</PathWithFileName>
+      <FilenameWithoutPath>infraredTemp_Sample.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -968,8 +968,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\APP\sensor\7_IRTemp\EarthTemp_Sensor.c</PathWithFileName>
-      <FilenameWithoutPath>EarthTemp_Sensor.c</FilenameWithoutPath>
+      <PathWithFileName>..\APP\sensor\7_infraredTemp\infraredTemp_Sensor.c</PathWithFileName>
+      <FilenameWithoutPath>infraredTemp_Sensor.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

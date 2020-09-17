@@ -32,6 +32,9 @@
 static unsigned char DiWenChlNumber;							// 第几通道的地温
 static unsigned char AD7792ChlNumber;							// AD7792第几通道
 
+TIM_HandleTypeDef htim1;
+
+
 
 // 通道1配置寄存器的值：偏置禁用、单极性编码、4倍增益、内部基准电压、缓冲使能、通道1采样
 #define DI_WEN_CHL0_CFG_REG_VAL 		0x1290
@@ -101,7 +104,7 @@ void hal_sensor_init()
 ** 出口参数 ：
 *********************************************************************************************************
 */
-void USART1_RX(void)
+void USART3_RX(void)
 {
 
 }
@@ -236,5 +239,4 @@ void Reset_Sensor(void)
 {
   Sensor_Init();
 }
-
 

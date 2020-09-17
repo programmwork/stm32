@@ -2,6 +2,8 @@
 #ifndef SOURCE_MODULE_FLASH_W25X16_H_
 #define SOURCE_MODULE_FLASH_W25X16_H_
 
+#include "main.h"
+
 #ifndef __W25Q128_H
 #define __W25Q128_H
 

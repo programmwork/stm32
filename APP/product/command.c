@@ -105,8 +105,6 @@ const bcm_control_t bcm_control={
     }
 };
 
-extern unsigned char DS3231_ReadTime(s_RtcTateTime_t *prtc);
-extern unsigned char DS3231_SetTime(s_RtcTateTime_t *prtc);
 
 int save_element(short temp_num, float temp_min, float temp_max, char *temp_doubt, char *temp_err, char *temp_change, qm_t *temp_qm);   //¥Ê¥¢QS
 int check_element(short temp_num, qm_t *temp_qm);                //–£—ÈQS

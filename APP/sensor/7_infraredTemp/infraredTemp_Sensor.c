@@ -10,8 +10,6 @@
 #include "sensor_basic.h"
 
 
-
-
 void Init_sys_cfg()
 {
     unsigned char i;
