@@ -203,7 +203,7 @@ uint8_t Check_ADC(uint16_t *date)
     }
 }
 
-U8 Start_ADC(uint8_t channel)
+void Start_ADC(uint8_t channel)
 {
     uint32_t adc_channel = 0;
     ADC_ChannelConfTypeDef sConfig = {0};
@@ -325,9 +325,7 @@ U8 Start_ADC(uint8_t channel)
         }
         
         default:
-        {
-            return 0;
-        }
+            break;
          
     }
 
@@ -345,6 +343,8 @@ U8 Start_ADC(uint8_t channel)
 
     HAL_ADC_Start(&hadc1);
     HAL_ADCEx_Calibration_Start(&hadc1 ,ADC_SINGLE_ENDED);//ADУ׼
+
+    return;
 }
 //----------------------------------------------------------
 //

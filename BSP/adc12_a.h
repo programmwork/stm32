@@ -54,7 +54,7 @@ void ADC_Power_ON(void);
 void ADC_Power_OFF(void);
 void Init_ADC(void);
 U8   Check_ADC(U16 *date);
-U8 Start_ADC(U8 channel);
+void Start_ADC(U8 channel);
 
 void ADC_Wind_Power_ON(void);
 void ADC_Wind_Power_OFF(void);

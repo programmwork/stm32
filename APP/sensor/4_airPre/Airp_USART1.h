@@ -27,7 +27,7 @@
 
 unsigned char AirP_TxRxIndex;
 
-extern unsigned char   AirP_UartProcessingPhase;
+extern unsigned char   UartProcessingPhase;
 extern unsigned char RevStep;
 
 static unsigned int AirP_T3IntCounter;

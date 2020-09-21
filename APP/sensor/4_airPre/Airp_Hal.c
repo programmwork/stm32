@@ -62,7 +62,7 @@ unsigned char Airp_engine(float *result)
 
     while(count--)
     {
-        if(USART_PROCESSING_FINISH == AirP_UartProcessingPhase)
+        if(USART_PROCESSING_FINISH == UartProcessingPhase)
         {
             break;        
         }
@@ -82,7 +82,7 @@ unsigned char Airp_engine(float *result)
                 RevStep = 1;
                 uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("01:R\r\n") - 1);
 
-                AirP_UartProcessingPhase = USART_PROCESSING_SENDING;
+                UartProcessingPhase = USART_PROCESSING_SENDING;
                 AirP_T3_START_COUNTING();
 
                 return 0;																							        // 韫囷�?
@@ -116,7 +116,7 @@ unsigned char Airp_engine(float *result)
                 RevStep = 1;
                 uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("01:R\r\n") - 1);
 
-                AirP_UartProcessingPhase = USART_PROCESSING_SENDING;
+                UartProcessingPhase = USART_PROCESSING_SENDING;
                 AirP_T3_START_COUNTING();                                                                                                // 韫囷�?
             }
                 return 1;																							    // 鐠佸墽鐤嗛幋鎰�?
@@ -173,7 +173,7 @@ unsigned char Airp_engine(float *result)
         RevStep = 1;
         uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("01:R\r\n") - 1);
 
-        AirP_UartProcessingPhase = USART_PROCESSING_SENDING;
+        UartProcessingPhase = USART_PROCESSING_SENDING;
         AirP_T3_START_COUNTING();
 
         return 0;																							        // 韫囷�?
@@ -207,7 +207,7 @@ unsigned char Airp_engine(float *result)
           RevStep = 1;
           uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("01:R\r\n") - 1);
 
-          AirP_UartProcessingPhase = USART_PROCESSING_SENDING;
+          UartProcessingPhase = USART_PROCESSING_SENDING;
           AirP_T3_START_COUNTING();                                                                                                // 韫囷�?
       }
 
@@ -291,7 +291,7 @@ __interrupt void TIMERB0_ISR(void)
 
         if(T3IntCounter > 19)  //1绉�
         {
-            AirP_UartProcessingPhase = USART_PROCESSING_ERR;
+            UartProcessingPhase = USART_PROCESSING_ERR;
 
             AirP_T3_STOP_COUNTING();
         }

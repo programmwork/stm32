@@ -22,7 +22,7 @@ unsigned char  TxRxLength;											// 接收发送数据长度
 
 unsigned char AirP_TxRxIndex;
 
-unsigned char AirP_UartProcessingPhase;
+unsigned char UartProcessingPhase;
 unsigned char AirP_RevStep;
 
 static  unsigned int AirP_T3IntCounter;
@@ -51,7 +51,7 @@ void AirH_USART3_Init(void)
 
     AirP_T3_STOP_COUNTING();
     
-    AirP_UartProcessingPhase = USART_PROCESSING_IDEL;  // 串口空闲 
+    UartProcessingPhase = USART_PROCESSING_IDEL;  // 串口空闲 
   }
   else if(bcm_info.sensor.ce == 3)
   {
@@ -70,7 +70,7 @@ void AirH_USART3_Init(void)
 */
 unsigned char AirP_USART1_GetProcessingPhase(void)
 {
-	return AirP_UartProcessingPhase;
+	return UartProcessingPhase;
 }
 
 /*
@@ -91,7 +91,7 @@ void AirP_USART1_ResetProcessingPhase(void)
   
 	RevStep = 0;
   
-  AirP_UartProcessingPhase = USART_PROCESSING_IDEL;
+  UartProcessingPhase = USART_PROCESSING_IDEL;
 }
 
 /*
@@ -107,7 +107,7 @@ unsigned char AirP_USART1_SendBytes(void)
 {	
 	if(TxRxLength > AirP_TX_RX_BUFF_LEN)  return 0; 
     
-  if(AirP_UartProcessingPhase != USART_PROCESSING_IDEL)	return 0;		// 串口忙
+  if(UartProcessingPhase != USART_PROCESSING_IDEL)	return 0;		// 串口忙
 		
   USCI_A_UART_disableInterrupt(USCI_A1_BASE, USCI_A_UART_RECEIVE_INTERRUPT);																			// 禁止接收中断
   UCA1IFG &= ~UCTXIFG;                                     // 接收中断标志位清零
@@ -120,7 +120,7 @@ unsigned char AirP_USART1_SendBytes(void)
 
 	USCI_A_UART_enableInterrupt(USCI_A1_BASE, USCI_A_UART_TRANSMIT_INTERRUPT);		// 使能发送中断
 	
-	AirP_UartProcessingPhase = USART_PROCESSING_SENDING;// 正在发送数据
+	UartProcessingPhase = USART_PROCESSING_SENDING;// 正在发送数据
 	
 	return 1;                                       // 成功
 }
@@ -144,7 +144,7 @@ void USART3_TX(void)
 	{
 		USCI_A_UART_disableInterrupt(USCI_A1_BASE, USCI_A_UART_TRANSMIT_INTERRUPT);
 		
-		AirP_UartProcessingPhase = USART_PROCESSING_RECEIVING;		// 正在接收数据
+		UartProcessingPhase = USART_PROCESSING_RECEIVING;		// 正在接收数据
 		
 		USCI_A_UART_enableInterrupt(USCI_A1_BASE, USCI_A_UART_RECEIVE_INTERRUPT);    // 使能接收中断
     
@@ -185,7 +185,7 @@ unsigned char Airp_USART1_TK_Check(unsigned long *pAirp)
 ** 出口参数 ：
 *********************************************************************************************************
 */
-void USART1_RX(void)
+void USART3_RX(void)
 { 	
 	unsigned char td;
 	
@@ -209,7 +209,7 @@ void USART1_RX(void)
           RevStep = 0;	              // 不接收任何数据
           //URX1IE = 0;											// 禁止接收中断
           //URX1IF = 0;
-          AirP_UartProcessingPhase = USART_PROCESSING_ERR;
+          UartProcessingPhase = USART_PROCESSING_ERR;
         }
         else
         {
@@ -225,11 +225,11 @@ void USART1_RX(void)
       {
         TxRxBuffer[TxRxIndex] = 0;				// 将接收的数据转换成字符串（不是必须）
         TxRxLength = TxRxIndex;						// 数据帧长度，不包括字符串最后接收的回车换行
-        AirP_UartProcessingPhase = USART_PROCESSING_FINISH;	// 已经接收到正确的ADU数据帧
+        UartProcessingPhase = USART_PROCESSING_FINISH;	// 已经接收到正确的ADU数据帧
       }
       else
       {
-        AirP_UartProcessingPhase = USART_PROCESSING_ERR;			// 接收的数据帧错误，串口空闲
+        UartProcessingPhase = USART_PROCESSING_ERR;			// 接收的数据帧错误，串口空闲
       }
       
       //URX1IE = 0;													    // 禁止接收中断
