@@ -8,6 +8,12 @@
 
 #include "sensor_basic.h"
 
+extern uint8 Check_RDY(uint8 state, uint32 timeout);
+#define PARA_A 				3.9083E-3 	   	            // 温度系数
+#define PARA_B 				-5.775E-7 
+#define STD_R_VALUE 	100.0       		            // 标准电阻值
+
+
 void autosend()
 {
     //check ft time
@@ -27,7 +33,7 @@ void autosend()
     }
 
 }
-
+float result[2];
 void time_task(void *pvParameters)
 {
     static U16 p_msec=0xFF;
@@ -35,10 +41,182 @@ void time_task(void *pvParameters)
     static U8 p_min=0xFF;
     static U8 p_hour=0xFF;
 
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
+
+
+    uint32_t i = 0, j = 0, k = 0;
+    uint8_t str[256];
+    uint8_t readstr[256];
+    uint32_t error = 0;
 
 
 
+    uint8 count = 50, readAD[2], readSTAT = 0;
+    unsigned long result_0, result_1;
+    float fp32_1;
 
+    
+    
+while(1)
+{/*//实时时钟芯片
+    int value = 0;
+
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_SET);
+    
+    //DS3231_ReadTemperature(&value);
+
+
+    DS3231_SetTime(&m_tempdata.m_RtcTateTime);
+
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
+    
+
+    vTaskDelay(20);
+
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_SET);
+
+    DS3231_ReadTime(&m_tempdata.m_RtcTateTime);
+
+     HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
+    
+
+    vTaskDelay(20);*/
+		
+////////////////////flash芯片//////////////////////
+
+    /*for (i = 0; i < 10; i++)
+        {
+            for (j = 0; j < 256; j++)
+            {
+                if ((j % 2) == 0)
+                {
+                    str[j] = i;
+                }
+                else
+                {
+                    str[j] = (j / 2) + 1;
+                }
+            }
+
+
+            
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_SET);
+    W25Q128_Erase_Chip(W25Q128_ERS_SEC, 0);//adr = 0x00 || 2560 << 8 || 25600 << 8 
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
+    
+    vTaskDelay(20);
+
+    //HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_SET);
+    W25Q128_Data_Prog(0, str, sizeof(str));
+    //HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
+    
+    vTaskDelay(20);
+
+    //HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_SET);
+    W25Q128_Data_Read(0, readstr, sizeof(readstr));
+    //HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
+    
+    vTaskDelay(20);
+
+    for(k = 0;k < 256; k++)
+    {
+        if(str[k] == readstr[k])
+        {
+           
+        }
+        else
+        {
+           error++;//不一样
+        }
+    }
+
+    vTaskDelay(20);
+    }*/
+
+        
+
+
+////////////////////ad7792芯片///////////////////////
+HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_SET);
+
+
+
+    if(Check_RDY(AD7792_STAT_NRDY, 10))
+    {
+			
+        // AD7792转换第0通道的数据
+        AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
+                      |AD7792_CFG_POR_U
+                      |AD7792_CFG_GAIN_4
+                      |AD7792_CFG_REF_EXT
+                      |AD7792_CFG_BUFFER
+                      |AD7792_CFG_SEL_CH0
+                      );
+
+        AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
+                      |AD7792_MODE_CLK_INT64
+                      |AD7792_MODE_RATE_17
+                      );      
+       
+
+        if(Check_RDY(0, 200)) //0：转换完成
+        {
+            AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
+            
+            //通道1的采样值
+            result_0 = (readAD[0] << 8) + readAD[1];
+            HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_SET);
+
+            //加检测是否读取成功了，用封号的函数
+            //判断成功以后才开始 AD7792转换第1通道的数据
+            if(Check_RDY(AD7792_STAT_NRDY, 10))
+            {
+                AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
+                              |AD7792_CFG_POR_U
+                              |AD7792_CFG_GAIN_4
+                              |AD7792_CFG_REF_EXT
+                              |AD7792_CFG_BUFFER
+                              |AD7792_CFG_SEL_CH1
+                              );
+
+                AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
+                              |AD7792_MODE_CLK_INT64
+                              |AD7792_MODE_RATE_17
+                              );
+
+
+                if(Check_RDY(0, 200))
+                {
+                    AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
+
+
+                    //通道2的采样值
+                    result_1 = (readAD[0] << 8) + readAD[1];       
+                
+                    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_0,GPIO_PIN_RESET);
+
+                    // 计算电阻值
+                    fp32_1 = (((float)result_0) * STD_R_VALUE) / result_1;
+
+                    // 计算温度值
+                    fp32_1 = (float)(((-PARA_A+sqrt(PARA_A*PARA_A-4*PARA_B*(1-(fp32_1)/100)))/(2*PARA_B)));
+
+                    result[0] = fp32_1;
+
+                            
+                }        
+            }
+        }
+    }
+    else
+    {
+            AD7792_Init();
+    }
+    
+    
+}
 
 
     while(1)

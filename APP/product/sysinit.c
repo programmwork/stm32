@@ -91,8 +91,8 @@ void sysinit(void)
     sys_cfg_init();     //系统参数从FLASH或内存中获取
     tempdata_init(&m_tempdata);//临时变量初始化，全局参数初始化
     
-    Uart_CFG(1, 1);
-    Uart_CFG(2, 1);
+    //Uart_CFG(1, 1);
+    //Uart_CFG(2, 1);
     
     //主串口初始化
     uart_CBD CBD = {0};
@@ -108,7 +108,7 @@ void sysinit(void)
     CBD.pri_r = COM_RECV_PRIORITY;
     CBD.heap_r_size = TASK_RECV_STACK_SIZE;
     
-    UartOpen( &CBD );
+    //UartOpen( &CBD );
     
     //串口2初始化
     uart_CBD CBD1 = {0};
@@ -124,7 +124,7 @@ void sysinit(void)
     CBD1.pri_r = COM_RECV_PRIORITY;
     CBD1.heap_r_size = TASK_RECV_STACK_SIZE;
 
-    UartOpen( &CBD1 );//
+    //UartOpen( &CBD1 );//
     
     DS3231_ReadTime(&m_tempdata.m_RtcTateTime);
 	Init_ADC();

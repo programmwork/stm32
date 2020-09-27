@@ -170,7 +170,7 @@ void SysTick_Handler(void)
     }
 
 
-    Datetime_up();
+    //Datetime_up();
 	
 	/* USER CODE END SysTick_IRQn 1 */
 }
