@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32L476G-Discovery\STM32L476G-Discovery.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32L476G-Discovery\STM32L476G-Discovery.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Sep 17 10:54:11 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Sep 27 11:03:06 2020
 <BR><P>
 <H3>Maximum Stack Usage =       1440 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1176,12 +1176,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_Start
 </UL>
 
-<P><STRONG><a name="[cc]"></a>AirTemp_engine</STRONG> (Thumb, 302 bytes, Stack size 32 bytes, airt_hal.o(i.AirTemp_engine))
+<P><STRONG><a name="[cc]"></a>AirTemp_engine</STRONG> (Thumb, 314 bytes, Stack size 32 bytes, airt_hal.o(i.AirTemp_engine))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = AirTemp_engine &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AD7792_Set_Mode
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AD7792_Set_Cfg
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AD7792_Red_Reg
+<LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
@@ -1225,7 +1226,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BanWenBanYa_engine
 </UL>
 
-<P><STRONG><a name="[cd]"></a>Check_RDY</STRONG> (Thumb, 54 bytes, Stack size 16 bytes, airt_hal.o(i.Check_RDY))
+<P><STRONG><a name="[cd]"></a>Check_RDY</STRONG> (Thumb, 52 bytes, Stack size 16 bytes, airt_hal.o(i.Check_RDY))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = Check_RDY &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AD7792_Red_Reg
@@ -2046,7 +2047,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetMinData
 </UL>
 
-<P><STRONG><a name="[d2]"></a>Start_ADC</STRONG> (Thumb, 174 bytes, Stack size 40 bytes, adc12_a.o(i.Start_ADC))
+<P><STRONG><a name="[d2]"></a>Start_ADC</STRONG> (Thumb, 170 bytes, Stack size 40 bytes, adc12_a.o(i.Start_ADC))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = Start_ADC &rArr; HAL_ADCEx_Calibration_Start &rArr; ADC_Disable
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_Start
@@ -3927,6 +3928,7 @@ Global Symbols
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartRecv_2
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartRecv_1
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_RDY
+<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AirTemp_engine
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uartprocess_task
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;time_task
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readdata_task

@@ -112,6 +112,36 @@ void USART3_RX(void)
 {
 
 }
+
+/*
+********************************************************************************
+** 函数名称 ：uint8 Check_RDY(uint8 state, uint32 timeout)
+** 函数功能 ：
+** 入口参数 ：state 1:未完成         0：完成
+**
+** 出口参数 ：
+********************************************************************************
+*/ 
+uint8 Check_RDY(uint8 state, uint32 timeout)
+{
+    uint8 readSTAT = 0;
+
+    while(timeout--)
+    {        
+        
+        AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );//把寄存器状态写入readSTAT  
+        
+        if((readSTAT & AD7792_STAT_NRDY) == state)
+        {
+            return 1;//success
+        }
+
+        vTaskDelay(1);
+
+    }
+    return 0;//error
+}
+
 /*
 ********************************************************************************
 ** 函数名称 ：unsigned char infraredTemp_engine(float Result[5]) 
@@ -146,95 +176,68 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
         else if(i == 6)      {SWITCH0_LOW();  SWITCH1_HIGH(); SWITCH2_HIGH();}
         else if(i == 7)      {SWITCH0_HIGH(); SWITCH1_HIGH(); SWITCH2_HIGH();}
 
-        // AD7792转换第0通道的数据
-        AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
-                      |AD7792_CFG_POR_U
-                      |AD7792_CFG_GAIN_4
-                      |AD7792_CFG_REF_EXT
-                      |AD7792_CFG_BUFFER
-                      |AD7792_CFG_SEL_CH0
-                      );
-    
-        AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
-                      |AD7792_MODE_CLK_INT64
-                      |AD7792_MODE_RATE_17
-                      );
-        
-        AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
-           
-        //通道0转换
-        count = 50;
-        while(count--)
+        if(Check_RDY(AD7792_STAT_NRDY, 10))
         {
-            vTaskDelay(10);
 
-            if((readSTAT & AD7792_STAT_NRDY) == 0)
-            {
-               break;        
-            }
-
-            AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
-        }
-        
-        if(count > 0)
-        {            
-            AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
-            
-            //通道1的采样值
-            result_0 = (readAD[0] << 8) + readAD[1];
-
-            // AD7792转换第1通道的数据
+            // AD7792转换第0通道的数据
             AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
-                      |AD7792_CFG_POR_U
-                      |AD7792_CFG_GAIN_4
-                      |AD7792_CFG_REF_EXT
-                      |AD7792_CFG_BUFFER
-                      |AD7792_CFG_SEL_CH1
-                      );
-
+                          |AD7792_CFG_POR_U
+                          |AD7792_CFG_GAIN_4
+                          |AD7792_CFG_REF_EXT
+                          |AD7792_CFG_BUFFER
+                          |AD7792_CFG_SEL_CH0
+                          );
+        
             AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
-                      |AD7792_MODE_CLK_INT64
-                      |AD7792_MODE_RATE_17
-                      );
-
-            AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
-        
-            //通道2转换
-            count = 50;
-            while(count--)
-            {
-                vTaskDelay(10);
-                
-                if((readSTAT & AD7792_STAT_NRDY) == 0)
-                {
-                    break;        
-                }
-
-                AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
-            }
-
-            if(count > 0)
-            {
+                          |AD7792_MODE_CLK_INT64
+                          |AD7792_MODE_RATE_19
+                          );
+            vTaskDelay( 100 );
+            if(Check_RDY(0, 10))
+            {            
                 AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
-
-                //通道2的采样值
-                result_1 = (readAD[0] << 8) + readAD[1];
-
-                 // 计算电阻值
-                fp32_1 = (((float)result_0) * STD_R_VALUE) / result_1;
                 
-                // 计算温度值
-                fp32_1 = (float)(((-PARA_A+sqrt(PARA_A*PARA_A-4*PARA_B*(1-(fp32_1)/100)))/(2*PARA_B)));
+                //通道1的采样值
+                result_0 = (readAD[0] << 8) + readAD[1];
+                
+                if(Check_RDY(AD7792_STAT_NRDY, 10))
+                {
+                    // AD7792转换第1通道的数据
+                    AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
+                              |AD7792_CFG_POR_U
+                              |AD7792_CFG_GAIN_4
+                              |AD7792_CFG_REF_EXT
+                              |AD7792_CFG_BUFFER
+                              |AD7792_CFG_SEL_CH1
+                              );
 
-                result[i] = fp32_1;
+                    AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
+                              |AD7792_MODE_CLK_INT64
+                              |AD7792_MODE_RATE_19
+                              );
+
+                    vTaskDelay( 100 );
+
+                    if(Check_RDY(0, 10))
+                    {
+                        AD7792_Red_Reg( AD7792_REG_DATA, readAD, 2 );
+
+                        //通道2的采样值
+                        result_1 = (readAD[0] << 8) + readAD[1];
+
+                         // 计算电阻值
+                        fp32_1 = (((float)result_0) * STD_R_VALUE) / result_1;
+                        
+                        // 计算温度值
+                        fp32_1 = (float)(((-PARA_A+sqrt(PARA_A*PARA_A-4*PARA_B*(1-(fp32_1)/100)))/(2*PARA_B)));
+
+                        result[i] = fp32_1;
+                    }
+                }
             }
-            
-           result[i] = INVALID_DATA;
-        }
-        
+        }        
         result[i] = INVALID_DATA;
     }
-
     return 1;																												// 数据无效
 }
 

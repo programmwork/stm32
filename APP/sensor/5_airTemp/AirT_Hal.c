@@ -74,15 +74,14 @@ uint8 Check_RDY(uint8 state, uint32 timeout)
     {        
         
         AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );//把寄存器状态写入readSTAT  
-
-        vTaskDelay(1);
         
         if((readSTAT & AD7792_STAT_NRDY) == state)
         {
             return 1;//success
         }
+        
+        vTaskDelay(1);
 
-        AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );
     }
     return 0;//error
 }
@@ -133,7 +132,7 @@ unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM])
     unsigned long result_0, result_1;
     float fp32_1;
 
-    if(Check_RDY(AD7792_STAT_NRDY, 50))
+    if(Check_RDY(AD7792_STAT_NRDY, 10))
     {
         // AD7792转换第0通道的数据
         AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
@@ -147,7 +146,9 @@ unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM])
         AD7792_Set_Mode(AD7792_MODE_CONV_ONCE
                       |AD7792_MODE_CLK_INT64
                       |AD7792_MODE_RATE_17
-                      );      
+                      );
+        
+        vTaskDelay( 100 );
 
         if(Check_RDY(0, 50)) //0：转换完成
         {
@@ -160,7 +161,7 @@ unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM])
 
             //加检测是否读取成功了，用封号的函数
             //判断成功以后才开始 AD7792转换第1通道的数据
-            if(Check_RDY(AD7792_STAT_NRDY, 50))
+            if(Check_RDY(AD7792_STAT_NRDY, 10))
             {
                 AD7792_Set_Cfg( AD7792_CFG_VBIAS_DIS
                               |AD7792_CFG_POR_U
@@ -175,6 +176,7 @@ unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM])
                               |AD7792_MODE_RATE_17
                               );
 
+                vTaskDelay( 100 );
 
                 if(Check_RDY(0, 50))
                 {

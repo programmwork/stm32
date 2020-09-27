@@ -130,7 +130,7 @@ void AD7792_Set_Mode( uint16_t mode )
 
 	AD7792_Set_Reg( AD7792_REG_MODE, buf, 2 );
 
-	vTaskDelay( 10 );
+	vTaskDelay( 1 );
 
 	//AD7792_Red_Reg( AD7792_REG_MODE, buf, 2 );
 	//uart_printf( 0, "MODE: %02X %02X\r\n", buf[0], buf[1] );
@@ -147,7 +147,7 @@ void AD7792_Set_Cfg( uint16_t cfg )
 
 	AD7792_Set_Reg( AD7792_REG_CFG, buf, 2 );
 
-	vTaskDelay( 10 );
+	vTaskDelay( 1 );
 
 	//AD7792_Red_Reg( AD7792_REG_CFG, buf, 2 );
 	//uart_printf( 0, " CFG: %02X %02X\r\n", buf[0], buf[1] );
@@ -161,7 +161,7 @@ void AD7792_Set_IO( uint8_t ctl )
 
 	AD7792_Set_Reg( AD7792_REG_IO, &ctl, 1 );
 
-	vTaskDelay( 10 );
+	vTaskDelay( 1 );
 
 	//AD7792_Red_Reg( AD7792_REG_IO, buf, 1 );
 	//uart_printf( 0, "  IO: %02X\r\n", buf[0] );

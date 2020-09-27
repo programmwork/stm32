@@ -28,13 +28,13 @@ Project File Date:  09/17/2020
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\software\Keil\ARM\ARMCC\Bin'
 Rebuild target 'STM32L476G-Discovery'
 compiling croutine.c...
-compiling queue.c...
 compiling list.c...
 compiling heap_4.c...
 compiling event_groups.c...
-assembling startup_stm32l431xx.s...
 compiling port.c...
+compiling queue.c...
 compiling timers.c...
+assembling startup_stm32l431xx.s...
 compiling bsp_led.c...
 compiling tasks.c...
 compiling cmsis_os.c...
@@ -52,24 +52,6 @@ compiling ds3231.c...
 ..\BSP\ds3231.c(279): warning:  #1035-D: single-precision operand implicitly converted to double-precision
       *pdat = (int)((fTempNum+0.05)*10);//四舍五入，放大十倍输出，如16.22输出162,16.26输出163
 ..\BSP\ds3231.c: 6 warnings, 0 errors
-compiling spi.c...
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\spi.c(90): warning:  #940-D: missing return statement at end of non-void function "SPIInit" 
-  }
-..\BSP\spi.c: 3 warnings, 0 errors
-compiling W25Q128.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\BSP\W25Q128.c(11): warning:  #177-D: variable "tmp"  was declared but never referenced
-  	uint8_t tmp = 0;
-..\BSP\W25Q128.c(12): warning:  #177-D: variable "buf"  was declared but never referenced
-  	uint8_t buf[32] = {0};
-..\BSP\W25Q128.c: 4 warnings, 0 errors
 compiling i2c.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
@@ -82,16 +64,24 @@ compiling system_stm32l4xx.c...
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\APP\system_stm32l4xx.c: 2 warnings, 0 errors
-compiling uart.c...
+compiling W25Q128.c...
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\BSP\W25Q128.c(11): warning:  #177-D: variable "tmp"  was declared but never referenced
+  	uint8_t tmp = 0;
+..\BSP\W25Q128.c(12): warning:  #177-D: variable "buf"  was declared but never referenced
+  	uint8_t buf[32] = {0};
+..\BSP\W25Q128.c: 4 warnings, 0 errors
+compiling spi.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\uart.c(665): warning:  #177-D: variable "stat"  was declared but never referenced
-  	uint8_t stat = 0;
-..\BSP\uart.c(732): warning:  #177-D: variable "stat"  was declared but never referenced
-  	uint8_t stat = 0;
-..\BSP\uart.c: 4 warnings, 0 errors
+..\BSP\spi.c(90): warning:  #940-D: missing return statement at end of non-void function "SPIInit" 
+  }
+..\BSP\spi.c: 3 warnings, 0 errors
 compiling AD7792.c...
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
@@ -102,26 +92,22 @@ compiling AD7792.c...
 ..\BSP\AD7792.c(160): warning:  #177-D: variable "buf"  was declared but never referenced
   	uint8_t buf[2] = {0};
 ..\BSP\AD7792.c: 4 warnings, 0 errors
-compiling stm32l4xx_hal_cortex.c...
+compiling uart.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_cortex.c: 2 warnings, 0 errors
+..\BSP\uart.c(665): warning:  #177-D: variable "stat"  was declared but never referenced
+  	uint8_t stat = 0;
+..\BSP\uart.c(732): warning:  #177-D: variable "stat"  was declared but never referenced
+  	uint8_t stat = 0;
+..\BSP\uart.c: 4 warnings, 0 errors
 compiling stm32l4xx_hal_comp.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_comp.c: 2 warnings, 0 errors
-compiling adc12_a.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\BSP\adc12_a.c(348): warning:  #940-D: missing return statement at end of non-void function "Start_ADC" 
-  }
-..\BSP\adc12_a.c: 3 warnings, 0 errors
 compiling stm32l4xx_hal.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
@@ -134,6 +120,18 @@ compiling stm32l4xx_hal_dma.c...
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_dma.c: 2 warnings, 0 errors
+compiling stm32l4xx_hal_cortex.c...
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_cortex.c: 2 warnings, 0 errors
+compiling adc12_a.c...
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\BSP\adc12_a.c: 2 warnings, 0 errors
 compiling stm32l4xx_hal_adc_ex.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
@@ -146,42 +144,42 @@ compiling stm32l4xx_hal_adc.c...
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_adc.c: 2 warnings, 0 errors
-compiling stm32l4xx_hal_i2c_ex.c...
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_i2c_ex.c: 2 warnings, 0 errors
-compiling stm32l4xx_hal_firewall.c...
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_firewall.c: 2 warnings, 0 errors
 compiling stm32l4xx_hal_dma_ex.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_dma_ex.c: 2 warnings, 0 errors
+compiling stm32l4xx_hal_firewall.c...
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_firewall.c: 2 warnings, 0 errors
+compiling stm32l4xx_hal_i2c_ex.c...
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_i2c_ex.c: 2 warnings, 0 errors
 compiling stm32l4xx_hal_gpio.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_gpio.c: 2 warnings, 0 errors
-compiling stm32l4xx_hal_flash.c...
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash.c: 2 warnings, 0 errors
 compiling stm32l4xx_hal_tim.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_tim.c: 2 warnings, 0 errors
+compiling stm32l4xx_hal_flash.c...
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash.c: 2 warnings, 0 errors
 compiling stm32l4xx_hal_i2c.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
@@ -194,54 +192,54 @@ compiling stm32l4xx_hal_uart_ex.c...
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_uart_ex.c: 2 warnings, 0 errors
-compiling stm32l4xx_hal_tim_ex.c...
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_tim_ex.c: 2 warnings, 0 errors
 compiling stm32l4xx_hal_flash_ex.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash_ex.c: 2 warnings, 0 errors
-compiling stm32l4xx_hal_uart.c...
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_uart.c: 2 warnings, 0 errors
-compiling stm32l4xx_hal_spi.c...
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_spi.c: 2 warnings, 0 errors
 compiling stm32l4xx_hal_rcc.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_rcc.c: 2 warnings, 0 errors
+compiling stm32l4xx_hal_tim_ex.c...
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_tim_ex.c: 2 warnings, 0 errors
+compiling stm32l4xx_hal_spi.c...
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_spi.c: 2 warnings, 0 errors
+compiling stm32l4xx_hal_uart.c...
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_uart.c: 2 warnings, 0 errors
 compiling stm32l4xx_hal_rcc_ex.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_rcc_ex.c: 2 warnings, 0 errors
-compiling stm32l4xx_hal_flash_ramfunc.c...
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash_ramfunc.c: 2 warnings, 0 errors
 compiling stm32l4xx_hal_msp.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\APP\stm32l4xx_hal_msp.c: 2 warnings, 0 errors
+compiling stm32l4xx_hal_flash_ramfunc.c...
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash_ramfunc.c: 2 warnings, 0 errors
 compiling stm32l4xx_it.c...
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
@@ -324,12 +322,6 @@ compiling command.c...
 ..\APP\product\command.c(3708): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                       temp_qs->max    = temp_max / 0.029530;
 ..\APP\product\command.c: 16 warnings, 0 errors
-compiling AirT_Sensor.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\APP\sensor\5_airTemp\AirT_Sensor.c: 2 warnings, 0 errors
 compiling sysinit.c...
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
@@ -342,24 +334,44 @@ compiling sysinit.c...
 ..\APP\product\sysinit.c(348): warning:  #177-D: variable "i"  was declared but never referenced
       U8 i, sn_buf[40];
 ..\APP\product\sysinit.c: 5 warnings, 0 errors
-compiling AirT_Hal.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\APP\sensor\5_airTemp\AirT_Hal.c(187): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-                      fp32_1 = (((float)result_0) * STD_R_VALUE) / result_1;
-..\APP\sensor\5_airTemp\AirT_Hal.c(131): warning:  #177-D: variable "count"  was declared but never referenced
-      uint8 count = 50, readAD[2], readSTAT = 0;
-..\APP\sensor\5_airTemp\AirT_Hal.c(131): warning:  #177-D: variable "readSTAT"  was declared but never referenced
-      uint8 count = 50, readAD[2], readSTAT = 0;
-..\APP\sensor\5_airTemp\AirT_Hal.c: 5 warnings, 0 errors
 compiling uartprocess.c...
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
 ..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
   /*
 ..\APP\product\uartprocess.c: 2 warnings, 0 errors
+compiling AirT_Sample.c...
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\APP\sensor\5_airTemp\AirT_Sample.c(301): warning:  #177-D: variable "j"  was declared but never referenced
+    unsigned char i = 0, j = 0, count = 0;
+..\APP\sensor\5_airTemp\AirT_Sample.c: 3 warnings, 0 errors
+compiling AirT_Sensor.c...
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\APP\sensor\5_airTemp\AirT_Sensor.c: 2 warnings, 0 errors
+compiling sensor_process.c...
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\APP\sensor\sensor_process.c: 2 warnings, 0 errors
+compiling AirT_Hal.c...
+..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
+  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
+..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
+  /*
+..\APP\sensor\5_airTemp\AirT_Hal.c(190): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                      fp32_1 = (((float)result_0) * STD_R_VALUE) / result_1;
+..\APP\sensor\5_airTemp\AirT_Hal.c(131): warning:  #177-D: variable "count"  was declared but never referenced
+      uint8 count = 50, readAD[2], readSTAT = 0;
+..\APP\sensor\5_airTemp\AirT_Hal.c(131): warning:  #177-D: variable "readSTAT"  was declared but never referenced
+      uint8 count = 50, readAD[2], readSTAT = 0;
+..\APP\sensor\5_airTemp\AirT_Hal.c: 5 warnings, 0 errors
 compiling sensor_basic.c...
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
@@ -372,23 +384,9 @@ compiling sensor_basic.c...
 ..\APP\sensor\sensor_basic.c(87): warning:  #1035-D: single-precision operand implicitly converted to double-precision
           fp_1 = (3.3 * (float)value) / 4096;                                     // 求出电压值
 ..\APP\sensor\sensor_basic.c: 5 warnings, 0 errors
-compiling sensor_process.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\APP\sensor\sensor_process.c: 2 warnings, 0 errors
-compiling AirT_Sample.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\ds3231.h(36): warning:  #9-D: nested comment is not allowed
-  /*
-..\APP\sensor\5_airTemp\AirT_Sample.c(301): warning:  #177-D: variable "j"  was declared but never referenced
-    unsigned char i = 0, j = 0, count = 0;
-..\APP\sensor\5_airTemp\AirT_Sample.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=63964 RO-data=2416 RW-data=304 ZI-data=35432  
-"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 132 Warning(s).
+Program Size: Code=63972 RO-data=2416 RW-data=304 ZI-data=35432  
+"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 131 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -411,7 +409,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:02:03
+Build Time Elapsed:  00:01:48
 </pre>
 </body>
 </html>
