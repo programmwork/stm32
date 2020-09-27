@@ -204,11 +204,11 @@ unsigned char DS3231_SetTime(s_RtcTateTime_t *prtc)
 	mem[1] = char_trans_bcd(prtc->min);
 	mem[2] = char_trans_bcd(prtc->hour);
 	//temp = char_trans_bcd(prtc->wday);
-	mem[3] = char_trans_bcd(prtc->day);
-	mem[4] = char_trans_bcd(prtc->month);
+	mem[4] = char_trans_bcd(prtc->day);
+	mem[5] = char_trans_bcd(prtc->month);
 
 	year = prtc->year - 2000;
-	mem[5] = char_trans_bcd(year);
+	mem[6] = char_trans_bcd(year);
 	
 	
 

@@ -70,11 +70,12 @@ uint8 Check_RDY(uint8 state, uint32 timeout)
 {
     uint8 readSTAT = 0;
 
-    AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );//°Ñ¼Ä´æÆ÷×´Ì¬Ð´ÈëreadSTAT  
-
     while(timeout--)
-    {
-        vTaskDelay(10);
+    {        
+        
+        AD7792_Red_Reg( AD7792_REG_STAT, &readSTAT, 1 );//°Ñ¼Ä´æÆ÷×´Ì¬Ð´ÈëreadSTAT  
+
+        vTaskDelay(1);
         
         if((readSTAT & AD7792_STAT_NRDY) == state)
         {
