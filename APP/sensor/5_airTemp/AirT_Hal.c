@@ -32,8 +32,6 @@ TIM_HandleTypeDef htim1;
 
 
 
-//static unsigned char DiWenChlNumber;							// 第几通道的地温
-//static unsigned char AD7792ChlNumber;							// AD7792第几通道
 
 // 通道1配置寄存器的值：偏置禁用、单极性编码、4倍增益、内部基准电压、缓冲使能、通道1采样
 //0x1290
