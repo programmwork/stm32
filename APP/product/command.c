@@ -102,6 +102,7 @@ const bcm_control_t bcm_control={
         {"WINDH"     ,&cmd_windh},             //9 风拨码开关设置
         {"STSENSOR"  ,&cmd_stsensor},          //10 地温传感器数量及深度配置
         {"SHSENSOR"  ,&cmd_shsensor},          //11 土壤水分传感器数量及深度配置
+        {"VERSIONCFG",&cmd_version_cfg},       //12 版本号写入
     }
 };
 
@@ -4257,7 +4258,7 @@ int cmd_version(char *buf,char *rbuf)
        return rlen;
     }
 
-    rlen = sprintf((char *)rbuf,"<VERSION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s>\r\n",HARD_VER,SOFT_VER);
+    rlen = sprintf((char *)rbuf,"<VERSION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s>\r\n",m_defdata.m_baseinfo.hard_version,SOFT_VER);
     return rlen;
 }
 /*==================================================================
@@ -5012,4 +5013,67 @@ int cmd_shsensor(char *buf,char *rbuf)
 
 err:
   return rlen;
+}
+
+/*==================================================================
+*函数：              cmd_shsensor
+*作者：
+*日期：           2017-12-28
+*功能：  A.11　土壤水分传感器配置
+*参数：地温传感器使用个数，对应的观测层
+*输入：           *buf  (输入数据）输入数据地址
+*         *rbuf (输出数据）控制结构地址
+*
+*返回：           打印字符串长度
+*修改记录：
+==================================================================*/
+int cmd_version_cfg(char *buf,char *rbuf)
+{
+    char *p = NULL, i = 0, rlen = 0, buffer[32];
+    memset(buffer, 0x00, sizeof(buffer));
+    
+    if(0 == Utils_CheckCmdStr(buf))
+    {goto err;}
+    p = strtok(buf, ",");
+    while(p)
+    {
+        switch(i)
+        {
+        case 0: break;
+        case 1: break;
+        case 2: break;
+        case 3:
+        {
+            if(strlen(p) <= sizeof(buffer))
+            {
+                sprintf((char *)buffer, "%s", p);
+            }
+            else
+            {
+                goto err;
+            }
+            break;
+        }
+        default:    
+            goto err;
+        }
+        p = strtok(NULL, ",");
+        i++;
+    }
+    if(( i != 4))  
+        goto err;
+    
+    //硬件版本写入结构体
+    sprintf((char *)m_defdata.m_baseinfo.hard_version, "%s", buffer);
+
+    //结构体写入FLASH  
+    pamsave(&m_defdata);
+    
+    //返回成功
+    rlen = sprintf((char *)rbuf,"set hard version success");
+    return rlen;
+err:
+    //返回失败
+    rlen = sprintf((char *)rbuf,"set hard version fail");
+    return rlen;
 }

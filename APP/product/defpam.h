@@ -73,6 +73,7 @@ typedef struct _rtcdatetime_t{
 typedef struct _baseinfo{
     unsigned char  sn[40];                 //序列号 36字符
     unsigned short id;                     //设备ID
+    unsigned char  hard_version[20];       //硬件版本号
 }s_baseinfo_t;
 
 #define MAX_SERVER_LINK_NUM 1

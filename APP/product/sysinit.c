@@ -35,7 +35,7 @@ const BPS_CFG TableBPS[] =
 void startupprint(void)
 {
     char buf[256];
-    sprintf(buf,"VERSION INFORMATION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",HARD_VER,SOFT_VER);
+    sprintf(buf,"VERSION INFORMATION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s\r\n...System start...\r\n",m_defdata.m_baseinfo.hard_version,SOFT_VER);
 
     uartSendStr(UARTDEV_1,(unsigned char *)buf,strlen(buf));
     
@@ -302,18 +302,20 @@ unsigned char pam_init(s_defdata_t *p_defdata_t)
     
     unsigned char int8u_1,int8u_2;
     unsigned int i;
+    unsigned long addr;
+    addr = FLASH_SN << 8;
 
     // 读取Flag标识并判断
-    W25Q128_Data_Read(FLASH_SN, &int8u_1, 1);
+    W25Q128_Data_Read(addr, &int8u_1, 1);
 
     if(int8u_1 != SAVEPAM_STARTFLAG_CHAR)
     {
         for(i=0; i<10000; i++);         // 延时一小段时间
 
-        W25Q128_Data_Read(FLASH_SN, &int8u_2, 1);
+        W25Q128_Data_Read(addr, &int8u_2, 1);
         if(int8u_2 != SAVEPAM_STARTFLAG_CHAR)
         {
-            memset((char *)p_defdata_t->m_baseinfo.sn,0,sizeof(p_defdata_t->m_baseinfo.sn));     //若FLASH中无数据 ，则执行本段初始化
+            memset(&p_defdata_t->m_baseinfo.sn,0,sizeof(p_defdata_t->m_baseinfo.sn));     //若FLASH中无数据 ，则执行本段初始化
 					  strncpy(sensor_di, DI,4);  //设备标识位
 					  //
 					  //
@@ -321,7 +323,7 @@ unsigned char pam_init(s_defdata_t *p_defdata_t)
 				}
 			}
 				
-      W25Q128_Data_Read(FLASH_SN, (uint8 *)p_defdata_t, sizeof(s_defdata_t));
+      W25Q128_Data_Read(addr, (uint8 *)p_defdata_t, sizeof(s_defdata_t));
 			strncpy(sensor_di, DI,4);  //设备标识位
 }
 		
@@ -335,10 +337,12 @@ unsigned char pam_init(s_defdata_t *p_defdata_t)
 *******************************************************************************/
 void pamsave(s_defdata_t *p_defdata_t)
 {//擦除系统配置扇区，写新的配置
+	  unsigned long addr;
     p_defdata_t->save_start_flag=SAVEPAM_STARTFLAG_CHAR;
     
-	  W25Q128_Erase_Chip(W25Q128_ERS_SEC, FLASH_SN);
-	  W25Q128_Data_Prog(FLASH_SN,(uint8 *)p_defdata_t,sizeof(s_defdata_t));
+	  addr = FLASH_SN << 8;
+	  W25Q128_Erase_Chip(W25Q128_ERS_SEC, addr);
+	  W25Q128_Data_Prog(addr,(uint8 *)p_defdata_t,sizeof(s_defdata_t));
 }
 /******************************************************************************
 *系统参数 内部flash初始化

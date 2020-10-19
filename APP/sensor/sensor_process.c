@@ -35,11 +35,7 @@ void time_task(void *pvParameters)
     static U8 p_min=0xFF;
     static U8 p_hour=0xFF;
 
-
-
-
-
-
+    startupprint();      //开始信息  打印
 
     while(1)
     {
@@ -59,7 +55,7 @@ void time_task(void *pvParameters)
         {
             p_sec=m_tempdata.m_RtcTateTime.sec;
 
-            startupprint();
+
             HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_0);
 
     
