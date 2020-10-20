@@ -4258,7 +4258,7 @@ int cmd_version(char *buf,char *rbuf)
        return rlen;
     }
 
-    rlen = sprintf((char *)rbuf,"<VERSION:\r\nHardware: UAWS_%s\r\nSoftware: UAWS_%s>\r\n",m_defdata.m_baseinfo.hard_version,SOFT_VER);
+    rlen = sprintf((char *)rbuf,"<VERSION:\r\nHardware: %s\r\nSoftware: %s>\r\n",m_defdata.m_baseinfo.hard_version,SOFT_VER);
     return rlen;
 }
 /*==================================================================
@@ -5029,7 +5029,7 @@ err:
 ==================================================================*/
 int cmd_version_cfg(char *buf,char *rbuf)
 {
-    char *p = NULL, i = 0, rlen = 0, buffer[32];
+    char *p = NULL, i = 0, rlen = 0, buffer[20];
     memset(buffer, 0x00, sizeof(buffer));
     
     if(0 == Utils_CheckCmdStr(buf))
@@ -5064,6 +5064,7 @@ int cmd_version_cfg(char *buf,char *rbuf)
         goto err;
     
     //硬件版本写入结构体
+    memset(m_defdata.m_baseinfo.hard_version, 0x00, sizeof(m_defdata.m_baseinfo.hard_version));
     sprintf((char *)m_defdata.m_baseinfo.hard_version, "%s", buffer);
 
     //结构体写入FLASH  
