@@ -22,7 +22,6 @@
 #include "EarthTemp_hal.h"
 #include "EarthTemp_Sample.h"
 #include "EarthTemp_Sensor.h"
-#define HARD_VER  "ST_V02_1814"     //硬件版本
 #define SOFT_VER  "ST_V102_20180917" //软件版本,此处必须统一为3字节长度
 #define DI "YSGT"
 #endif
@@ -31,7 +30,6 @@
 #include "Wind_hal.h"
 #include "Wind_Sample.h"
 #include "Wind_Sensor.h"
-#define HARD_VER  "WD_V10_17C12"     //硬件版本
 #define SOFT_VER  "WD_V101_20180917" //软件版本,此处必须统一为3字节长度
 #define DI "YWPD"
 #endif
@@ -40,7 +38,6 @@
 #include "SoilHumi_hal.h"
 #include "SoilHumi_Sample.h"
 #include "SoilHumi_Sensor.h"
-#define HARD_VER  "SH_V10_17C12"     //硬件版本
 #define SOFT_VER  "SH_V101_20180917" //软件版本,此处必须统一为3字节长度
 #define DI "YSMS"
 #endif
@@ -50,7 +47,6 @@
 #include "AirP_Hal.h"
 #include "AirP_USART1.h"
 #include "AirP_Sensor.h"
-#define HARD_VER  "AP_V10_17C13"     //硬件版本
 #define SOFT_VER  "AP_V101_20180917" //软件版本,此处必须统一为3字节长度
 #define DI "YTPS"
 #endif
@@ -59,7 +55,6 @@
 #include "AirT_Hal.h"
 #include "AirT_Sample.h"
 #include "AirT_Sensor.h"
-#define HARD_VER  "AT_V10_17C12"     //硬件版本
 #define SOFT_VER  "AT_V102_20180917" //软件版本,此处必须统一为3字节长度
 #define DI "YTMP"
 #endif
@@ -69,7 +64,6 @@
 #include "AirH_Sample.h"
 #include "AirH_USART1.h"
 #include "AirH_Sensor.h"
-#define HARD_VER  "AH_V10_17C13"     //硬件版本
 #define SOFT_VER  "AH_V101_20180917" //软件版本,此处必须统一为3字节长度
 #define DI "YHMS"
 #endif
@@ -78,7 +72,6 @@
 #include "infraredTemp_hal.h"
 #include "infraredTemp_Sample.h"
 #include "infraredTemp_Sensor.h"
-#define HARD_VER  "IT_V02_1814"     //硬件版本
 #define SOFT_VER  "IT_V102_20180917" //软件版本,此处必须统一为3字节长度
 #define DI "YIST"
 #endif

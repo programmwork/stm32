@@ -785,8 +785,7 @@ int cmd_id(char *buf,char *rbuf)
       { goto err; }
 
     //7、 存入 flash 并返回
-    //flash_clear((U8*)SegmentStart+0,128);
-    //pamsave(&m_defdata);
+    pamsave(&m_defdata);
 
     rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,old_id);
     return rlen;
@@ -2263,10 +2262,10 @@ int cmd_sn(char *buf,char *rbuf)
 	if(temp_chack_sn != temp_chack_num)
 	    {goto err;}
     	
-    //3 写入结构体 写入时钟 返回正确
-    strncpy((char *)&m_defdata.m_baseinfo.sn, temp_sn,SN_NUM);/*
-    flash_clear((U8*)SegmentStart+0,128);
-    pamsave(&m_defdata);*/
+    //3 清除结构体 写入结构体 写入时钟 返回正确
+    memset(m_defdata.m_baseinfo.sn, 0x00, sizeof(m_defdata.m_baseinfo.sn));
+    strncpy((char *)&m_defdata.m_baseinfo.sn, temp_sn,SN_NUM);
+    pamsave(&m_defdata);
 
     rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
     return rlen;
