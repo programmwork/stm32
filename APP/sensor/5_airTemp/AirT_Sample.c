@@ -298,7 +298,7 @@ static unsigned char Quality_Sec_Ctrl(sensors_data_t *sensors_tempdata)
 static unsigned char Quality_Min_Ctrl(sensors_data_t *sensors_tempdata,unsigned char ch)
 {
   float result_sensor, buffer = 0, max = 0, min = 0;
-  unsigned char i = 0, j = 0, count = 0;
+  unsigned char i = 0, count = 0;
 
   //一分钟的质量控制
     result_sensor = sensors_tempdata->sensor[ch].mindata.data;

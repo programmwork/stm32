@@ -138,7 +138,6 @@ void SystemClock_Config(void)
   /* oscillator and clocks configs */
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef  RCC_PeriphCLKInitStruct;
 	 /**Initializes the CPU, AHB and APB busses clocks 
     */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
@@ -204,7 +203,7 @@ void _Error_Handler(char *file, int line)
 }
 
 	
-void main( void )
+int main( void )
 {
     // Configure the peripherals used by this demo application.  This includes
     // configuring the joystick input select button to generate interrupts.
@@ -226,7 +225,6 @@ void main( void )
 	HAL_NVIC_EnableIRQ(USART1_IRQn);
 	HAL_NVIC_EnableIRQ(USART2_IRQn);
     HAL_NVIC_EnableIRQ(USART3_IRQn);
-		
     osThreadDef(UART_PROCESS, uartprocess_task, UART_PROCESS_TASK_PRIORITY, 0, TASK_UART_PROCESS_STACK_SIZE);
 		
     osThreadDef(TIME, time_task, TIME_TASK_PRIORITY, 0, TASK_TIME_STACK_SIZE);
@@ -265,7 +263,7 @@ void main( void )
     
     //vTaskStartScheduler();
 
-
+    return 0 ;
 
 }
 
@@ -439,9 +437,9 @@ UPDATE_TIME_0:
 
 void vApplicationTickHook( void )
 {
-    static unsigned long ulCounter = 0;
+    //static unsigned long ulCounter = 0;
 
-    static const unsigned long ulCheckFrequency = 5000UL / portTICK_PERIOD_MS;
+    //static const unsigned long ulCheckFrequency = 5000UL / portTICK_PERIOD_MS;
 
     Datetime_up();
 }

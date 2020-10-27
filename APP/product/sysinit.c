@@ -8,6 +8,8 @@
 
 #include "main.h"
 
+
+
 #define SYS_CFG_ADDR 0
 
 
@@ -327,6 +329,7 @@ unsigned char pam_init(s_defdata_t *p_defdata_t)
 				
       W25Q128_Data_Read(addr, (uint8 *)p_defdata_t, sizeof(s_defdata_t));
 			strncpy(sensor_di, DI,4);  //设备标识位
+    return 0;
 }
 		
 
@@ -365,6 +368,8 @@ void defdata_init(s_defdata_t *p_defdata_t)
 #if 0       //串口功能  初始化时配置
     //串口功能
     //接SENSOR
+	
+
     i=UARTDEV_0;
     p_defdata_t->m_uartinfo[i].uartdevtype=UART_DEVICE_DEBUG;
     p_defdata_t->m_uartinfo[i].comworktype= COMTYPE_RS232;

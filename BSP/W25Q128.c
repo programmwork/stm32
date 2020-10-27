@@ -7,13 +7,10 @@
 #include "W25Q128.h"
 
 void W25Q128_Init( void )
-{
-	uint8_t tmp = 0;
-	uint8_t buf[32] = {0};
-
-	
-	
-	
+{	
+	//uint8_t buf[32] = {0};
+    //uint8_t tmp = 0;
+    
 	SPIInit(1);
 
 	vTaskDelay( 10 );

@@ -75,7 +75,6 @@ unsigned char DS3231_ReadStatusReg(unsigned char *pdat)
 */
 unsigned char DS3231_WriteStatusReg(unsigned char dat)
 {
-		unsigned char mem[10];
 		HAL_StatusTypeDef status = HAL_OK;	
 	
 
@@ -121,7 +120,6 @@ unsigned char DS3231_ReadCtrReg(unsigned char *pdat)
 */
 unsigned char DS3231_WriteCtrReg(unsigned char dat)
 {
-	unsigned char mem[10];
 	HAL_StatusTypeDef status = HAL_OK;
 	
 
@@ -266,7 +264,7 @@ unsigned char DS3231_ReadTemperature(int *pdat)
     if (status != HAL_OK) 			return 0;
 
     fTempNum0 = (mem[1]&0xc0)>>6;  //小数部分
-    fTempNum0 *= 0.25;  //小数部分
+    fTempNum0 *= 0.25f;  //小数部分
     if( (mem[0]&0x80) != 0 ) //判断符号位，负数
     {
     fTempNum = -1*((256.0-mem[0])+fTempNum0);  //补码到原码绝对值转换
@@ -276,7 +274,7 @@ unsigned char DS3231_ReadTemperature(int *pdat)
     fTempNum = mem[0]+fTempNum0;
     }
 
-    *pdat = (int)((fTempNum+0.05)*10);//四舍五入，放大十倍输出，如16.22输出162,16.26输出163
+    *pdat = (int)((fTempNum+0.05f)*10);//四舍五入，放大十倍输出，如16.22输出162,16.26输出163
     return 1;
 }
 

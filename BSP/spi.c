@@ -85,7 +85,8 @@ uint8_t SPIInit( uint8_t num )
 	
     SPIx_MspInit(hspi);
     HAL_SPI_Init(hspi);
-  
+
+    return 0;
 
 }
 

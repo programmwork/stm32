@@ -662,8 +662,6 @@ void UartRecv_1( void *pdata )
 
 	uint8_t* buf = NULL;
 
-	uint8_t stat = 0;
-
 	while( 1 )
 	{
 	    xSemaphoreTake( device->SemDev, portMAX_DELAY );
@@ -728,8 +726,6 @@ void UartRecv_2( void *pdata )
 	uart_dma* dma = &dma_recv[device->cid];
 
 	uint8_t* buf = NULL;
-
-	uint8_t stat = 0;
 
 	while( 1 )
 	{	

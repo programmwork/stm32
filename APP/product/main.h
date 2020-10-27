@@ -21,6 +21,8 @@
 #include "AD7792.h"
 #include "W25Q128.h"
 #include "ds3231.h"
+#include "adc12_a.h"
+
 
 
 

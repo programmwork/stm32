@@ -3529,15 +3529,15 @@ int check_sensor(short temp_num, qs_t *temp_qs)
 
 		    if(bcm_info.sensor.apunit == 3)
 		    {
-		        temp_qs->change = bcm_info.sensor.qs[temp_num - 1].change * 0.750062;
-		        temp_qs->max    = bcm_info.sensor.qs[temp_num - 1].max    * 0.750062;
-		        temp_qs->min    = bcm_info.sensor.qs[temp_num - 1].min    * 0.750062;
+		        temp_qs->change = bcm_info.sensor.qs[temp_num - 1].change * 0.750062f;
+		        temp_qs->max    = bcm_info.sensor.qs[temp_num - 1].max    * 0.750062f;
+		        temp_qs->min    = bcm_info.sensor.qs[temp_num - 1].min    * 0.750062f;
 		    }
 		    else if(bcm_info.sensor.apunit == 4)
             {
-                temp_qs->change = bcm_info.sensor.qs[temp_num - 1].change * 0.029530;
-                temp_qs->max    = bcm_info.sensor.qs[temp_num - 1].max    * 0.029530;
-                temp_qs->min    = bcm_info.sensor.qs[temp_num - 1].min    * 0.029530;
+                temp_qs->change = bcm_info.sensor.qs[temp_num - 1].change * 0.029530f;
+                temp_qs->max    = bcm_info.sensor.qs[temp_num - 1].max    * 0.029530f;
+                temp_qs->min    = bcm_info.sensor.qs[temp_num - 1].min    * 0.029530f;
             }
 		    else
 		    {
@@ -3686,27 +3686,27 @@ int save_sensor(short temp_num, float temp_min, float temp_max, char *temp_chang
 			{
 			    if(3 == bcm_info.sensor.apunit) // * 0.750062
 			    {
-                    if(temp_min < 75.0076)          {goto err;}
-                    if(temp_max > 1125.093)         {goto err;}
+                    if(temp_min < 75.0076f)          {goto err;}
+                    if(temp_max > 1125.093f)         {goto err;}
                     if(temp_max < temp_min)         {goto err;}
                     if(-1 == check_format(temp_change, strlen(temp_change), ".", 1)) {goto err;}
                     if((atof(temp_change) > 0.750062) || (atof(temp_change) < 0))       {goto err;}
 
-                    temp_qs->min    = temp_min / 0.750062;
-                    temp_qs->max    = temp_max / 0.750062;
+                    temp_qs->min    = temp_min / 0.750062f;
+                    temp_qs->max    = temp_max / 0.750062f;
                     temp_qs->change = atof(temp_change) / 0.750062;
 			    }
 			    else if(4 == bcm_info.sensor.apunit)// * 0.029530
 			    {
-                    if(temp_min < 2.953)          {goto err;}
-                    if(temp_max > 44.295)         {goto err;}
+                    if(temp_min < 2.953f)          {goto err;}
+                    if(temp_max > 44.295f)         {goto err;}
                     if(temp_max < temp_min)       {goto err;}
                     if(-1 == check_format(temp_change, strlen(temp_change), ".", 1)) {goto err;}
                     if((atof(temp_change) > 0.029530) || (atof(temp_change) < 0))       {goto err;}
 
-                    temp_qs->min    = temp_min / 0.029530;
-                    temp_qs->max    = temp_max / 0.029530;
-                    temp_qs->change = atof(temp_change) / 0.029530;
+                    temp_qs->min    = temp_min / 0.029530f;
+                    temp_qs->max    = temp_max / 0.029530f;
+                    temp_qs->change = atof(temp_change) / 0.029530f;
 			    }
 			    else
 			    {

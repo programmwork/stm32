@@ -26,7 +26,7 @@
 
 #define PARA_A 				3.9083E-3 	   	            // 温度系数
 #define PARA_B 				-5.775E-7 
-#define STD_R_VALUE 	100.0       		            // 标准电阻值
+#define STD_R_VALUE 	100.0f       		            // 标准电阻值
 
 TIM_HandleTypeDef htim1;
 
@@ -123,7 +123,7 @@ void USART3_RX(void)
 */
 unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM])
 {
-    uint8 count = 50, readAD[2], readSTAT = 0;
+    uint8 readAD[2];
     unsigned long result_0, result_1;
     float fp32_1;
 

@@ -38,6 +38,8 @@
 #ifndef __ADC12_A_H__
 #define __ADC12_A_H__
 
+#include "semphr.h"
+
 #define BOARDV_POWER_BIT           BIT0 //P2.0
 #define BOARDV_POWER_FUNC_IO()     P2SEL &=~ BOARDV_POWER_BIT
 #define BOARDV_POWER_OUT()         P2DIR |= BOARDV_POWER_BIT
@@ -53,8 +55,8 @@
 void ADC_Power_ON(void);
 void ADC_Power_OFF(void);
 void Init_ADC(void);
-U8   Check_ADC(U16 *date);
-void Start_ADC(U8 channel);
+uint8_t   Check_ADC(uint16_t *date);
+void Start_ADC(uint8_t channel);
 
 void ADC_Wind_Power_ON(void);
 void ADC_Wind_Power_OFF(void);

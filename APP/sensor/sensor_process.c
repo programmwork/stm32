@@ -58,7 +58,7 @@ void time_task(void *pvParameters)
 
             HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_0);
 
-    
+
 #if (SENSOR != 2)   //·ç 
 					  if(m_tempdata.m_RtcTateTime.sec%2 == 0)
             {
@@ -190,32 +190,37 @@ void check_event_sample_task( void *pvParameters )
 
 void readdata_task(void *pvParameters)
 {
-
-
     while(1)
     {
         if(m_tempdata.Count_read_history > 0)
         {
             read_history_mindata();
+            vTaskDelay(980);
         }
         else if(m_tempdata.Count_down_history > 0)
         {
             show_history_mindata();
+            vTaskDelay(980);
         }
         else if(m_tempdata.CfcFlag == true)
         {
             read_cfc_data();
+            vTaskDelay(980);
+            
         }
         else if(m_tempdata.CheckFlag == true)
         {
             read_check_data();
+            vTaskDelay(980);
+        }
+        else
+        {
+            vTaskDelay(980);
         }
 
-
-        vTaskDelay(1000);
-
+        vTaskDelay(20);
+        
     }
-
 }
 
 void Self_test()

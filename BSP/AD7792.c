@@ -8,10 +8,7 @@
 
 void AD7792_Init( void )
 {
-	uint8_t buf[2] = {0};
-
-	
-	
+	//uint8_t buf[2] = {0};	
 	
 	SPIInit(2);//
 
@@ -30,7 +27,7 @@ void AD7792_Init( void )
 	// 4A
 	//AD7792_Red_Reg( AD7792_REG_ID, buf, 1 );
 	//uart_printf( 0, "  ID: %02X\r\n", buf[0] );
-
+/*
 #if DEBUG
 	// 00 0A
 	AD7792_Red_Reg( AD7792_REG_MODE, buf, 2 );
@@ -61,6 +58,7 @@ void AD7792_Init( void )
 
 	AD7792_SingleConversion_Demo();
 #endif
+*/
 	return;
 }
 
@@ -157,7 +155,6 @@ void AD7792_Set_Cfg( uint16_t cfg )
 
 void AD7792_Set_IO( uint8_t ctl )
 {
-	uint8_t buf[2] = {0};
 
 	AD7792_Set_Reg( AD7792_REG_IO, &ctl, 1 );
 

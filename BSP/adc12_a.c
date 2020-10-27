@@ -63,7 +63,7 @@
 //!
 //******************************************************************************
 
-#include "sysinit.h"
+
 #include "main.h"
 //#include "driverlib.h"dvvfdvfdv
 

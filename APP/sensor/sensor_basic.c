@@ -9,6 +9,7 @@
 #include "sensor_basic.h"
 #include <stdio.h>
 #include <string.h>
+#include <adc12_a.h>
 
 sensor_state_t sensor_state;
 
@@ -42,7 +43,7 @@ unsigned char BanWenBanYa_engine(float *pT, float *pV)
     unsigned long valueVSum = 0;
     U8 flag = 0;
     int value = 0;
-    unsigned int buffer = 0;
+    uint16_t buffer = 0;
 
     float fp_1=0.0;
 
@@ -84,7 +85,7 @@ unsigned char BanWenBanYa_engine(float *pT, float *pV)
     {
         // 计算板压
         value = valueVSum / counter;
-        fp_1 = (3.3 * (float)value) / 4096;                                     // 求出电压值
+        fp_1 = (3.3f * (float)value) / 4096;                                     // 求出电压值
         *pV = fp_1 * (V_R_L + V_R_H) / V_R_L;
         flag = flag | 0x2;
     }
