@@ -274,9 +274,9 @@ void USART3_IRQHandler(void)
 {
     
     if((huart3.Instance->ISR & USART_ISR_IDLE) != 0)
-		{
-		    __HAL_UART_CLEAR_IDLEFLAG(&huart3); 
-		}
+	{
+	    __HAL_UART_CLEAR_IDLEFLAG(&huart3); 
+	}
 
 
     if((huart3.Instance->ISR & USART_ISR_RXNE) != 0)
