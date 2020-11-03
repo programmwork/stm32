@@ -213,10 +213,6 @@ void readdata_task(void *pvParameters)
             read_check_data();
             vTaskDelay(980);
         }
-        else
-        {
-            vTaskDelay(980);
-        }
 
         vTaskDelay(20);
         
