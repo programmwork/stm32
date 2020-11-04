@@ -147,4 +147,5 @@ extern unsigned char read_cfc_data(void);
 extern unsigned char read_check_data(void);
 extern unsigned char save_cr(uint8 num, s_check_info_t *check_info, char *data);
 
+
 #endif /* _SENSOR_BASIC_H_ */

@@ -27,23 +27,6 @@ Project File Date:  11/03/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\software\Keil\ARM\ARMCC\Bin'
 Build target 'STM32L476G-Discovery'
-compiling cmsis_os.c...
-compiling i2c.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\i2c.c: 1 warning, 0 errors
-compiling adc12_a.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\adc12_a.c: 1 warning, 0 errors
-compiling uart.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\uart.c: 1 warning, 0 errors
-compiling system_stm32l4xx.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\system_stm32l4xx.c: 1 warning, 0 errors
 compiling wk2204.c...
 ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
   #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
@@ -55,192 +38,22 @@ compiling wk2204.c...
   #define WK2XXX_GIER 0x2F  //使能子串口 3 的时钟
 ..\BSP\wk2204.h(61): warning:  #47-D: incompatible redefinition of macro "WK2XXX_GIER"  (declared at line 60)
   #define WK2XXX_GIER 0x1F  //使能子串口 4 的时钟
-..\BSP\wk2204.h(81): warning:  #1295-D: Deprecated declaration BaudAdaptive - give arg types
+..\BSP\wk2204.h(83): warning:  #1295-D: Deprecated declaration BaudAdaptive - give arg types
   void BaudAdaptive();
 ..\BSP\wk2204.c(149): warning:  #9-D: nested comment is not allowed
   /*************************************************************************/
-..\BSP\wk2204.c(159): warning:  #174-D: expression has no effect
-      for(temp = 0; temp++; temp <= 256)
-..\BSP\wk2204.c(205): warning:  #174-D: expression has no effect
-      for(temp = 0; temp++; temp <= 256)
-..\BSP\wk2204.c(197): warning:  #177-D: variable "n"  was declared but never referenced
+..\BSP\wk2204.c(163): warning:  #767-D: conversion from pointer to smaller integer
+          return (uint8_t )m_tempdata.m_uartrcv[UARTDEV_3].buff;
+..\BSP\wk2204.c(153): warning:  #177-D: variable "i"  was declared but never referenced
+      uint32 i = 256;
+..\BSP\wk2204.c(198): warning:  #177-D: variable "n"  was declared but never referenced
       unsigned char rec_data, n, cmd = 0x00;
-..\BSP\wk2204.c(198): warning:  #177-D: variable "dat"  was declared but never referenced
-      unsigned char dat[256];
+..\BSP\wk2204.c(339): warning:  #186-D: pointless comparison of unsigned integer with zero
+      for(i = 9999; i < 0 ; i--);
 ..\BSP\wk2204.c: 11 warnings, 0 errors
-compiling ds3231.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\ds3231.c: 1 warning, 0 errors
-compiling spi.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\spi.c: 1 warning, 0 errors
-compiling W25Q128.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\W25Q128.c: 1 warning, 0 errors
-compiling AD7792.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\BSP\AD7792.c: 1 warning, 0 errors
-compiling stm32l4xx_hal.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_firewall.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_firewall.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_comp.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_comp.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_adc.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_adc.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_cortex.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_cortex.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_adc_ex.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_adc_ex.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_dma.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_dma.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_dma_ex.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_dma_ex.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_i2c.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_i2c.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_gpio.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_gpio.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_flash.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_uart.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_uart.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_tim_ex.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_tim_ex.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_uart_ex.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_uart_ex.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_tim.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_tim.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_i2c_ex.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_i2c_ex.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_rcc.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_rcc.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_rcc_ex.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_rcc_ex.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_spi.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_spi.c: 1 warning, 0 errors
-compiling stm32l4xx_it.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\stm32l4xx_it.c: 1 warning, 0 errors
-compiling command.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\product\command.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_msp.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\stm32l4xx_hal_msp.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_flash_ex.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash_ex.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_pwr.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_pwr.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_pwr_ex.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_pwr_ex.c: 1 warning, 0 errors
-compiling stm32l4xx_hal_flash_ramfunc.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\STM32L4xx_HAL_Driver\Src\stm32l4xx_hal_flash_ramfunc.c: 1 warning, 0 errors
-compiling AirT_Sample.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\sensor\5_airTemp\AirT_Sample.c: 1 warning, 0 errors
-compiling uartprocess.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\product\uartprocess.c: 1 warning, 0 errors
-compiling sensor_basic.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\sensor\sensor_basic.c: 1 warning, 0 errors
-compiling AirT_Sensor.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\sensor\5_airTemp\AirT_Sensor.c: 1 warning, 0 errors
-compiling AirT_Hal.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\sensor\5_airTemp\AirT_Hal.c: 1 warning, 0 errors
-compiling sensor_process.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\sensor\sensor_process.c: 1 warning, 0 errors
-compiling sysinit.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\product\sysinit.c(357): warning:  #177-D: variable "i"  was declared but never referenced
-      U8 i, sn_buf[40];
-..\APP\product\sysinit.c: 2 warnings, 0 errors
-compiling main.c...
-..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_flash.h(832): warning:  #47-D: incompatible redefinition of macro "FLASH_SIZE"  (declared at line 940 of "D:\software\Keil\Packs\Keil\STM32L4xx_DFP\2.3.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\stm32l431xx.h")
-  #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
-..\APP\product\main.c(228): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
-      osThreadDef(UART_PROCESS, uartprocess_task, UART_PROCESS_TASK_PRIORITY, 0, TASK_UART_PROCESS_STACK_SIZE);
-..\APP\product\main.c(228): warning:  #188-D: enumerated type mixed with another type
-      osThreadDef(UART_PROCESS, uartprocess_task, UART_PROCESS_TASK_PRIORITY, 0, TASK_UART_PROCESS_STACK_SIZE);
-..\APP\product\main.c(230): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
-      osThreadDef(TIME, time_task, TIME_TASK_PRIORITY, 0, TASK_TIME_STACK_SIZE);
-..\APP\product\main.c(230): warning:  #188-D: enumerated type mixed with another type
-      osThreadDef(TIME, time_task, TIME_TASK_PRIORITY, 0, TASK_TIME_STACK_SIZE);
-..\APP\product\main.c(232): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
-      osThreadDef(EVENT_SAMPLE, check_event_sample_task, EVENT_SAMPLE_TASK_PRIORITY, 0, TASK_EVENT_SAMPLE_STACK_SIZE);
-..\APP\product\main.c(232): warning:  #188-D: enumerated type mixed with another type
-      osThreadDef(EVENT_SAMPLE, check_event_sample_task, EVENT_SAMPLE_TASK_PRIORITY, 0, TASK_EVENT_SAMPLE_STACK_SIZE);
-..\APP\product\main.c(234): warning:  #144-D: a value of type "void (*)(void *)" cannot be used to initialize an entity of type "os_pthread"
-      osThreadDef(READDATA, readdata_task, READDATA_TASK_PRIORITY, 0, TASK_READDATA_STACK_SIZE);
-..\APP\product\main.c(234): warning:  #188-D: enumerated type mixed with another type
-      osThreadDef(READDATA, readdata_task, READDATA_TASK_PRIORITY, 0, TASK_READDATA_STACK_SIZE);
-..\APP\product\main.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=64092 RO-data=2424 RW-data=304 ZI-data=35448  
-"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 62 Warning(s).
+Program Size: Code=64156 RO-data=2424 RW-data=304 ZI-data=35448  
+"STM32L476G-Discovery\STM32L476G-Discovery.axf" - 0 Error(s), 11 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -263,7 +76,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:59
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

@@ -13,18 +13,18 @@
 ;* 版本声明 : wk2204芯片底层驱动
 ***********************************************************************************************************/
 
-#include "stdio.h"
-#include "string.h"
-#include "wk2204.h"
+#include <stdio.h>
+#include <string.h>
+#include <wk2204.h>
 
 
 /*************************************************************************************/
 /******************************WK2204Init*******************************************/
 //函数功能：本函数主要会初始化一些芯片基本寄存器；
 /*********************************************************************************/
-void WK2204Init(UINT8 port)
+void WK2204Init( UINT8 port)
 {
-    UINT8 gena,grst,gier,sier,scr;
+    uint8_t gena = 0,grst = 0,gier = 0,sier = 0,scr = 0;
     //使能子串口时钟
     gena=WK2204ReadReg(port,WK2XXX_GENA);
     switch (port)
@@ -36,7 +36,7 @@ void WK2204Init(UINT8 port)
         case 2://使能子串口 2 的时钟
             gena|=WK2XXX_UT2EN;
             WK2204WriteReg(port,WK2XXX_GENA,gena);
-         break;
+            break;
         case 3://使能子串口 3 的时钟
             gena|=WK2XXX_UT3EN;
             WK2204WriteReg(port,WK2XXX_GENA,gena);
@@ -149,23 +149,24 @@ void WK2204WriteReg(unsigned char port,unsigned char reg,unsigned char dat)
 /*************************************************************************/
 unsigned char WK2204ReadReg(unsigned char port,unsigned char reg)
 {
-    unsigned char rec_data, cmd = 0x00;
-    unsigned long temp = 0;
+    uint8_t rec_data = 0x00, cmd = 0x00, buf[256], str[8];
+    uint32 i = 256;
+    memset(buf, 0x00, sizeof(buf));
+    memset(str, 0x00, sizeof(str));
     //写指令，对于指令的构成见数据手册
     cmd = 0x40+((port-1)<<4)+reg;
     uartSendStr(UARTDEV_3, (unsigned char *)cmd, sizeof(cmd));
 
     //接收返回的寄存器值
-    for(temp = 0; temp++; temp <= 256)
+    if(HAL_OK == HAL_UART_Receive(&huart3 , (uint8_t *)m_tempdata.m_uartrcv[UARTDEV_3].buff, 1, 0xFFFF))
     {
-        if(UartProcessingPhase == USART_PROCESSING_FINISH)
-        {
-            return TxRxBuffer;
-        }
-    }//USART3_RX();
-    rec_data = INVALID_BUF;
-
-    return rec_data;
+        return (uint8_t )m_tempdata.m_uartrcv[UARTDEV_3].buff;
+    }
+    else
+    {
+        rec_data = INVALID_BUF;
+        return rec_data;
+    }
 }
 
 /**************************************WK2204writeFIFO*******************************/
@@ -196,19 +197,13 @@ unsigned char WK2204ReadFIFO(unsigned char port,unsigned char num)
 {
     unsigned char rec_data, n, cmd = 0x00;
     unsigned char dat[256];
-    unsigned long temp = 0;
+
+    memset(dat, 0x00, sizeof(dat));
     
     cmd = 0xc0+((port-1)<<4)+(num-1);
     uartSendStr(UARTDEV_3, (unsigned char *)cmd, sizeof(cmd));
 
-    //接收返回的寄存器值
-    for(temp = 0; temp++; temp <= 256)
-    {
-        if(UartProcessingPhase == USART_PROCESSING_FINISH)
-        {
-            return TxRxBuffer;
-        }
-    }
+    //接收返回的寄存器值//////////////////////////
     rec_data = INVALID_BUF;
 
     return rec_data;
@@ -223,7 +218,7 @@ unsigned char WK2204ReadFIFO(unsigned char port,unsigned char num)
 *************************WK2204SetBaud******************************************/
 void WK2204SetBaud(UINT8 port,int baud)
 {
-UINT8 baud1,baud0,pres,scr;
+UINT8 baud1 = 0, baud0 = 0, pres = 0, scr = 0;
 //如下波特率相应的寄存器值，是在外部时钟为 11.0592 的情况下计算所得，如果使用其他晶振，需要重新计算
 switch (baud)
 {
@@ -328,6 +323,21 @@ switch (baud)
 
 
 
+/*
+*********************************************************************************************************
+** 函数名称 ：
+** 函数功能 ：串口接收中断服务程序
+** 入口参数 ：
+**
+** 出口参数 ：
+*********************************************************************************************************
+*/
 
+void delay(void)
+{
+    uint32_t i = 0;
+    for(i = 9999; i < 0 ; i--);
+
+}
 
 

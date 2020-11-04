@@ -66,6 +66,8 @@
 #define WK2XXX_RFTRIG_IEN 0x01 //接收 FIFO 触点中断使能位RXOVT_IEN
 #define WK2XXX_RXOUT_IEN 0x02 //接收 FIFO 超时中断使能位
 
+extern UART_HandleTypeDef huart3;
+
 /* 串口处理ADU数据帧的阶段描述 */
 #define	USART_PROCESSING_IDEL					0
 #define	USART_PROCESSING_SENDING			  1
@@ -84,6 +86,7 @@ unsigned char WK2204ReadReg(unsigned char port,unsigned char reg);
 void WK2204WriteFIFO(unsigned char port,unsigned char *send_da,unsigned char num);
 unsigned char WK2204ReadFIFO(unsigned char port,unsigned char num);
 void WK2204SetBaud(UINT8 port,int baud);
+void WK2204_RX(void);
 
 
 

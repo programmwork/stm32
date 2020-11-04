@@ -29,6 +29,7 @@
 #define STD_R_VALUE 	100.0f       		            // 标准电阻值
 
 TIM_HandleTypeDef htim1;
+extern UART_HandleTypeDef huart3;
 
 // 通道1配置寄存器的值：偏置禁用、单极性编码、4倍增益、内部基准电压、缓冲使能、通道1采样
 //0x1290
@@ -109,8 +110,14 @@ void hal_sensor_init()
 */
 void USART3_RX(void)
 {
-
+    //可进行接收处理
+    if(((m_tempdata.m_uartrcv[UARTDEV_3].WD + 1) % MAX_UARTRCV_LEN) != m_tempdata.m_uartrcv[UARTDEV_3].RD)
+    {
+         m_tempdata.m_uartrcv[UARTDEV_3].buff[m_tempdata.m_uartrcv[UARTDEV_3].WD]=(uint8_t)HAL_UART_Receive(&huart3 , (uint8_t *)m_tempdata.m_uartrcv[UARTDEV_3].buff, 1, 0xFFFF);;
+         m_tempdata.m_uartrcv[UARTDEV_3].WD = (m_tempdata.m_uartrcv[UARTDEV_3].WD + 1) % MAX_UARTRCV_LEN;
+    }
 }
+
 
 /*
 ********************************************************************************
