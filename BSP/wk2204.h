@@ -63,8 +63,27 @@
 #define WK2XXX_TXEN 0x01  //子串口发送使能位
 #define WK2XXX_RXEN 0x02  //子串口接收使能位
 
+#define WK2204_FDAT 0x0D  //子串口 FIFO 数据寄存器
+#define WK2204_FSR  0x07  //子串口 FIFO 状态寄存器
+ 
 #define WK2XXX_RFTRIG_IEN 0x01 //接收 FIFO 触点中断使能位RXOVT_IEN
 #define WK2XXX_RXOUT_IEN 0x02 //接收 FIFO 超时中断使能位
+ 
+#define MAXLEN 32            //接收缓存
+#define FIFO_EXIST (1<<4)     //FIFO有数据
+#define FIFO_NOTEXIST 0      //FIFO有数据
+#define PORT_1 0
+#define PORT_2 1
+#define PORT_3 2
+#define PORT_4 3
+#define ERR    999
+
+#define success 1
+#define fail    0
+
+
+
+
 
 extern UART_HandleTypeDef huart3;
 
@@ -87,6 +106,15 @@ void WK2204WriteFIFO(unsigned char port,unsigned char *send_da,unsigned char num
 unsigned char WK2204ReadFIFO(unsigned char port,unsigned char num);
 void WK2204SetBaud(UINT8 port,int baud);
 void WK2204_RX(void);
+
+typedef struct m_U3rc
+{
+    uint8_t buff[MAXLEN];
+
+    uint16_t WD;
+    uint16_t RD;
+}s_U3rc;
+
 
 
 

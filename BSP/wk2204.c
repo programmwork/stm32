@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <wk2204.h>
+s_U3rc hu3;
 
 
 /*************************************************************************************/
@@ -147,27 +148,29 @@ void WK2204WriteReg(unsigned char port,unsigned char reg,unsigned char dat)
 // rec_data:为读取到的寄存器值
 //注意：在子串口被打通的情况下，读 FDAT，实际上就是读取 uart 的 rx 接收的数据
 /*************************************************************************/
-unsigned char WK2204ReadReg(unsigned char port,unsigned char reg)
+unsigned char WK2204ReadReg(unsigned char port,unsigned char reg, unsigned char *data)
 {
-    uint8_t rec_data = 0x00, cmd = 0x00, buf[256], str[8];
-    uint32 i = 256;
-    memset(buf, 0x00, sizeof(buf));
+    uint8_t  cmd = 0x00, str[8], buffer[MAX_PKGLEN], len;
+    uint16_t len = 0, rd = 0, i = 10, j = 256;
+
     memset(str, 0x00, sizeof(str));
     //写指令，对于指令的构成见数据手册
     cmd = 0x40+((port-1)<<4)+reg;
     uartSendStr(UARTDEV_3, (unsigned char *)cmd, sizeof(cmd));
-
-    //接收返回的寄存器值
-    if(HAL_OK == HAL_UART_Receive(&huart3 , (uint8_t *)m_tempdata.m_uartrcv[UARTDEV_3].buff, 1, 0xFFFF))
+    while(i--)
     {
-        return (uint8_t )m_tempdata.m_uartrcv[UARTDEV_3].buff;
+        //接收返回的寄存器值
+        if((hu3.WD ) != hu3.RD)//必须处理
+        {
+            data = hu3.buff[hu3.RD];            
+            hu3.RD = (hu3.RD + 1)%MAXLEN;            
+            return success;
+        }
+        HAL_Delay(1);
     }
-    else
-    {
-        rec_data = INVALID_BUF;
-        return rec_data;
-    }
-}
+        
+    return fail;  
+} 
 
 /**************************************WK2204writeFIFO*******************************/
 //函数功能：写 FIFO 函数（该函数写入的数据会通过 uart 的 TX 发送出去)
@@ -195,18 +198,34 @@ void WK2204WriteFIFO(unsigned char port,unsigned char *send_da,unsigned char num
 /*************************************************************************/
 unsigned char WK2204ReadFIFO(unsigned char port,unsigned char num)
 {
-    unsigned char rec_data, n, cmd = 0x00;
-    unsigned char dat[256];
 
-    memset(dat, 0x00, sizeof(dat));
+}
+
+/***************************************WK2204readFIFO*******************************/
+//函数功能：读 FIFO 函数(该函数读取的数据是 FIFO 缓存中的数据，实际上是 uart 的 rx 接收的数据)
+//参数：port:为子串口的数(C0C1)
+// *dat：为读到数据指针
+// num：为读出数据的个数，不超过 16 个字节（N3N2N1N0）
+/*************************************************************************/
+unsigned char WK2204ReadFIFO_byte(unsigned char port,unsigned char* data, uint16_t len)
+{
+    uint8_t rec_data, cmd = 0x00, reg;
+    uint32_t timeout = 10, fifo_len = 512;
+
+    //查询FSR是否有数据     
+    reg= WK2204ReadReg(PORT_1, WK2204_FSR);    
     
-    cmd = 0xc0+((port-1)<<4)+(num-1);
-    uartSendStr(UARTDEV_3, (unsigned char *)cmd, sizeof(cmd));
+    //0x08 == bit0001000   FSR子串口FIFO状态寄存器和第四bit进行逻辑或
+    while(0x08 | reg)
+    {
+        cmd = WK2204_FDAT+((port-1)<<4);
+        //发送读取子串口 FIFO 数据寄存器命令
+        uartSendStr(UARTDEV_3, (unsigned char *)cmd, sizeof(cmd));
 
-    //接收返回的寄存器值//////////////////////////
-    rec_data = INVALID_BUF;
-
-    return rec_data;
+        //接收返回的寄存器值
+        //len = sprintf(data, "%s", WK2204ReadReg(UARTDEV_3, WK2204_FDAT));
+    }
+    return len;
 }
 
 /**************************WK2204SetBaud*********************************************
@@ -333,11 +352,15 @@ switch (baud)
 *********************************************************************************************************
 */
 
-void delay(void)
+void WK2204_RX(void)
 {
-    uint32_t i = 0;
-    for(i = 9999; i < 0 ; i--);
-
+    //可进行接收处理
+    if(((hu3.WD + 1) % MAXLEN) != hu3.RD)
+    {
+        hu3.buff[hu3.WD] = (uint8_t)(huart3.Instance->RDR);	
+        hu3.WD = (hu3.WD + 1) % MAXLEN;
+    }
+    return;
 }
 
 
