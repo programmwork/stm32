@@ -4144,8 +4144,9 @@ int cmd_debugon(char *buf,char *rbuf)
     { return 0; }*/
 
     //开启调试模式
+    m_tempdata.DebugONCnt = 0;  
     m_tempdata.DebugON = true;
-    m_tempdata.DebugONCnt = 0;
+
     rlen = sprintf((char *)rbuf,"<Open debug mode.>\r\n");
     return rlen;
 }
