@@ -98,27 +98,6 @@ void hal_sensor_init()
     Sensor_Init();
     SampleData_Init(&sensors_data);
 }
-
-/*
-*********************************************************************************************************
-** 函数名称 ：
-** 函数功能 ：串口接收中断服务程序
-** 入口参数 ：
-**
-** 出口参数 ：
-*********************************************************************************************************
-*/
-void USART3_RX(void)
-{
-    //可进行接收处理
-    if(((m_tempdata.m_uartrcv[UARTDEV_3].WD + 1) % MAX_UARTRCV_LEN) != m_tempdata.m_uartrcv[UARTDEV_3].RD)
-    {
-         m_tempdata.m_uartrcv[UARTDEV_3].buff[m_tempdata.m_uartrcv[UARTDEV_3].WD]=(uint8_t)HAL_UART_Receive(&huart3 , (uint8_t *)m_tempdata.m_uartrcv[UARTDEV_3].buff, 1, 0xFFFF);;
-         m_tempdata.m_uartrcv[UARTDEV_3].WD = (m_tempdata.m_uartrcv[UARTDEV_3].WD + 1) % MAX_UARTRCV_LEN;
-    }
-}
-
-
 /*
 ********************************************************************************
 ** 函数名称 ：unsigned char AirTemp_engine(float Result[5])
