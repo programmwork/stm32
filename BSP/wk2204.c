@@ -25,9 +25,12 @@ s_U3rc hu3;
 /*********************************************************************************/
 void WK2204Init( UINT8 port)
 {
-    uint8_t gena = 0,grst = 0,gier = 0,sier = 0,scr = 0;
+    uint8_t gena = 0,grst = 0,gier = 0,sier = 0,scr = 0, buf[512];
+    memset(buf, 0x00, sizeof(buf));
+    
     //使能子串口时钟
-    gena=WK2204ReadReg(port,WK2XXX_GENA);
+    gena=WK2204ReadReg(port,WK2XXX_GENA, (char*)buf);
+    memset(buf, 0x00, sizeof(buf));
     switch (port)
     {
         case 1://使能子串口 1 的时钟
@@ -48,7 +51,8 @@ void WK2204Init( UINT8 port)
             break;
     }
     //软件复位子串口
-    grst=WK2204ReadReg(port,WK2XXX_GRST);
+    grst=WK2204ReadReg(port,WK2XXX_GRST, (char*)buf);
+    memset(buf, 0x00, sizeof(buf));
     switch (port)
     {
         case 1://软件复位子串口 1
@@ -69,7 +73,8 @@ void WK2204Init( UINT8 port)
         break;
     }
     //使能子串口中断，包括子串口总中断和子串口内部的接收中断，和设置中断触点
-    gier=WK2204ReadReg(port,WK2XXX_GIER);
+    gier=WK2204ReadReg(port,WK2XXX_GIER, (char*)buf);
+    memset(buf, 0x00, sizeof(buf));
     switch (port)
     {
         case 1://软件复位子串口 1
@@ -91,7 +96,8 @@ void WK2204Init( UINT8 port)
         break;
     }
     //使能子串口接收触点中断和超时中断
-    sier=WK2204ReadReg(port,WK2XXX_SIER);
+    sier=WK2204ReadReg(port,WK2XXX_SIER, (char*)buf);
+    memset(buf, 0x00, sizeof(buf));
     sier |= WK2XXX_RFTRIG_IEN|WK2XXX_RXOUT_IEN;
     WK2204WriteReg(port,WK2XXX_SIER,sier);
     // 初始化 FIFO 和设置固定中断触点
@@ -102,7 +108,7 @@ void WK2204Init( UINT8 port)
     WK2204WriteReg(port,WK2XXX_TFTL,0X10);//设置发送触点为 16 个字节
     WK2204WriteReg(port,WK2XXX_SPAGE,0);//切换到 page0
     //使能子串口的发送和接收使能
-    scr=WK2204ReadReg(port,WK2XXX_SCR);
+    scr=WK2204ReadReg(port,WK2XXX_SCR, (char*)buf);
     scr|=WK2XXX_TXEN|WK2XXX_RXEN;
     WK2204WriteReg(port,WK2XXX_SCR,scr);
 }
@@ -148,9 +154,9 @@ void WK2204WriteReg(unsigned char port,unsigned char reg,unsigned char dat)
 // rec_data:为读取到的寄存器值
 //注意：在子串口被打通的情况下，读 FDAT，实际上就是读取 uart 的 rx 接收的数据
 /*************************************************************************/
-unsigned char WK2204ReadReg(unsigned char port,unsigned char reg, unsigned char *data)
+unsigned char WK2204ReadReg(unsigned char port,unsigned char reg, uint8_t *data)
 {
-    uint8_t  cmd = 0x00, str[8], buffer[MAX_PKGLEN], len;
+    uint8_t  cmd = 0x00, str[8], buffer[MAX_PKGLEN];
     uint16_t len = 0, rd = 0, i = 10, j = 256;
 
     memset(str, 0x00, sizeof(str));
@@ -162,7 +168,7 @@ unsigned char WK2204ReadReg(unsigned char port,unsigned char reg, unsigned char 
         //接收返回的寄存器值
         if((hu3.WD ) != hu3.RD)//必须处理
         {
-            data = hu3.buff[hu3.RD];            
+            *data = hu3.buff[hu3.RD];            
             hu3.RD = (hu3.RD + 1)%MAXLEN;            
             return success;
         }
@@ -209,11 +215,13 @@ unsigned char WK2204ReadFIFO(unsigned char port,unsigned char num)
 /*************************************************************************/
 unsigned char WK2204ReadFIFO_byte(unsigned char port,unsigned char* data, uint16_t len)
 {
-    uint8_t rec_data, cmd = 0x00, reg;
+    uint8_t rec_data, cmd = 0x00, reg, buf[512];
     uint32_t timeout = 10, fifo_len = 512;
 
+    memset(buf, 0x00, sizeof(buf));
     //查询FSR是否有数据     
-    reg= WK2204ReadReg(PORT_1, WK2204_FSR);    
+    reg= WK2204ReadReg(PORT_1, WK2204_FSR, (char*)buf); 
+    memset(buf, 0x00, sizeof(buf));
     
     //0x08 == bit0001000   FSR子串口FIFO状态寄存器和第四bit进行逻辑或
     while(0x08 | reg)
@@ -222,8 +230,9 @@ unsigned char WK2204ReadFIFO_byte(unsigned char port,unsigned char* data, uint16
         //发送读取子串口 FIFO 数据寄存器命令
         uartSendStr(UARTDEV_3, (unsigned char *)cmd, sizeof(cmd));
 
-        //接收返回的寄存器值
-        //len = sprintf(data, "%s", WK2204ReadReg(UARTDEV_3, WK2204_FDAT));
+        *data = WK2204ReadReg(UARTDEV_3, WK2204_FDAT, (char*)buf);
+        data++;
+        
     }
     return len;
 }
@@ -237,7 +246,8 @@ unsigned char WK2204ReadFIFO_byte(unsigned char port,unsigned char* data, uint16
 *************************WK2204SetBaud******************************************/
 void WK2204SetBaud(UINT8 port,int baud)
 {
-UINT8 baud1 = 0, baud0 = 0, pres = 0, scr = 0;
+UINT8 baud1 = 0, baud0 = 0, pres = 0, scr = 0, buf[512];
+memset(buf, 0x00, sizeof(buf));
 //如下波特率相应的寄存器值，是在外部时钟为 11.0592 的情况下计算所得，如果使用其他晶振，需要重新计算
 switch (baud)
 {
@@ -328,7 +338,7 @@ switch (baud)
         pres=0;
      }
     //关掉子串口收发使能
-    scr=WK2204ReadReg(port,WK2XXX_SCR); 
+    scr=WK2204ReadReg(port,WK2XXX_SCR, (char*)buf); 
     WK2204WriteReg(port,WK2XXX_SCR,0);
     //设置波特率相关寄存器
     WK2204WriteReg(port,WK2XXX_SPAGE,1);//切换到 page1

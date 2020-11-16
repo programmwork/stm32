@@ -9,7 +9,6 @@
 #include "sensor_basic.h"
 #include <stdio.h>
 #include <string.h>
-#include <adc12_a.h>
 
 sensor_state_t sensor_state;
 

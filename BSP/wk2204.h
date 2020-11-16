@@ -101,7 +101,7 @@ extern unsigned char TxRxBuffer;
 void WK2204Init(UINT8 port);
 void BaudAdaptive();
 void WK2204WriteReg(unsigned char port,unsigned char reg,unsigned char dat);
-unsigned char WK2204ReadReg(unsigned char port,unsigned char reg);
+unsigned char WK2204ReadReg(unsigned char port,unsigned char reg, unsigned char *data);
 void WK2204WriteFIFO(unsigned char port,unsigned char *send_da,unsigned char num);
 unsigned char WK2204ReadFIFO(unsigned char port,unsigned char num);
 void WK2204SetBaud(UINT8 port,int baud);

@@ -1153,7 +1153,7 @@ int cmd_date(char *buf,char *rbuf)
         m_tempdata.m_RtcTateTime.year  =year;
         m_tempdata.m_RtcTateTime.month =mon;
         m_tempdata.m_RtcTateTime.day   =day;
-        //DS3231_SetTime(&m_tempdata.m_RtcTateTime);
+        DS3231_SetTime(&m_tempdata.m_RtcTateTime);
         rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
           return rlen;
 
@@ -1250,7 +1250,7 @@ int cmd_time(char *buf,char *rbuf)
     m_tempdata.m_RtcTateTime.hour  =hour;
     m_tempdata.m_RtcTateTime.min   =min;
     m_tempdata.m_RtcTateTime.sec   =sec;
-    //DS3231_SetTime(&m_tempdata.m_RtcTateTime);
+    DS3231_SetTime(&m_tempdata.m_RtcTateTime);
     rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
     return rlen;
 
@@ -1371,7 +1371,7 @@ int cmd_datetime(char *buf,char *rbuf)
     m_tempdata.m_RtcTateTime.min   =min;
     m_tempdata.m_RtcTateTime.sec   =sec;
     
-    //DS3231_SetTime(&m_tempdata.m_RtcTateTime);
+    DS3231_SetTime(&m_tempdata.m_RtcTateTime);
     rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
     return rlen;
 
@@ -4137,14 +4137,15 @@ int cmd_debugon(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    if(0 != strcmp(temp_di,(char *)&sensor_di))
+    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }
+    { return 0; }*/
 
     //开启调试模式
     m_tempdata.DebugON = true;
+    m_tempdata.DebugONCnt = 0;
     rlen = sprintf((char *)rbuf,"<Open debug mode.>\r\n");
     return rlen;
 }
@@ -4190,12 +4191,11 @@ int cmd_debugoff(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    if(0 != strcmp(temp_di,(char *)&sensor_di))
+    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }
-
+    { return 0; }*/
     m_tempdata.DebugON = false;
     m_tempdata.DebugONCnt = 0;
     //m_tempdata.SecDataOut = false;    //关闭私有命令权限时  关闭秒数据发送
@@ -4244,11 +4244,11 @@ int cmd_version(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    if(0 != strcmp(temp_di,(char *)&sensor_di))
+    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }
+    { return 0; }*/
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -4302,11 +4302,11 @@ int cmd_restore(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    if(0 != strcmp(temp_di,(char *)&sensor_di))
+    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }
+    { return 0; }*/
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -4364,11 +4364,11 @@ int cmd_starttime(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    if(0 != strcmp(temp_di,(char *)&sensor_di))
+    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }
+    { return 0; }*/
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -4426,11 +4426,11 @@ int cmd_secdout_on(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    if(0 != strcmp(temp_di,(char *)&sensor_di))
+    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }
+    { return 0; }*/
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -4485,11 +4485,11 @@ int cmd_secdout_off(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    if(0 != strcmp(temp_di,(char *)&sensor_di))
+    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }
+    { return 0; }*/
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -4550,11 +4550,11 @@ int cmd_erase_check(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    if(0 != strcmp(temp_di,(char *)&sensor_di))
+    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }
+    { return 0; }*/
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -5030,9 +5030,18 @@ int cmd_version_cfg(char *buf,char *rbuf)
 {
     char *p = NULL, i = 0, rlen = 0, buffer[20];
     memset(buffer, 0x00, sizeof(buffer));
-    
+
+    //验证设备是否开启调试模式
+    if(m_tempdata.DebugON != true)
+    {
+       rlen = sprintf((char *)rbuf,"<Please open debug mode.>\r\n");
+       goto err;
+    }
     if(0 == Utils_CheckCmdStr(buf))
-    {goto err;}
+    {
+        rlen = sprintf((char *)rbuf,"<error format.>\r\n");
+        goto err;
+    }
     p = strtok(buf, ",");
     while(p)
     {
@@ -5049,18 +5058,23 @@ int cmd_version_cfg(char *buf,char *rbuf)
             }
             else
             {
+                rlen = sprintf((char *)rbuf,"<out of byte.>\r\n");
                 goto err;
             }
             break;
         }
-        default:    
+        default:
+            rlen = sprintf((char *)rbuf,"<Please input version.>\r\n");        
             goto err;
         }
         p = strtok(NULL, ",");
         i++;
     }
     if(( i != 4))  
+    {
+        rlen = sprintf((char *)rbuf,"<error format.>\r\n");
         goto err;
+    }
     
     //硬件版本写入结构体
     memset(m_defdata.m_baseinfo.hard_version, 0x00, sizeof(m_defdata.m_baseinfo.hard_version));
@@ -5074,6 +5088,5 @@ int cmd_version_cfg(char *buf,char *rbuf)
     return rlen;
 err:
     //返回失败
-    rlen = sprintf((char *)rbuf,"set hard version fail");
     return rlen;
 }
