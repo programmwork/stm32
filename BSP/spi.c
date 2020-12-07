@@ -61,25 +61,54 @@ uint8_t SPIInit( uint8_t num )
 			return 0;
 		}
 
-    if(num == 1)
-			hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
-		if(num == 2)
-			hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
-		if(num == 3)
-			hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
-		
-    hspi->Init.Direction = SPI_DIRECTION_2LINES;
-		hspi->Init.CLKPhase = SPI_PHASE_1EDGE;
-    hspi->Init.CLKPolarity = SPI_POLARITY_LOW;
-    hspi->Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-    hspi->Init.CRCPolynomial = 7;
-    hspi->Init.DataSize = SPI_DATASIZE_8BIT;
-    hspi->Init.FirstBit = SPI_FIRSTBIT_MSB;
-    hspi->Init.NSS = SPI_NSS_SOFT;
-    hspi->Init.TIMode = SPI_TIMODE_DISABLE;
-    hspi->Init.Mode = SPI_MODE_MASTER;
-		hspi->Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
-		hspi->Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+    if(SpiHandle1.Instance == SPI1)
+    {
+        hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+        hspi->Init.Direction = SPI_DIRECTION_2LINES;
+        hspi->Init.CLKPhase = SPI_PHASE_1EDGE;
+        hspi->Init.CLKPolarity = SPI_POLARITY_LOW;
+        hspi->Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+        hspi->Init.CRCPolynomial = 7;
+        hspi->Init.DataSize = SPI_DATASIZE_8BIT;
+        hspi->Init.FirstBit = SPI_FIRSTBIT_MSB;
+        hspi->Init.NSS = SPI_NSS_SOFT;
+        hspi->Init.TIMode = SPI_TIMODE_DISABLE;
+        hspi->Init.Mode = SPI_MODE_MASTER;
+        hspi->Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+        hspi->Init.NSSPMode = SPI_NSS_PULSE_ENABLE;         
+    }
+	if(SpiHandle1.Instance == SPI2)
+    {   
+		hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;        
+        hspi->Init.Direction = SPI_DIRECTION_2LINES;
+        hspi->Init.CLKPhase = SPI_PHASE_2EDGE;
+        hspi->Init.CLKPolarity = SPI_POLARITY_HIGH;
+        hspi->Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+        hspi->Init.CRCPolynomial = 7;
+        hspi->Init.DataSize = SPI_DATASIZE_8BIT;
+        hspi->Init.FirstBit = SPI_FIRSTBIT_MSB;
+        hspi->Init.NSS = SPI_NSS_SOFT;
+        hspi->Init.TIMode = SPI_TIMODE_DISABLE;
+        hspi->Init.Mode = SPI_MODE_MASTER;
+        hspi->Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+        hspi->Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+    } 
+	if(SpiHandle1.Instance == SPI3)
+    {   
+        hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+        hspi->Init.Direction = SPI_DIRECTION_2LINES;
+        hspi->Init.CLKPhase = SPI_PHASE_1EDGE;
+        hspi->Init.CLKPolarity = SPI_POLARITY_LOW;
+        hspi->Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+        hspi->Init.CRCPolynomial = 7;
+        hspi->Init.DataSize = SPI_DATASIZE_8BIT;
+        hspi->Init.FirstBit = SPI_FIRSTBIT_MSB;
+        hspi->Init.NSS = SPI_NSS_SOFT;
+        hspi->Init.TIMode = SPI_TIMODE_DISABLE;
+        hspi->Init.Mode = SPI_MODE_MASTER;
+        hspi->Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+        hspi->Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+   }
 	
 //3?и║??бе
 	

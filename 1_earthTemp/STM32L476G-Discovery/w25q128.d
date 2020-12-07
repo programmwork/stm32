@@ -69,6 +69,7 @@ stm32l476g-discovery\w25q128.o: ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal_uart_e
 stm32l476g-discovery\w25q128.o: ..\BSP\AD7792.h
 stm32l476g-discovery\w25q128.o: ..\BSP\W25Q128.h
 stm32l476g-discovery\w25q128.o: ..\BSP\ds3231.h
+stm32l476g-discovery\w25q128.o: ..\BSP\adc12_a.h
 stm32l476g-discovery\w25q128.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l476g-discovery\w25q128.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l476g-discovery\w25q128.o: ..\APP\sensor\sensor_basic.h
