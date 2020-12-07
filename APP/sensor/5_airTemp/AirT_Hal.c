@@ -29,7 +29,6 @@
 #define STD_R_VALUE 	100.0f       		            // 标准电阻值
 
 TIM_HandleTypeDef htim1;
-extern UART_HandleTypeDef huart3;
 
 // 通道1配置寄存器的值：偏置禁用、单极性编码、4倍增益、内部基准电压、缓冲使能、通道1采样
 //0x1290

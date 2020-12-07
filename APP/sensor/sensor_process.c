@@ -81,6 +81,27 @@ void time_task(void *pvParameters)
                     m_tempdata.m_RtcTateTime = time_struct_hardrtc_temp;
                 }
             }
+
+            if(m_tempdata.event.uart_config == true)
+            {
+                m_tempdata.event.uart_config_counter++;
+                if(m_tempdata.event.uart_config_counter > 3)
+                {
+                    Uart_CFG(1, 0);
+                    m_tempdata.event.uart_config == false;
+                    m_tempdata.event.uart_config_counter = 0;
+                }
+            }
+            if(m_tempdata.event.uart_config2 == true)
+            {
+                m_tempdata.event.uart_config_counter2++;
+                if(m_tempdata.event.uart_config_counter2 > 3)
+                {
+                    Uart_CFG(2, 0);
+                    m_tempdata.event.uart_config2 == false;
+                    m_tempdata.event.uart_config_counter2 = 0;
+                }
+            }
         }
 
          if((p_min!=m_tempdata.m_RtcTateTime.min)

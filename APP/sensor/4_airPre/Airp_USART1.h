@@ -16,21 +16,22 @@
 #ifndef __AIRP_USART1_H_
 #define	__AIRP_USART1_H_
 
-#define	AirP_TX_RX_BUFF_LEN		32
+#define	TX_RX_BUFF_LEN		32
 
 /* 串口处理ADU数据帧的阶段描述 */
-#define	AirP_USART1_PROCESSING_IDEL				  0
-#define	AirP_USART1_PROCESSING_SENDING			  1
-#define	AirP_USART1_PROCESSING_RECEIVING		  2
-#define	AirP_USART1_PROCESSING_FINISH			  3
-#define	AirP_USART1_PROCESSING_ERR				  4
+#define	USART_PROCESSING_IDEL				  0
+#define	USART_PROCESSING_SENDING			  1
+#define	USART_PROCESSING_RECEIVING		  2
+#define	USART_PROCESSING_FINISH			  3
+#define	USART_PROCESSING_ERR				  4
 
-unsigned char AirP_TxRxIndex;
 
 extern unsigned char   UartProcessingPhase;
 extern unsigned char RevStep;
+extern unsigned char TxRxIndex;
 
-static unsigned int AirP_T3IntCounter;
+
+static unsigned int T3IntCounter;
 extern char TxRxBuffer[];															// 缓冲区
 extern unsigned char  TxRxLength;						          // 字节长度
 extern unsigned char T3Timer_start;

@@ -222,10 +222,14 @@ void harddog_init(void)
 void harddog_feed(void)
 {
     uint32_t i = 10;
-    
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_SET);
-    while(i--);
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_RESET);
+
+    //不是true喂狗
+    if(m_tempdata.reset != true)
+    {
+        HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_SET);
+        while(i--);
+        HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_RESET);
+    }
 }
 
 
@@ -433,7 +437,7 @@ void tempdata_init(s_tempdata_t *p_tempdata_t)
     p_tempdata_t->m_opencomset_t.counter=0;
 
 
-    m_tempdata.alive_counter=0;
+    m_tempdata.reset=false;
 
     //传感器状态值
     memset(&sensor_state,0,sizeof(sensor_state));
@@ -450,6 +454,11 @@ void tempdata_init(s_tempdata_t *p_tempdata_t)
     }
     board_volt_max = bcm_info.common.boardsvolt_max * 1.1;
     board_volt_min = bcm_info.common.boardsvolt_min * 0.9;
+
+    m_tempdata.event.uart_config = false;
+    m_tempdata.event.uart_config_counter = 0;
+    m_tempdata.event.uart_config2 = false;
+    m_tempdata.event.uart_config_counter2 = 0;
 }
 
 

@@ -63,11 +63,12 @@ typedef enum
     SECDOUTON,         //6 输出秒级数据
     SECDOUTOFF,
     ERASECR,
-    CFC,               //7 标定传感器系数
-    WINDH,             //8 风拨码开关设置
-    STSENSOR,          //9 低温传感器数量及深度配置
-    SHSENSOR,          //10 土壤水分传感器数量及深度配置
-    HARDVERCFG,         //硬件版本号写入
+    CFC,               //8 标定传感器系数
+    WINDH,             //9 风拨码开关设置
+    STSENSOR,          //10 低温传感器数量及深度配置
+    SHSENSOR,          //11 土壤水分传感器数量及深度配置
+    HARDVERCFG,        //12硬件版本号写入
+    SETCOM2,           //13设置或读取设备的通讯参数
 
 	MAX_COMMAND_NUM
 } cmd_index_t;
@@ -145,7 +146,9 @@ int cmd_cfc         (char *buf,char *rbuf);     //A.7　标定系数
 int cmd_windh       (char *buf,char *rbuf);     //A.8　风传感器拨码开关设置
 int cmd_stsensor    (char *buf,char *rbuf);     //A.9　地温传感器配置
 int cmd_shsensor    (char *buf,char *rbuf);     //A.10　土壤水分传感器配置
-int cmd_version_cfg (char *buf,char *rbuf);      //12    硬件版本号写入
+int cmd_version_cfg (char *buf,char *rbuf); //A.11    硬件版本号写入
+int cmd_setcom2     (char *buf,char *rbuf);          //A.12　设置或读取设备的通讯参数
+
 
 //--------------------------- 私有命令结束  ------------------------------------------
 

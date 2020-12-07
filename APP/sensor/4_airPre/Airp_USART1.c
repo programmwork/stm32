@@ -16,20 +16,26 @@
 #include "sensor_basic.h"
 
 
-char TxRxBuffer[AirP_TX_RX_BUFF_LEN];								// 接收发送缓冲区
+char TxRxBuffer[TX_RX_BUFF_LEN];								// 接收发送缓冲区
 unsigned char  TxRxLength;											// 接收发送数据长度
-
-
-unsigned char AirP_TxRxIndex;
+unsigned char TxRxIndex;
 
 unsigned char UartProcessingPhase;
-unsigned char AirP_RevStep;
+unsigned char RevStep;
 
-static  unsigned int AirP_T3IntCounter;
+static  unsigned int T3IntCounter;
 
 unsigned char T3Timer_start = 0;
 volatile unsigned char Flag_DataValid;
-unsigned long AirpValue;
+unsigned long Value;
+extern UART_HandleTypeDef huart3;
+
+void Airp_Init(void)
+{
+    UART_Init(3, 9600, 8, 'N', 1, 1);
+
+    UartProcessingPhase = USART_PROCESSING_IDEL;  
+}
 
 /*
 *********************************************************************************************************
@@ -40,13 +46,13 @@ unsigned long AirpValue;
 ** 出口参数 ：无
 *********************************************************************************************************
 */
-void AirH_USART3_Init(void)
+/*void AirH_USART3_Init(void)
 {
   uart1Init(9600,8,'N',1);
 
   if(bcm_info.sensor.ce == 0)
   {
-    /* T3定时器初始化 */
+    //T3定时器初始化 
       Init_Timer1(50);  //最多到65
 
     AirP_T3_STOP_COUNTING();
@@ -57,7 +63,7 @@ void AirH_USART3_Init(void)
   {
     Flag_DataValid = 0;
   }
-}
+}*/
 
 /*
 *********************************************************************************************************
@@ -94,66 +100,13 @@ void AirP_USART1_ResetProcessingPhase(void)
   UartProcessingPhase = USART_PROCESSING_IDEL;
 }
 
-/*
-*********************************************************************************************************
-** 函数名称 ：void USART1_SendAudData(void)
-** 函数功能 ：利用中断发送AduBuffer中的数据
-** 入口参数 ：
-**
-** 出口参数 ：无
-*********************************************************************************************************
-*/
-unsigned char AirP_USART1_SendBytes(void)
-{	
-	if(TxRxLength > AirP_TX_RX_BUFF_LEN)  return 0; 
-    
-  if(UartProcessingPhase != USART_PROCESSING_IDEL)	return 0;		// 串口忙
-		
-  USCI_A_UART_disableInterrupt(USCI_A1_BASE, USCI_A_UART_RECEIVE_INTERRUPT);																			// 禁止接收中断
-  UCA1IFG &= ~UCTXIFG;                                     // 接收中断标志位清零
-	
-  UCA1IFG &= ~UCRXIFG;                                     // 发送中断标志位清零
-	
-	TxRxIndex = 1;                                  // 下次发送TxRxBuffer[1]
-	
-	USCI_A_UART_transmitData(USCI_A1_BASE, TxRxBuffer[0]);					// 开始发送数据
-
-	USCI_A_UART_enableInterrupt(USCI_A1_BASE, USCI_A_UART_TRANSMIT_INTERRUPT);		// 使能发送中断
-	
-	UartProcessingPhase = USART_PROCESSING_SENDING;// 正在发送数据
-	
-	return 1;                                       // 成功
-}
-
-/*
-*********************************************************************************************************
-** 函数名称 ：
-** 函数功能 ：串口发送中断服务程序
-** 入口参数 ：
-**
-** 出口参数 ：
-*********************************************************************************************************
-*/
-void USART3_TX(void)
+void AirP_Init(void)
 {
-	if(TxRxIndex < TxRxLength)
-	{
-	    USCI_A_UART_transmitData(USCI_A1_BASE, TxRxBuffer[TxRxIndex++]);
-	}
-	else														// 开始接收数据
-	{
-		USCI_A_UART_disableInterrupt(USCI_A1_BASE, USCI_A_UART_TRANSMIT_INTERRUPT);
-		
-		UartProcessingPhase = USART_PROCESSING_RECEIVING;		// 正在接收数据
-		
-		USCI_A_UART_enableInterrupt(USCI_A1_BASE, USCI_A_UART_RECEIVE_INTERRUPT);    // 使能接收中断
-    
-    TxRxIndex = 0;
-    RevStep = 1;
-		
-		AirP_T3_START_COUNTING();					// 启动接收超时定时器
-	}
+    UART_Init(3, 9600, 8, 'N', 1, 1);
+
+    UartProcessingPhase = USART_PROCESSING_IDEL;  
 }
+
 
 /*
 *********************************************************************************************************
@@ -168,7 +121,7 @@ unsigned char Airp_USART1_TK_Check(unsigned long *pAirp)
 {
   if(Flag_DataValid)
   {
-    *pAirp = AirpValue;
+    *pAirp = Value;
     Flag_DataValid = 0;
     return 1;
   }
@@ -191,183 +144,50 @@ void USART3_RX(void)
 	
 	//URX1IF = 0;
 	
-	td = UCA1RXBUF;										      // 读取缓冲区数据
+	td = (uint8_t)(huart3.Instance->RDR);										      // 读取缓冲区数据
 	
   if(bcm_info.sensor.ce == 0)
   {
     AirP_T3_RESTART_COUNTING();						// 重启超时定时器
-    
-    switch(RevStep)
-    {
-    case 1:																// 接收数据状态
-      if(td == 0x0D)	RevStep = 2;				// 切换到接收换行符的状态
-      else	
-      {
-        if(TxRxIndex >= AirP_TX_RX_BUFF_LEN)
-        {
-          AirP_T3_STOP_COUNTING();
-          RevStep = 0;	              // 不接收任何数据
-          //URX1IE = 0;											// 禁止接收中断
-          //URX1IF = 0;
-          UartProcessingPhase = USART_PROCESSING_ERR;
-        }
-        else
-        {
-            TxRxBuffer[TxRxIndex++] = td;
-        }
-      }
-      break;
-      
-    case 2:																// 接收换行符的状态		
-      AirP_T3_STOP_COUNTING();
-      
-      if(td == 0x0A)											// 成功接收一帧数据
-      {
-        TxRxBuffer[TxRxIndex] = 0;				// 将接收的数据转换成字符串（不是必须）
-        TxRxLength = TxRxIndex;						// 数据帧长度，不包括字符串最后接收的回车换行
-        UartProcessingPhase = USART_PROCESSING_FINISH;	// 已经接收到正确的ADU数据帧
-      }
-      else
-      {
-        UartProcessingPhase = USART_PROCESSING_ERR;			// 接收的数据帧错误，串口空闲
-      }
-      
-      //URX1IE = 0;													    // 禁止接收中断
-      //URX1IF = 0;
-      RevStep = 0;												// 复位状态机
-      break;
-      
-    default : break;
-    }	  
-  }
-  else if(bcm_info.sensor.ce == 3)            // 泰科传感器
-  {
-    static unsigned char RevStep = 0;
-    static unsigned char revBuffer[6];
-        
-    if(td == 'B')	
-    {
-      RevStep = 1;	
-      return;
-    }
-    else if(RevStep == 0) return;
-    
-    
-    switch(RevStep)
-    {
-    case 1:																// 接收'G'
-      if(td == 'G')	RevStep = 2;	
-      else RevStep = 0;
-      break;
-      
-    case 2:																// 
-      if(td == ',')	RevStep++;	
-      else RevStep = 0;
-      break;
-      
-    case 3:																// 接收003
-      if(td == '0')	RevStep++;	
-      else RevStep = 0;
-      break;
-      
-    case 4:																
-      if(td == '0')	RevStep++;	
-      else RevStep = 0;
-      break;
-      
-    case 5:														
-      if(td == '1')	RevStep++;	
-      else RevStep = 0;
-      break;
-      
-    case 6:																// 
-      if(td == ',')	RevStep++;	
-      else RevStep = 0;
-      break;
-      
-    case 7:																// 
-      if((td >'9') || (td < '0')) 
-        RevStep = 0;
-      else
-      {
-        revBuffer[0] = td;
-        RevStep++; 	    
-      }
-      break;
-      
-    case 8:																// 
-      if((td >'9') || (td < '0')) 
-        RevStep = 0;
-      else
-      {
-        revBuffer[1] = td;
-        RevStep++; 	    
-      }
-      break;
-      
-    case 9:																// 
-      if((td >'9') || (td < '0')) 
-        RevStep = 0;
-      else
-      {
-        revBuffer[2] = td;
-        RevStep++; 	    
-      }
-      break;
-      
-    case 10:																// 
-      if((td >'9') || (td < '0')) 
-        RevStep = 0;
-      else
-      {
-        revBuffer[3] = td;
-        RevStep++; 	    
-      }
-      break;
-      
-    case 11:																// 
-      if((td >'9') || (td < '0')) 
-        RevStep = 0;
-      else
-      {
-        revBuffer[4] = td;
-        revBuffer[5] = 0;
-        AirpValue = atol((char *)revBuffer);
-        RevStep++; 	    
-      }
-      break;
 
-    case 12:																// 
-      if(td == ',')	RevStep++;	
-      else RevStep = 0;
-      break;
-      
-    case 13:																// 
-      if(td == 'E')	RevStep++;	
-      else RevStep = 0;
-      break;
-      
-    case 14:																// 
-      if(td == 'D')	RevStep++;	
-      else RevStep = 0;
-      break;
-      
-    case 15:																// 
-      if(td == '\r')	RevStep++;	
-      else RevStep = 0;
-      break;
-      
-    case 16:																// 
-      if(td == '\n')	
-      {
-        Flag_DataValid = 1;
-      }
-      
-      RevStep = 0;
-      break;
-      
-    default : break;
-    }	
-  }
+    switch(RevStep)
+    {
+        case 1:                                                             // 接收数据状态
+            if(td == 0x0D)
+            {
+                TxRxBuffer[TxRxIndex] = 0;              // 将接收的数据转换成字符串（不是必须）
+                
+                RevStep = 2;
+            }
+            else
+            {
+                if(TxRxIndex >= TX_RX_BUFF_LEN)
+                {
+                    RevStep = 0;                  // 不接收任何数据
+                    
+                    UartProcessingPhase = USART_PROCESSING_ERR;
+                }
+                else
+                {
+                    TxRxBuffer[TxRxIndex++] = td;
+                }
+            }
+            break;
+        case 2:
+            if(td == 0x0A)
+            {
+                RevStep = 1;
+                TxRxLength = TxRxIndex;                        // 数据帧长度，不包括字符串最后接收的回车换行
+                UartProcessingPhase = USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
+            }
+            else
+            {
+                UartProcessingPhase = USART_PROCESSING_ERR;
+                RevStep = 0;
+            }
+        default : break;
+        }   
+
+    }
 }
 

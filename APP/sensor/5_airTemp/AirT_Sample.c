@@ -68,7 +68,7 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
         temp_sample_event= AirTemp_engine(temp_value);//读计数清零计数
     }
     
-    if((temp_sample_event == 1) && (sec_flag == 1))//没有采集完成
+    if(temp_sample_event == 1)//没有采集完成
     {
         temp_sample_event = 0;
         sec_flag = 0;

@@ -92,8 +92,7 @@ unsigned char AirH_engine(float *result)
 { 
     UINT8 buffer[10];
     UINT32 count = 50;
-
-
+    
     unsigned char phase = AirH_USART3_GetProcessingPhase();
 
     if(phase == USART_PROCESSING_IDEL)												// 閸掋倖鏌囬弰顖氭儊缁屾椽妫�

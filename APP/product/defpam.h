@@ -185,11 +185,14 @@ typedef struct _tempdata
         U8 hourstorageevent;//存储
         U8 readdataevent;//历史数据事件  wjj 20150510
         U8 uart_config;
+        U8 uart_config2;
+        U8 uart_config_counter;
+        U8 uart_config_counter2;
     }event;
 
     U8   currentCmdIndex;
     U8   currentUartIndex;  //0~3
-    U8   alive_counter;     //用于计算看门狗复位时间
+    U8   reset;     //用于计算看门狗复位时间
 //----------------------------------------------------------
 //down历史数据
     U16 Count_down_history;  //历史数据条数  不能超过60*12条

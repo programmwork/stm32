@@ -103,6 +103,7 @@ const bcm_control_t bcm_control={
         {"STSENSOR"  ,&cmd_stsensor},          //10 地温传感器数量及深度配置
         {"SHSENSOR"  ,&cmd_shsensor},          //11 土壤水分传感器数量及深度配置
         {"VERSIONCFG",&cmd_version_cfg},       //12 版本号写入
+        {"SETCOM2"   ,&cmd_setcom2},           //13 设置或读取设备的通讯参数
     }
 };
 
@@ -366,13 +367,7 @@ int cmd_setcom(char *buf,char *rbuf)
 
     //6 写入FLASH  并返回成功
     save_sys_cfg(&bcm_info);
-    rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n%ld,%d,%c,%d\r\n",
-                              sensor_di,m_defdata.m_baseinfo.id,
-
-                              bcm_info.common.se[0].baudrate,
-                              bcm_info.common.se[0].datasbit,
-                              bcm_info.common.se[0].parity,
-                              bcm_info.common.se[0].stopbits);
+    rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n", sensor_di,m_defdata.m_baseinfo.id);
     m_tempdata.event.uart_config = true;
     return rlen;
 
@@ -380,6 +375,7 @@ err:
     rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
   return rlen;
 }
+
 /*==================================================================
 *函数：             cmd_autocheck
 *作者：
@@ -3131,13 +3127,7 @@ int cmd_reset(char *buf,char *rbuf)
     { return 0; }
 */
     //2 看门狗停止工作    设备重启
-    //WDTCTL=WDT_ARST_1000;
-    //Stop_Timer0();
-    while(1)
-    {
-        m_tempdata.alive_counter=250;
-    }
- 
+    m_tempdata.reset=true; 
     
 err:
   rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
@@ -5091,3 +5081,128 @@ err:
     //返回失败
     return rlen;
 }
+/*==================================================================
+*函数：             cmd_setcom
+*作者：
+*日期：           2017-12-07
+*功能：           B.1　设置或读取设备的通讯参数
+           参数： 设备标识符,设备ID,波特率,数据位,奇偶校验,停止位
+           波特率范围：（1200,2400,4800,9600, 19200,38400,57600,115200）
+*输入：           *buf  (输入数据）输入数据地址
+*         *rbuf (输出数据）控制结构地址
+*
+*返回：           打印字符串长度
+*修改记录：
+==================================================================*/
+int cmd_setcom2(char *buf,char *rbuf)
+{
+    //char *temp_di = NULL;
+    //unsigned short temp_id = 0;
+    char *p = NULL, i = 0, rlen = 0;
+    unsigned long int temp_rate = 0;
+    unsigned char temp_data, temp_stop;
+             char *temp_par = NULL;
+    char num = 0;
+    unsigned long  baudrate_tab[] = {1200,2400,4800,9600, 19200,38400,57600,115200};
+
+    if(0 == Utils_CheckCmdStr(buf))
+    {goto err;}
+    p = strtok(buf, ",");
+    while(p)
+    {
+        switch(i)
+        {
+        case 0: break;
+        case 1: break;//{temp_di = p;break;}
+        case 2: break;
+         /* {
+            if(-1 == check_digit(p, 3))//校验 ID是否为数字
+            {goto err;}
+            temp_id = atoi(p);
+            break;
+          }*/
+        case 3:
+          {
+            if(-1 == check_digit(p, strlen(p)))//校验 串口波特率 是否为数字
+            {goto err;}
+            temp_rate = atol(p);
+            break;
+          }
+        case 4:
+          {
+            if(-1 == check_digit(p, 1))//校验 数据位 是否为数字
+            {goto err;}
+            temp_data = atoi(p);
+            break;
+          }
+        case 5:{ temp_par = p; break;}
+        case 6:
+          {
+            if(-1 == check_digit(p, 1))//校验  停止位 是否为数字
+            {goto err;}
+            temp_stop = atoi(p);
+            break;
+          }
+        case 7: break;
+        default:    {goto err;}
+        }
+        p = strtok(NULL, ",");
+        i++;
+    }
+    if(( i != 7) && (i != 3))   {goto err;}
+
+    //1、验证设备标识符,ID是否正确
+    //验证DI
+   /* if(0 != strcmp(temp_di,(char *)&sensor_di))
+      { return 0; }
+    //验证ID
+    if(temp_id != m_defdata.m_baseinfo.id)
+      { return 0; }*/
+    if(i == 3)  // 打印 读取
+    {
+    rlen = sprintf((char *)rbuf,"<%s,%03d,%ld,%d,%c,%d>\r\n",
+                              sensor_di,
+                              m_defdata.m_baseinfo.id,
+                              bcm_info.common.se[1].baudrate,
+                              bcm_info.common.se[1].datasbit,
+                              bcm_info.common.se[1].parity,
+                              bcm_info.common.se[1].stopbits);
+                return rlen;
+    }
+
+    //2 校验 串口波特率  并写入
+    for(num = 0; num < 8; num ++)
+    {
+        if(temp_rate == baudrate_tab[num])
+        {   bcm_info.common.se[1].baudrate = temp_rate;
+            break;
+        }
+    }
+    if(num == 8)
+    {goto err;}
+    //3 校验 数据位  并写入
+    if((temp_data < 5) || (temp_data > 8))
+    {goto err;}
+    bcm_info.common.se[1].datasbit = temp_data;
+
+    //4 校验 校验位  并写入
+    if((0 != strncmp((char *)temp_par,"N",1)) && (0 != strncmp((char *)temp_par,"O",1)) && (0 != strncmp((char *)temp_par,"E",1)))
+    {goto err;}
+    strncpy((char *)&bcm_info.common.se[1].parity,temp_par,1);
+
+    //5 校验 校验位  并写入
+    if((1 != temp_stop) && (2 != temp_stop))
+    {goto err;}
+    bcm_info.common.se[1].stopbits = temp_stop;
+
+    //6 写入FLASH  并返回成功
+    save_sys_cfg(&bcm_info);
+    rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n", sensor_di,m_defdata.m_baseinfo.id);
+    m_tempdata.event.uart_config2 = true;
+    return rlen;
+
+err:
+    rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+  return rlen;
+}
+
