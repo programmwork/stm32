@@ -54,27 +54,28 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
 {
     unsigned char i = 0, sensor_num = 0;
 
-  if(Num_sample<SAMPLE_COUNT)
-  {
-      if(temp_sample_event == 0)
-          temp_sample_event= EarthTemp_engine(temp_value);//读计数清零计数
+    if(Num_sample<SAMPLE_COUNT)
+    {
+        if(temp_sample_event == 0)
+            temp_sample_event= EarthTemp_engine(temp_value);//读计数清零计数
 
-    if((temp_sample_event == 1) && (sec_flag == 1))//没有采集完成
+    if(temp_sample_event == 1)//没有采集完成
     {
         temp_sample_event = 0;
         sec_flag = 0;
 
-      if(Flag_DataEmulationMode == 1)//当X1为1时传感器允许产生模拟数据
-      {
-        if((EmulationSensorChannel >=1)&&(EmulationSensorChannel<=MAX_SENSOR_NUM))
+        if(Flag_DataEmulationMode == 1)//当X1为1时传感器允许产生模拟数据
         {
-          if(EmulationDataType == 0)
-            temp_value[EmulationSensorChannel-1] = (float)((float)EmulationData_1/10);
-          else
-            temp_value[EmulationSensorChannel-1] = (float)((float)EmulationData_1/1000);
+            if((EmulationSensorChannel >=1)&&(EmulationSensorChannel<=MAX_SENSOR_NUM))
+            {
+                if(EmulationDataType == 0)
+                    temp_value[EmulationSensorChannel-1] = (float)((float)EmulationData_1/10);
+                else
+                    temp_value[EmulationSensorChannel-1] = (float)((float)EmulationData_1/1000);
         }
-        else return 0;
-      }
+        else
+            return 0;
+        }
 
       sensor_num = bcm_info.sensor.SensorNum;
 
@@ -110,7 +111,7 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
       
       for(i = 0;i<sensor_num;i++)
       {
-        data_sample_buf[SAMPLE_COUNT*i+Num_sample] = sensors_tempdata->sensor[i].secdata.data;
+          data_sample_buf[SAMPLE_COUNT*i+Num_sample] = sensors_tempdata->sensor[i].secdata.data;
       }
       Quality_Sec_Ctrl(sensors_tempdata);//质量控制
       
@@ -173,15 +174,15 @@ unsigned char Element_MinSample(sensors_data_t *sensors_tempdata)
     for(i = 0;i<sensor_num;i++)
     {
         if(sensors_tempdata->sensor[i].secdata_counter< (2*SAMPLE_COUNT/3))//2*30/3
-        {//缺测
-            sensors_tempdata->sensor[i].mindata.data=INVALID_DATA;
-            sensors_tempdata->sensor[i].mindata.qc=QC_MISSED;
+        {    //缺测
+             sensors_tempdata->sensor[i].mindata.data=INVALID_DATA;
+             sensors_tempdata->sensor[i].mindata.qc=QC_MISSED;
         }
         else
         {//正确
             sensors_tempdata->sensor[i].mindata.data= sensors_tempdata->sensor[i].secdata_add.data \
                                                     / sensors_tempdata->sensor[i].secdata_counter;
-           Quality_Min_Ctrl(sensors_tempdata,i);
+            Quality_Min_Ctrl(sensors_tempdata,i);
         }
     }
     Num_sample = 0;
@@ -211,27 +212,27 @@ static unsigned char Quality_Sec_Ctrl(sensors_data_t *sensors_tempdata)
     if(sensor_num > MAX_SENSOR_NUM)
         sensor_num = MAX_SENSOR_NUM;
 
-  for(i = 0;i<sensor_num;i++)
-  {
-    float result_sensor = sensors_tempdata->sensor[i].secdata.data;
-    //上下限判断
-    if((result_sensor<bcm_info.sensor.qs[i].min) || (result_sensor>bcm_info.sensor.qs[i].max))
+    for(i = 0;i<sensor_num;i++)
     {
-      //sensors_tempdata->sensor[i].secdata.data=INVALID_DATA;
-      sensors_tempdata->sensor[i].secdata.qc=QC_ERROR; 
+        float result_sensor = sensors_tempdata->sensor[i].secdata.data;
+        //上下限判断
+        if((result_sensor<bcm_info.sensor.qs[i].min) || (result_sensor>bcm_info.sensor.qs[i].max))
+        {
+            //sensors_tempdata->sensor[i].secdata.data=INVALID_DATA;
+            sensors_tempdata->sensor[i].secdata.qc=QC_ERROR; 
+        }
+        else
+        {    
+            sensors_tempdata->sensor[i].secdata.qc=iQCPS_Code(i,sensors_tempdata->sensor[i].secdata.data,&bcm_info.sensor.qs[i]);
+          
+            if(sensors_tempdata->sensor[i].secdata.qc == QC_OK)
+            {
+                sensors_tempdata->sensor[i].secdata_counter++;//分钟数据累加
+                sensors_tempdata->sensor[i].secdata_add.data+=result_sensor;
+                sensors_tempdata->sensor[i].secdata_add.qc=QC_OK; 
+            }
+        }
     }
-    else
-    {    
-      sensors_tempdata->sensor[i].secdata.qc=iQCPS_Code(i,sensors_tempdata->sensor[i].secdata.data,&bcm_info.sensor.qs[i]);
-      
-      if(sensors_tempdata->sensor[i].secdata.qc == QC_OK)
-      {
-        sensors_tempdata->sensor[i].secdata_counter++;//分钟数据累加
-        sensors_tempdata->sensor[i].secdata_add.data+=result_sensor;
-        sensors_tempdata->sensor[i].secdata_add.qc=QC_OK; 
-      }
-    }
-  }
   return 0;
 }
 /*

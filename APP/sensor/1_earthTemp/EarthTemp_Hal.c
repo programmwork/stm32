@@ -233,10 +233,25 @@ unsigned char EarthTemp_engine(float result[MAX_SENSOR_NUM])
 
                         result[i] = fp32_1;
                     }
+                    else
+                    {
+                        result[i] = INVALID_DATA;
+                    }
+                }
+                else
+                {
+                    result[i] = INVALID_DATA;
                 }
             }
-        }        
-        result[i] = INVALID_DATA;
+            else
+            {
+                result[i] = INVALID_DATA;
+            }
+        }   
+        else
+        {
+            result[i] = INVALID_DATA;
+        }
     }
     return 1;																												// 数据无效
 }

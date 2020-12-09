@@ -3128,10 +3128,13 @@ int cmd_reset(char *buf,char *rbuf)
 */
     //2 看门狗停止工作    设备重启
     m_tempdata.reset=true; 
+    rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+    return rlen;
+
     
 err:
-  rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
-  return rlen;
+    rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+    return rlen;
 }
 /*==================================================================
 *函数：              cmd_superadmin
