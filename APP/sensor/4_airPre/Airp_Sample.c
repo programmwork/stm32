@@ -54,7 +54,7 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
 
   if(Num_sample<SAMPLE_COUNT)
   {
-    temp_sample_event= Airp_engine(temp_value);//读计数清零计数
+    temp_sample_event= AirP_engine(temp_value);//读计数清零计数
     if(temp_sample_event!=1)//没有采集完成
       return 0;
     else

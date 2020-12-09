@@ -26,20 +26,15 @@
 #define	USART_PROCESSING_ERR					  4
 
 extern unsigned char TxRxIndex;
-
-
 extern unsigned char   UartProcessingPhase;
 extern unsigned char RevStep;
-
 extern char TxRxBuffer[];															// 缓冲区
 extern unsigned char  TxRxLength;						          // 字节长度
 
 void USART3_RX(void);
 extern void AirH_Init(void);
-extern unsigned char AirH_USART3_SendBytes(void);
-extern unsigned char AirH_USART3_GetProcessingPhase(void);
-extern void AirH_USART3_ResetProcessingPhase(void);
+extern unsigned char AirH_GetProcessingPhase(void);
+extern void AirH_ResetProcessingPhase(void);
 
-extern unsigned char AirH_USART3_TK_Check(unsigned long *pAirp);
 
 #endif

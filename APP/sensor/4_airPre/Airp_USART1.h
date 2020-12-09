@@ -29,26 +29,12 @@
 extern unsigned char   UartProcessingPhase;
 extern unsigned char RevStep;
 extern unsigned char TxRxIndex;
-
-
-static unsigned int T3IntCounter;
 extern char TxRxBuffer[];															// 缓冲区
 extern unsigned char  TxRxLength;						          // 字节长度
-extern unsigned char T3Timer_start;
-
-#define AirP_T3_START_COUNTING()         T3Timer_start = 1; T3IntCounter = 0
-
-#define AirP_T3_RESTART_COUNTING()   T3IntCounter = 0
-
-#define AirP_T3_STOP_COUNTING()      T3Timer_start = 0; T3IntCounter = 0
-
 
 void USART3_RX(void);
-extern void AirH_USART3_Init(void);
-extern unsigned char AirH_USART3_SendBytes(void);
-extern unsigned char AirH_USART3_GetProcessingPhase(void);
-extern void AirP_USART1_ResetProcessingPhase(void);
-
-extern unsigned char Airp_USART1_TK_Check(unsigned long *pAirp);
+extern void AirP_Init(void);
+extern unsigned char AirP_GetProcessingPhase(void);
+extern void AirP_ResetProcessingPhase(void);
 
 #endif

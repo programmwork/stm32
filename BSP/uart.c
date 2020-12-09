@@ -41,41 +41,38 @@ uart_dma dma_recv[2];
 
 void HAL_UART_MspInit(UART_HandleTypeDef* huart);
 uint8_t UART_Init(uint8_t num, uint32_t bps, uint8_t databit, uint8_t parity, uint8_t stopbit, uint8_t msp)
-{
-	  
-				
-		UART_HandleTypeDef* huart = 0;
-	
-		if(num == 1)
+{	
+	UART_HandleTypeDef* huart = 0;
+
+	if(num == 1)
+	{
+		huart1.Instance = USART1;
+		huart = &huart1;
+    }
+	else
+	{
+		if(num == 2)
 		{
-				huart1.Instance = USART1;
-				huart = &huart1;
-}
+			huart2.Instance = USART2;
+			huart = &huart2;
+		}
 		else
 		{
-				if(num == 2)
-				{
-					huart2.Instance = USART2;
-					huart = &huart2;
-				}
-				else
-				{
-					if(num == 3)
-					{
-						huart3.Instance = USART3;
-						huart = &huart3;
-					}
-		    }
-		}
-		
+			if(num == 3)
+			{
+				huart3.Instance = USART3;
+				huart = &huart3;
+			}
+	    }
+	}
+	
 
-		if(huart == 0)
-		{
-			return 0;
-		}
-	
-	
-  huart->Init.BaudRate = bps;
+	if(huart == 0)
+	{
+		return 0;
+	}
+
+    huart->Init.BaudRate = bps;
 	
 	if(databit == 7)
 		huart->Init.WordLength = UART_WORDLENGTH_7B;
@@ -86,25 +83,25 @@ uint8_t UART_Init(uint8_t num, uint32_t bps, uint8_t databit, uint8_t parity, ui
 	
 	if(stopbit == 1)
 		huart->Init.StopBits = UART_STOPBITS_1;
-  if(stopbit == 2)
+    if(stopbit == 2)
 		huart->Init.StopBits = UART_STOPBITS_2;
 
 	if(parity == 0)
 		huart->Init.Parity = UART_PARITY_NONE;
-  if(parity == 1)
+    if(parity == 1)
 		huart->Init.Parity = UART_PARITY_EVEN;
 	
-  huart->Init.Mode = UART_MODE_TX_RX;
-  huart->Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart->Init.OverSampling = UART_OVERSAMPLING_16;
-  huart->Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-	huart->AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-	
+    huart->Init.Mode = UART_MODE_TX_RX;
+    huart->Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart->Init.OverSampling = UART_OVERSAMPLING_16;
+    huart->Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+    huart->AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+
 	
 	if(msp == 1)
 	{
 		HAL_UART_MspInit(huart);
-  }
+    }
 	
 	HAL_UART_Init(huart);
 	

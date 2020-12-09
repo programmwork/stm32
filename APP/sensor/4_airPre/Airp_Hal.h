@@ -26,9 +26,8 @@
 #define	__AIRP_HAL_H_
 extern void hal_sensor_init(void);
 extern unsigned char Sensor_Init(void);
-extern unsigned char AirH_engine(float *pResult) ; 
+extern unsigned char AirP_engine(float *pResult) ; 
 extern void Reset_Sensor(void);
-extern void Init_Timer1(unsigned short delayMS);
 
 
 #endif

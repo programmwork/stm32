@@ -18,8 +18,6 @@
 
 TIM_HandleTypeDef htim1;
 
-extern UART_HandleTypeDef huart3;
-
 /********************************************************************************
 ** 閸戣姤鏆熼崥宥囆�? 閿涳�?
 ** 閸戣姤鏆熼崝鐔诲�? 閿涳�?
@@ -31,7 +29,6 @@ extern UART_HandleTypeDef huart3;
 void hal_sensor_init(void)
 {
     Sensor_Init();
-
     SampleData_Init(&sensors_data);
 }
 
@@ -93,7 +90,7 @@ unsigned char AirH_engine(float *result)
     UINT8 buffer[10];
     UINT32 count = 50;
     
-    unsigned char phase = AirH_USART3_GetProcessingPhase();
+    unsigned char phase = AirH_GetProcessingPhase();
 
     if(phase == USART_PROCESSING_IDEL)												// 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
     {
@@ -110,7 +107,7 @@ unsigned char AirH_engine(float *result)
         {                
             if(USART_PROCESSING_FINISH == UartProcessingPhase)
             {
-                AirH_USART3_ResetProcessingPhase();
+                AirH_ResetProcessingPhase();
 
                 if(TxRxLength != 104)  
                 {
@@ -135,7 +132,7 @@ unsigned char AirH_engine(float *result)
                 TxRxIndex = 0;
                 TxRxLength = 0;
 
-                AirH_USART3_ResetProcessingPhase();
+                AirH_ResetProcessingPhase();
 
                 result[0] = INVALID_DATA;
                 result[1] = INVALID_DATA;
@@ -154,7 +151,7 @@ unsigned char AirH_engine(float *result)
             TxRxIndex = 0;
             TxRxLength = 0;
 
-            AirH_USART3_ResetProcessingPhase();
+            AirH_ResetProcessingPhase();
 
             result[0] = INVALID_DATA;
             result[1] = INVALID_DATA;
@@ -166,7 +163,7 @@ unsigned char AirH_engine(float *result)
         TxRxIndex = 0;
         TxRxLength = 0;
 
-        AirH_USART3_ResetProcessingPhase();
+        AirH_ResetProcessingPhase();
 
         result[0] = INVALID_DATA;
         result[1] = INVALID_DATA;

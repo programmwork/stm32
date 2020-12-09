@@ -41,25 +41,25 @@ void AirH_Init(void)
 }
 
 /**********************************************************************************************************
-** 函数名称 ：unsigned char AirH_USART3_GetProcessingPhase(void)
+** 函数名称 ：unsigned char AirH_GetProcessingPhase(void)
 ** 函数功能 ：
 ** 入口参数 ：
 **
 ** 出口参数 ：无
 **********************************************************************************************************/
-unsigned char AirH_USART3_GetProcessingPhase(void)
+unsigned char AirH_GetProcessingPhase(void)
 {
 	return UartProcessingPhase;
 }
 
 /**********************************************************************************************************
-** 函数名称 ：void AirH_USART3_ResetProcessingPhase(void)
+** 函数名称 ：void AirH_ResetProcessingPhase(void)
 ** 函数功能 ：复位串口处理状态机
 ** 入口参数 ：
 **
 ** 出口参数 ：无
 **********************************************************************************************************/
-void AirH_USART3_ResetProcessingPhase(void)
+void AirH_ResetProcessingPhase(void)
 {
   	RevStep = 1;
 	UartProcessingPhase = USART_PROCESSING_IDEL;

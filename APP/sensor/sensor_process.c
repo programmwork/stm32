@@ -88,7 +88,7 @@ void time_task(void *pvParameters)
                 if(m_tempdata.event.uart_config_counter > 3)
                 {
                     Uart_CFG(1, 0);
-                    m_tempdata.event.uart_config == false;
+                    m_tempdata.event.uart_config = false;
                     m_tempdata.event.uart_config_counter = 0;
                 }
             }
@@ -98,7 +98,7 @@ void time_task(void *pvParameters)
                 if(m_tempdata.event.uart_config_counter2 > 3)
                 {
                     Uart_CFG(2, 0);
-                    m_tempdata.event.uart_config2 == false;
+                    m_tempdata.event.uart_config2 = false;
                     m_tempdata.event.uart_config_counter2 = 0;
                 }
             }
