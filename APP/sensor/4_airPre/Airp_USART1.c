@@ -100,6 +100,12 @@ void AirP_USART1_ResetProcessingPhase(void)
   UartProcessingPhase = USART_PROCESSING_IDEL;
 }
 
+unsigned char AirH_USART3_TK_Check(unsigned long *pAirp);
+{
+    return 1;
+}
+
+
 void AirP_Init(void)
 {
     UART_Init(3, 9600, 8, 'N', 1, 1);

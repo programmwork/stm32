@@ -82,41 +82,56 @@ unsigned char Airp_engine(float *result)
 
     //获取当前信号状态
     unsigned char phase = AirP_USART1_GetProcessingPhase();
-    if(phase == USART_PROCESSING_IDEL)												// 闁告帇鍊栭弻鍥及椤栨碍鍎婄紒灞炬そ濡拷
+    if(phase == USART_PROCESSING_IDEL)// 闁告帇鍊栭弻鍥及椤栨碍鍎婄紒灞炬そ濡拷
     {
-        TxRxIndex = 0;
-        TxRxLength = 0;
-        strcpy((char *)buffer, "01:R\r\n");
-        RevStep = 1;
-        
-        uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof(buffer));
-
-        UartProcessingPhase = USART_PROCESSING_SENDING;
-        while(count)
-        {                
-            if(USART_PROCESSING_FINISH == UartProcessingPhase)
-            {
-                AirP_USART1_ResetProcessingPhase();
-
-                if(TxRxLength != 104)  
-                {
-                    result[0] = INVALID_DATA;
-                    result[1] = INVALID_DATA;
-                    result[2] = INVALID_DATA;
-
-                }
-                else
-                {                    
-                    AirP_rotronic(TxRxBuffer, result);
-                }
-
-                TxRxIndex = 0;
-                TxRxLength = 0;
-
-                break;
-            }
+        if(bcm_info.sensor.ce == 0)//PTB301
+        {
+            TxRxIndex = 0;
+            TxRxLength = 0;
+            strcpy((char *)buffer, "01:R\r\n");
+            RevStep = 1;
             
-            if(USART_PROCESSING_ERR == UartProcessingPhase)
+            uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof(buffer));
+
+            UartProcessingPhase = USART_PROCESSING_SENDING;
+            while(count)
+            {                
+                if(USART_PROCESSING_FINISH == UartProcessingPhase)
+                {
+                    AirP_USART1_ResetProcessingPhase();
+
+                    if((TxRxLength != 9) && (TxRxLength != 10)) //长度待定 
+                    {
+                        result[0] = INVALID_DATA;
+                    }
+                    else
+                    {                    
+                        AirP_rotronic(TxRxBuffer, result);
+                    }
+
+                    TxRxIndex = 0;
+                    TxRxLength = 0;
+
+                    break;
+                }
+                
+                if(USART_PROCESSING_ERR == UartProcessingPhase)
+                {
+                    TxRxIndex = 0;
+                    TxRxLength = 0;
+
+                    AirP_USART1_ResetProcessingPhase();
+
+                    result[0] = INVALID_DATA;
+
+                    break;
+                }
+                
+                count--;
+
+                vTaskDelay(20);                       
+            }
+            if(count <= 0)
             {
                 TxRxIndex = 0;
                 TxRxLength = 0;
@@ -124,41 +139,31 @@ unsigned char Airp_engine(float *result)
                 AirP_USART1_ResetProcessingPhase();
 
                 result[0] = INVALID_DATA;
-                result[1] = INVALID_DATA;
-                result[2] = INVALID_DATA;
-
-                break;
             }
-            
-            count--;
+            else           
+            {
+                TxRxIndex = 0;
+                TxRxLength = 0;
 
-            vTaskDelay(20);                       
+                AirP_USART1_ResetProcessingPhase();
+
+                result[0] = INVALID_DATA;
+            }
+        
+            return 1;
         }
-        if(count <= 0)
+        
+        else if(bcm_info.sensor.ce == 3)//泰科传感器
         {
-            TxRxIndex = 0;
-            TxRxLength = 0;
-
-            AirP_USART1_ResetProcessingPhase();
-
-            result[0] = INVALID_DATA;
-            result[1] = INVALID_DATA;
-            result[2] = INVALID_DATA;
+            unsigned long Airp;
+            if(AirH_USART3_TK_Check(&Airp))  //閺嶏繝鐛欓幋鎰�?
+            {
+                *result = (float)Airp / 10.0;
+                return 1;
+            }
         }
-        else           
-        {
-            TxRxIndex = 0;
-            TxRxLength = 0;
-
-            AirP_USART1_ResetProcessingPhase();
-
-            result[0] = INVALID_DATA;
-            result[1] = INVALID_DATA;
-            result[2] = INVALID_DATA;
-        }
-    
-        return 1;
     }
+
 }
 
 
