@@ -28,7 +28,6 @@ extern UART_HandleTypeDef huart3;
 void AirP_Init(void)
 {
     UART_Init(3, 9600, 8, 'N', 1, 1);
-
     UartProcessingPhase = USART_PROCESSING_IDEL;  
 }
 
@@ -81,10 +80,10 @@ void USART3_RX(void)
 	
     if(bcm_info.sensor.ce == 0)
     {
-      switch(RevStep)
-      {
-          case 1:                                                             // 接收数据状态
-              if(td == 0x0D)
+        switch(RevStep)
+        {
+            case 1:                                                             // 接收数据状态
+            if(td == 0x0D)
             {
                 TxRxBuffer[TxRxIndex] = 0;              // 将接收的数据转换成字符串（不是必须）
                 
@@ -118,7 +117,6 @@ void USART3_RX(void)
             }
         default : break;
         }   
-
     }
 }
 
