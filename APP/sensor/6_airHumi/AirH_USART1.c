@@ -78,7 +78,7 @@ void USART3_RX(void)
     unsigned char td;
 
     //URX1IF = 0;
-    td = (uint8_t)(huart3.Instance->RDR);					      // 读取缓冲区数据
+    td = (uint8_t)(huart3.Instance->RDR);// 读取缓冲区数据
 
     switch(RevStep)
     {

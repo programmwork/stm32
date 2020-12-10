@@ -28,7 +28,6 @@ unsigned char beenRun       [MAX_SENSOR_NUM];
 float         LastValue_H   [MAX_SENSOR_NUM];
 unsigned char beenRun_H     [MAX_SENSOR_NUM];
 
-TIM_HandleTypeDef htim1;
 
 
 /*=============================================================================================

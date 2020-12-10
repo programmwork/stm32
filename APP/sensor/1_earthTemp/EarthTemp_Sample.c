@@ -130,11 +130,7 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
         for(i = 0;i<sensor_num;i++)
         {
             temp_data = sensors_tempdata->sensor[i].secdata.data;
-            if((sensors_tempdata->sensor[i].secdata.qc > bcm_info.sensor.qs[i].max)\
-                    || (sensors_tempdata->sensor[i].secdata.data < bcm_info.sensor.qs[i].min))
-            {
-                temp_data = INVALID_DATA;
-            }
+            
             sprintf(temp,"%.2f,%d  ", temp_data, sensors_tempdata->sensor[i].secdata.qc);
             uartSendStr(UARTDEV_1,(unsigned char *)temp,strlen(temp));
         }

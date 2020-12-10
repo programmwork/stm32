@@ -197,7 +197,7 @@ unsigned char AirTemp_engine(float result[MAX_SENSOR_NUM])
     }
         
     result[0] = INVALID_DATA;
-    return 0;
+    return 1;
 }																											
 
 /*

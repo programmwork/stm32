@@ -75,7 +75,7 @@ unsigned char DS3231_ReadStatusReg(unsigned char *pdat)
 */
 unsigned char DS3231_WriteStatusReg(unsigned char dat)
 {
-		HAL_StatusTypeDef status = HAL_OK;	
+		HAL_StatusTypeDef status = HAL_OK;
 	
 
 

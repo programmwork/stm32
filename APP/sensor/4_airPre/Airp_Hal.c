@@ -83,7 +83,7 @@ unsigned char AirP_engine(float *result)
             TxRxLength = 0;
             strcpy((char *)buffer,".P\r\n");
             RevStep = 1;
-            uartSendStr(1, (UINT8 *)&buffer, sizeof(".P\r\n") - 1);
+            uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof(".P\r\n") - 1);
 
             UartProcessingPhase = USART_PROCESSING_SENDING;
             while(count)
