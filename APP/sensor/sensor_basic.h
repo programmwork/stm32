@@ -16,7 +16,7 @@
 
 #include "sensor_process.h"
  
-#define SENSOR 3
+#define SENSOR 6
 
 #if (SENSOR == 1)   //ตุฮย
 #include "EarthTemp_hal.h"

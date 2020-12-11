@@ -35,7 +35,7 @@ extern UART_HandleTypeDef huart3;
 **********************************************************************************************************/
 void AirH_Init(void)
 {
-    UART_Init(3, 9600, 8, 'N', 1, 1);
+    UART_Init(3, 19200, 8, 'N', 1, 1);
 
     UartProcessingPhase = USART_PROCESSING_IDEL;  
 }
@@ -77,7 +77,6 @@ void USART3_RX(void)
 { 	
     unsigned char td;
 
-    //URX1IF = 0;
     td = (uint8_t)(huart3.Instance->RDR);// 读取缓冲区数据
 
     switch(RevStep)
@@ -85,9 +84,12 @@ void USART3_RX(void)
         case 1:																// 接收数据状态
             if(td == 0x0D)
             {
-                TxRxBuffer[TxRxIndex] = 0;              // 将接收的数据转换成字符串（不是必须）
-                
-                RevStep = 2;
+                TxRxBuffer[TxRxIndex] = 0;    // 将接收的数据转换成字符串（不是必须）
+                TxRxLength = TxRxIndex;      //数据帧长度，不包括字符串最后接收的回车换行 
+
+                UartProcessingPhase = USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
+
+                RevStep = 0;
             }
             else
             {
@@ -103,20 +105,9 @@ void USART3_RX(void)
                 }
             }
             break;
-        case 2:
-            if(td == 0x0A)
-            {
-                RevStep = 1;
-                TxRxLength = TxRxIndex;                        // 数据帧长度，不包括字符串最后接收的回车换行
-                UartProcessingPhase = USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
-            }
-            else
-            {
-                UartProcessingPhase = USART_PROCESSING_ERR;
-                RevStep = 0;
-            }
+        
         default : break;
-        }   
+    }   
 
 }
 
