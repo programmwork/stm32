@@ -59,8 +59,8 @@ void time_task(void *pvParameters)
             HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_0);
 
 
-#if (SENSOR != 2)   //路莽 
-					  if(m_tempdata.m_RtcTateTime.sec%2 == 0)
+#if ((SENSOR != 2) && (SENSOR != 3))   //路莽 
+			if(m_tempdata.m_RtcTateTime.sec%2 == 0)
             {
                 m_tempdata.event.secevent = true;
             }
@@ -71,6 +71,14 @@ void time_task(void *pvParameters)
 						m_tempdata.event.secevent = true;
 						m_tempdata.event.Flag_1s = true;
 #endif
+
+#if (SENSOR == 3)   //路莽
+            if(m_tempdata.m_RtcTateTime.sec%10 == 0)
+            {
+                m_tempdata.event.secevent = true;
+            }
+#endif
+
         
             //每30分钟 的第50秒读硬时钟给软时钟校时
             if((m_tempdata.m_RtcTateTime.min%30 == 0)&&(m_tempdata.m_RtcTateTime.sec == 50))

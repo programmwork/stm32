@@ -158,7 +158,7 @@ void uartSendStr(UINT8 uartno,UINT8 *pucStr,UINT16 len)
     }
     else if(uartno == 2)
     {
-        HAL_UART_Transmit(&huart3,pucStr,len,10);
+        HAL_UART_Transmit(&huart3,pucStr,len,200);
     }
     
     

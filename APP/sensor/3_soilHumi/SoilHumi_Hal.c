@@ -66,7 +66,7 @@ extern UART_HandleTypeDef huart3;
 void SOILMOISTURE_USART1_Init(void)
 {
 
-    UART_Init(3, 9600, 8, 'N', 1, 1);
+    UART_Init(3, 9600, 7, 'N', 2, 1);
 
     RS485_IO();
     RS485_IO_OUT();
@@ -323,11 +323,8 @@ unsigned char SOILMOISTURE_BinArray2CharArray(unsigned char *binA,char *charA,un
 static unsigned char SOILMOISTURE_TRSF_SetValid(void)
 {
     UINT32 count = 50;
-    unsigned char phase = 0;
   
-    phase = SOILMOISTURE_USART1_GetProcessingPhase();
-  
-    if(phase == SOILMOISTURE_ADU_PROCESSING_IDEL)                        // 判断是否空闲
+    if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_IDEL)                        // 判断是否空闲
     {
         strcpy(SOILMOISTURE_AduBuffer,"01100001000408001F000000000000C3");
 
@@ -337,7 +334,7 @@ static unsigned char SOILMOISTURE_TRSF_SetValid(void)
 
         while(count)
         {
-            if(phase == SOILMOISTURE_ADU_PROCESSING_FINISH)                      // 判断是否接收完成
+            if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_FINISH)                      // 判断是否接收完成
             {
                 SOILMOISTURE_USART1_ProcessingPhaseReset();
 
@@ -347,7 +344,7 @@ static unsigned char SOILMOISTURE_TRSF_SetValid(void)
                 return 1;                                                           // 设置成功
             }
 
-            if(phase == SOILMOISTURE_ADU_PROCESSING_ERR)                          // 判断是否出错
+            if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_ERR)                          // 判断是否出错
             {
                 SOILMOISTURE_USART1_ProcessingPhaseReset();        
                 return 2;                                                           // 出错
@@ -357,8 +354,9 @@ static unsigned char SOILMOISTURE_TRSF_SetValid(void)
 
             vTaskDelay(20);        
         }
-
-        return 0;                                                             // 忙
+				
+				SOILMOISTURE_USART1_ProcessingPhaseReset();
+				return 2;
     }
 }
 
@@ -375,9 +373,7 @@ static unsigned char SOILMOISTURE_TRSF_StartMeasuring(void)
 {
     UINT32 count = 50;
 
-    unsigned char phase = SOILMOISTURE_USART1_GetProcessingPhase();
-
-    if(phase == SOILMOISTURE_ADU_PROCESSING_IDEL)                        // 判断是否空闲
+    if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_IDEL)                        // 判断是否空闲
     {
         strcpy(SOILMOISTURE_AduBuffer,"010600000001F8");
 
@@ -388,7 +384,7 @@ static unsigned char SOILMOISTURE_TRSF_StartMeasuring(void)
         while(count)
         {
 
-            if(phase == SOILMOISTURE_ADU_PROCESSING_FINISH)                      // 判断是否接收完成
+            if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_FINISH)                      // 判断是否接收完成
             {
                 SOILMOISTURE_USART1_ProcessingPhaseReset();
 
@@ -399,7 +395,7 @@ static unsigned char SOILMOISTURE_TRSF_StartMeasuring(void)
                 return 1;                                              // 设置成功
             }
 
-            if(phase == SOILMOISTURE_ADU_PROCESSING_ERR)   // 判断是否出错
+            if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_ERR)   // 判断是否出错
             {
                 SOILMOISTURE_USART1_ProcessingPhaseReset();        
                 return 2;     // 出错
@@ -411,6 +407,7 @@ static unsigned char SOILMOISTURE_TRSF_StartMeasuring(void)
         }     
     }
 
+		SOILMOISTURE_USART1_ProcessingPhaseReset();
     return 0;                                                // 忙
 }
 
@@ -427,9 +424,7 @@ static unsigned char SOILMOISTURE_TRSF_CheckMeasuringOK(void)
 {
     UINT32 count = 50;
 
-    unsigned char phase = SOILMOISTURE_USART1_GetProcessingPhase();
-
-    if(phase == SOILMOISTURE_ADU_PROCESSING_IDEL)                        // 判断是否空闲
+    if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_IDEL)                        // 判断是否空闲
     {
         strcpy(SOILMOISTURE_AduBuffer,"010400010001F9");
 
@@ -440,7 +435,7 @@ static unsigned char SOILMOISTURE_TRSF_CheckMeasuringOK(void)
         while(count)
         {
 
-            if(phase == SOILMOISTURE_ADU_PROCESSING_FINISH)                      // 判断是否接收完成
+            if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_FINISH)                      // 判断是否接收完成
             {
                 SOILMOISTURE_USART1_ProcessingPhaseReset();
 
@@ -456,7 +451,7 @@ static unsigned char SOILMOISTURE_TRSF_CheckMeasuringOK(void)
                 //  return 2;                                                          // 应答错误        
             }
 
-            if(phase == SOILMOISTURE_ADU_PROCESSING_ERR)                         // 判断是否出错
+            if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_ERR)                         // 判断是否出错
             {
                 SOILMOISTURE_USART1_ProcessingPhaseReset();        
                 return 2;                                                          // 出错
@@ -467,6 +462,8 @@ static unsigned char SOILMOISTURE_TRSF_CheckMeasuringOK(void)
             vTaskDelay(20);  
         }
     }
+    
+	SOILMOISTURE_USART1_ProcessingPhaseReset();
 
     return 0;                                                            // 忙
 }
@@ -487,8 +484,7 @@ static unsigned char SOILMOISTURE_TRSF_CheckMeasuringOK(void)
 static unsigned char SOILMOISTURE_TRSF_ReadMeasuringResult(float *pResult)
 {
     UINT32 count = 50;
-
-    unsigned char phase = SOILMOISTURE_USART1_GetProcessingPhase();
+    
     union 
     {
         float fp32_1;
@@ -496,7 +492,7 @@ static unsigned char SOILMOISTURE_TRSF_ReadMeasuringResult(float *pResult)
     }union_1;
 
 
-    if(phase == SOILMOISTURE_ADU_PROCESSING_IDEL)                        // 判断是否空闲
+    if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_IDEL)                        // 判断是否空闲
      {
         strcpy(SOILMOISTURE_AduBuffer,"01040100000AF0");
 
@@ -506,7 +502,7 @@ static unsigned char SOILMOISTURE_TRSF_ReadMeasuringResult(float *pResult)
 
         while(count)
         {
-            if(phase == SOILMOISTURE_ADU_PROCESSING_FINISH)                      // 判断是否接收完成
+            if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_FINISH)                      // 判断是否接收完成
             {
                 SOILMOISTURE_USART1_ProcessingPhaseReset();
 
@@ -592,7 +588,7 @@ static unsigned char SOILMOISTURE_TRSF_ReadMeasuringResult(float *pResult)
                 return 2;                                              // 校验失败
             }
 
-            if(phase == SOILMOISTURE_ADU_PROCESSING_ERR)                          // 判断是否出错
+            if(SOILMOISTURE_AduProcessingPhase == SOILMOISTURE_ADU_PROCESSING_ERR)                          // 判断是否出错
             {                
                 SOILMOISTURE_USART1_ProcessingPhaseReset(); 
                 
@@ -610,6 +606,8 @@ static unsigned char SOILMOISTURE_TRSF_ReadMeasuringResult(float *pResult)
             vTaskDelay(20); 
         }
     }
+    
+	SOILMOISTURE_USART1_ProcessingPhaseReset();
     return 0;                                                // 忙
 }
 
@@ -659,6 +657,7 @@ void hal_sensor_init(void)
 unsigned char SoilMoisture_engine(float Result[5]) 
 {
     unsigned char result;
+    uint32_t count = 0;
   
     /* 设置传感器有效 */
     if(SOILMOISTURE_SensorProcessingPhase == 0) 
@@ -670,30 +669,34 @@ unsigned char SoilMoisture_engine(float Result[5])
         }
         else
         {
-            Result[0] == -991;
+            Result[0] = -991;
+            return 1;
         }    
     }
   
   /* 检查传感器是否空闲 */
     if(SOILMOISTURE_SensorProcessingPhase == 1) 
     {
-        result = SOILMOISTURE_TRSF_CheckMeasuringOK();
-        if((result == 1) || (result == 3))
+        count = 2;
+        while(count)
         {
-          SOILMOISTURE_SensorProcessingPhase = 2;          // 进行下一步骤的操作
+            result = SOILMOISTURE_TRSF_CheckMeasuringOK();
+            if((result == 1) || (result == 3))
+            {
+                SOILMOISTURE_SensorProcessingPhase = 2;          // 进行下一步骤的操作
+                break;
+            }
+            else if(result == 2)
+            {
+                SOILMOISTURE_SensorProcessingPhase = 0;          // 转换出错，重新开始使能传感器
+                Result[0] = -992;
+                return 1;
+            }
+            count --;
         }
-        else if(result == 2)
-        {
-          SOILMOISTURE_SensorProcessingPhase = 0;          // 转换出错，重新开始使能传感器
-          Result[0] = -992;
-        }
-        else 
-        {
-            Result[0] = -993;
-        }  
     }
   
-  /* 启动转换 */
+    /* 启动转换 */
     if(SOILMOISTURE_SensorProcessingPhase == 2) 
     {
         result = SOILMOISTURE_TRSF_StartMeasuring();
@@ -705,34 +708,36 @@ unsigned char SoilMoisture_engine(float Result[5])
         {
           SOILMOISTURE_SensorProcessingPhase = 0;
           Result[0] = -994;
+          return 1;
         }
-        else 
-        {
-            Result[0] = -995;
-        }  
     }
   
   /* 等待转换完成 */
     if(SOILMOISTURE_SensorProcessingPhase == 3) 
     {
-        result = SOILMOISTURE_TRSF_CheckMeasuringOK();
-        if(result == 1)
+        count = 2;
+        while(count)
         {
-            SOILMOISTURE_SensorProcessingPhase = 4;          // 进行下一步骤的操作
-        }
-        else if(result == 2)
-        {
-            SOILMOISTURE_SensorProcessingPhase = 0;          // 转换完成，但出错
-            Result[0] = -996;
-        }
-        else if(result == 3)
-        {
-            SOILMOISTURE_SensorProcessingPhase = 1;          // 没有操作
-            Result[0] = -997;
-        }
-        else 
-        {
-            Result[0] = -998;
+            result = SOILMOISTURE_TRSF_CheckMeasuringOK();
+            if(result == 1)
+            {
+                SOILMOISTURE_SensorProcessingPhase = 4;          // 进行下一步骤的操作
+                break;
+            }
+            else if(result == 2)
+            {
+                SOILMOISTURE_SensorProcessingPhase = 0;          // 转换完成，但出错
+                Result[0] = -996;
+                return 1;
+            }
+            else if(result == 3)
+            {
+                SOILMOISTURE_SensorProcessingPhase = 1;          // 没有操作
+                Result[0] = -997;
+                return 1;
+            }
+            
+            count--;
         }
     }
   
