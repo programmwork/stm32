@@ -341,13 +341,14 @@ void Start_ADC(uint8_t channel)
       _Error_Handler(__FILE__, __LINE__);
     }
 
-    HAL_ADC_Start(&hadc1);
+    HAL_ADCEx_Calibration_Start(&hadc1 ,ADC_SINGLE_ENDED);//ADУ׼
+    
     while(count)
     {
         
         count-- ;
     }
-    HAL_ADCEx_Calibration_Start(&hadc1 ,ADC_SINGLE_ENDED);//ADУ׼
+    HAL_ADC_Start(&hadc1);
 
     return;
 }
