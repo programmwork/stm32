@@ -355,8 +355,8 @@ static unsigned char SOILMOISTURE_TRSF_SetValid(void)
             vTaskDelay(20);        
         }
 				
-				SOILMOISTURE_USART1_ProcessingPhaseReset();
-				return 2;
+		SOILMOISTURE_USART1_ProcessingPhaseReset();
+		return 2;
     }
 }
 
@@ -640,9 +640,9 @@ unsigned char Sensor_Init(void)
 */
 void hal_sensor_init(void)
 {
-  Sensor_Init();
+    Sensor_Init();
 
-  SampleData_Init(&sensors_data);
+    SampleData_Init(&sensors_data);
 }
 
 /*
@@ -686,7 +686,7 @@ unsigned char SoilMoisture_engine(float Result[5])
                 SOILMOISTURE_SensorProcessingPhase = 2;          // 进行下一步骤的操作
                 break;
             }
-            else if(result == 2)
+            else
             {
                 SOILMOISTURE_SensorProcessingPhase = 0;          // 转换出错，重新开始使能传感器
                 Result[0] = -992;
@@ -704,10 +704,10 @@ unsigned char SoilMoisture_engine(float Result[5])
         {
           SOILMOISTURE_SensorProcessingPhase = 3;          // 进行下一步骤的操作
         }
-        else if(result == 2)                               // 应答出错，重新开始使能传感器
+        else// 应答出错，重新开始使能传感器
         {
           SOILMOISTURE_SensorProcessingPhase = 0;
-          Result[0] = -994;
+          Result[0] = -993;
           return 1;
         }
     }
@@ -727,13 +727,13 @@ unsigned char SoilMoisture_engine(float Result[5])
             else if(result == 2)
             {
                 SOILMOISTURE_SensorProcessingPhase = 0;          // 转换完成，但出错
-                Result[0] = -996;
+                Result[0] = -994;
                 return 1;
             }
-            else if(result == 3)
+            else
             {
                 SOILMOISTURE_SensorProcessingPhase = 1;          // 没有操作
-                Result[0] = -997;
+                Result[0] = -995;
                 return 1;
             }
             
@@ -749,10 +749,10 @@ unsigned char SoilMoisture_engine(float Result[5])
         {
             SOILMOISTURE_SensorProcessingPhase = 1; 
         }
-        else if(result == 2)
+        else
         {
             SOILMOISTURE_SensorProcessingPhase = 0; 
-            Result[0] = -999;
+            Result[0] = -996;
         }
        
         //return result;

@@ -205,7 +205,7 @@ uint8_t Check_ADC(uint16_t *date)
 
 void Start_ADC(uint8_t channel)
 {
-    uint32_t adc_channel = 0;
+    uint32_t adc_channel = 0, count = 1000;
     ADC_ChannelConfTypeDef sConfig = {0};
 
     switch (channel)
@@ -342,6 +342,11 @@ void Start_ADC(uint8_t channel)
     }
 
     HAL_ADC_Start(&hadc1);
+    while(count)
+    {
+        
+        count-- ;
+    }
     HAL_ADCEx_Calibration_Start(&hadc1 ,ADC_SINGLE_ENDED);//ADУ׼
 
     return;
