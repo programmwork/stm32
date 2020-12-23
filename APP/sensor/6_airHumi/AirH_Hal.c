@@ -94,22 +94,22 @@ unsigned char AirH_engine(float *result)
 
     if(phase == USART_PROCESSING_IDEL)												// 閸掋倖鏌囬弰顖氭儊缁屾椽妫�
     {
-        TxRxIndex = 0;
-        TxRxLength = 0;
+        AirH_TxRxIndex = 0;
+        AirH_TxRxLength = 0;
         strcpy((char *)buffer,"{F00RDD}\r\n");
-        RevStep = 1;
+        AirH_RevStep = 1;
         
         uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof(buffer));
 
-        UartProcessingPhase = USART_PROCESSING_SENDING;
+        AirH_UartProcessingPhase = USART_PROCESSING_SENDING;
 
         while(count)
         {                
-            if(USART_PROCESSING_FINISH == UartProcessingPhase)
+            if(USART_PROCESSING_FINISH == AirH_UartProcessingPhase)
             {
                 AirH_ResetProcessingPhase();
 
-                if(TxRxLength != 104)  
+                if(AirH_TxRxLength != 104)  
                 {
                     result[0] = INVALID_DATA;
                     result[1] = INVALID_DATA;
@@ -118,19 +118,19 @@ unsigned char AirH_engine(float *result)
                 }
                 else
                 {                    
-                    AirH_rotronic(TxRxBuffer, result);
+                    AirH_rotronic(AirH_TxRxBuffer, result);
                 }
 
-                TxRxIndex = 0;
-                TxRxLength = 0;
+                AirH_TxRxIndex = 0;
+                AirH_TxRxLength = 0;
 
                 break;
             }
             
-            if(USART_PROCESSING_ERR == UartProcessingPhase)
+            if(USART_PROCESSING_ERR == AirH_UartProcessingPhase)
             {
-                TxRxIndex = 0;
-                TxRxLength = 0;
+                AirH_TxRxIndex = 0;
+                AirH_TxRxLength = 0;
 
                 AirH_ResetProcessingPhase();
 
@@ -148,8 +148,8 @@ unsigned char AirH_engine(float *result)
 
         if(count <= 0)
         {
-            TxRxIndex = 0;
-            TxRxLength = 0;
+            AirH_TxRxIndex = 0;
+            AirH_TxRxLength = 0;
 
             AirH_ResetProcessingPhase();
 
@@ -160,8 +160,8 @@ unsigned char AirH_engine(float *result)
     }
     else           
     {
-        TxRxIndex = 0;
-        TxRxLength = 0;
+        AirH_TxRxIndex = 0;
+        AirH_TxRxLength = 0;
 
         AirH_ResetProcessingPhase();
 
