@@ -87,7 +87,7 @@ void USART3_RX(void)
                 AirH_TxRxBuffer[AirH_TxRxIndex] = 0;    // 将接收的数据转换成字符串（不是必须）
                 AirH_TxRxLength = AirH_TxRxIndex;      //数据帧长度，不包括字符串最后接收的回车换行 
 
-                AirH_UartProcessingPhase = AIRP_USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
+                AirH_UartProcessingPhase = AIRH_USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
 
                 AirH_RevStep = 0;
             }
@@ -97,7 +97,7 @@ void USART3_RX(void)
                 {
                     AirH_RevStep = 0;	              // 不接收任何数据
                     
-                    AirH_UartProcessingPhase = AIRP_USART_PROCESSING_ERR;
+                    AirH_UartProcessingPhase = AIRH_USART_PROCESSING_ERR;
                 }
                 else
                 {

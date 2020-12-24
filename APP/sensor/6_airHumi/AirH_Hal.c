@@ -101,11 +101,11 @@ unsigned char AirH_engine(float *result)
         
         uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof(buffer));
 
-        AirH_UartProcessingPhase = AIRP_USART_PROCESSING_SENDING;
+        AirH_UartProcessingPhase = AIRH_USART_PROCESSING_SENDING;
 
         while(count)
         {                
-            if(AIRP_USART_PROCESSING_FINISH == AirH_UartProcessingPhase)
+            if(AIRH_USART_PROCESSING_FINISH == AirH_UartProcessingPhase)
             {
                 AirH_ResetProcessingPhase();
 
@@ -127,7 +127,7 @@ unsigned char AirH_engine(float *result)
                 break;
             }
             
-            if(AIRP_USART_PROCESSING_ERR == AirH_UartProcessingPhase)
+            if(AIRH_USART_PROCESSING_ERR == AirH_UartProcessingPhase)
             {
                 AirH_TxRxIndex = 0;
                 AirH_TxRxLength = 0;

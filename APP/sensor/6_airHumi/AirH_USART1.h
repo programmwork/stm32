@@ -20,10 +20,10 @@
 
 /* 串口处理ADU数据帧的阶段描述 */
 #define	AIRH_USART_PROCESSING_IDEL					0
-#define	USART_PROCESSING_SENDING			  1
-#define	USART_PROCESSING_RECEIVING		  2
-#define	USART_PROCESSING_FINISH				3
-#define	USART_PROCESSING_ERR					  4
+#define	AIRH_USART_PROCESSING_SENDING			  1
+#define	AIRH_USART_PROCESSING_RECEIVING		  2
+#define	AIRH_USART_PROCESSING_FINISH				3
+#define	AIRH_USART_PROCESSING_ERR					  4
 
 extern unsigned char AirH_TxRxIndex;
 extern unsigned char   AirH_UartProcessingPhase;
