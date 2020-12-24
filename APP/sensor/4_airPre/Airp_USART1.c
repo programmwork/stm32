@@ -16,19 +16,19 @@
 #include "sensor_basic.h"
 
 
-char TxRxBuffer[TX_RX_BUFF_LEN];								// 接收发送缓冲区
-unsigned char  TxRxLength;											// 接收发送数据长度
-unsigned char TxRxIndex;
+char AirP_TxRxBuffer[AIRP_TX_RX_BUFF_LEN];								// 接收发送缓冲区
+unsigned char  AirP_TxRxLength;											// 接收发送数据长度
+unsigned char AirP_TxRxIndex;
 
-unsigned char UartProcessingPhase;
-unsigned char RevStep;
+unsigned char AirP_UartProcessingPhase;
+unsigned char AirP_RevStep;
 
 extern UART_HandleTypeDef huart3;
 
 void AirP_Init(void)
 {
     UART_Init(3, 9600, 8, 'N', 1, 1);
-    UartProcessingPhase = USART_PROCESSING_IDEL;  
+    AirP_UartProcessingPhase = AIRP_USART_PROCESSING_IDEL;  
 }
 
 /*
@@ -42,7 +42,7 @@ void AirP_Init(void)
 */
 unsigned char AirP_GetProcessingPhase(void)
 {
-	return UartProcessingPhase;
+	return AirP_UartProcessingPhase;
 }
 
 /*
@@ -57,8 +57,8 @@ unsigned char AirP_GetProcessingPhase(void)
 void AirP_ResetProcessingPhase(void)
 {
 
-	RevStep = 0;  
-    UartProcessingPhase = USART_PROCESSING_IDEL;
+	AirP_RevStep = 0;  
+    AirP_UartProcessingPhase = AIRP_USART_PROCESSING_IDEL;
 }
 
 /*
@@ -80,40 +80,40 @@ void USART3_RX(void)
 	
     if(bcm_info.sensor.ce == 0)
     {
-        switch(RevStep)
+        switch(AirP_RevStep)
         {
             case 1:                                                             // 接收数据状态
             if(td == 0x0D)
             {
-                TxRxBuffer[TxRxIndex] = 0;              // 将接收的数据转换成字符串（不是必须）
+                AirP_TxRxBuffer[AirP_TxRxIndex] = 0;              // 将接收的数据转换成字符串（不是必须）
                 
-                RevStep = 2;
+                AirP_RevStep = 2;
             }
             else
             {
-                if(TxRxIndex >= TX_RX_BUFF_LEN)
+                if(AirP_TxRxIndex >= AIRP_TX_RX_BUFF_LEN)
                 {
-                    RevStep = 0;                  // 不接收任何数据
+                    AirP_RevStep = 0;                  // 不接收任何数据
                     
-                    UartProcessingPhase = USART_PROCESSING_ERR;
+                    AirP_UartProcessingPhase = AIRP_USART_PROCESSING_ERR;
                 }
                 else
                 {
-                    TxRxBuffer[TxRxIndex++] = td;
+                    AirP_TxRxBuffer[AirP_TxRxIndex++] = td;
                 }
             }
             break;
         case 2:
             if(td == 0x0A)
             {
-                RevStep = 1;
-                TxRxLength = TxRxIndex;                        // 数据帧长度，不包括字符串最后接收的回车换行
-                UartProcessingPhase = USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
+                AirP_RevStep = 1;
+                AirP_TxRxLength = AirP_TxRxIndex;                        // 数据帧长度，不包括字符串最后接收的回车换行
+                AirP_UartProcessingPhase = AIRP_USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
             }
             else
             {
-                UartProcessingPhase = USART_PROCESSING_ERR;
-                RevStep = 0;
+                AirP_UartProcessingPhase = AIRP_USART_PROCESSING_ERR;
+                AirP_RevStep = 0;
             }
         default : break;
         }   

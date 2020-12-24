@@ -17,7 +17,7 @@
 
 
 
-char AirH_TxRxBuffer[AirH_TX_RX_BUFF_LEN];								// 接收发送缓冲区
+char AirH_TxRxBuffer[AIRH_TX_RX_BUFF_LEN];								// 接收发送缓冲区
 unsigned char AirH_TxRxLength;											// 接收发送数据长度
 unsigned char AirH_TxRxIndex;
 
@@ -37,7 +37,7 @@ void AirH_Init(void)
 {
     UART_Init(3, 19200, 8, 'N', 1, 1);
 
-    AirH_UartProcessingPhase = USART_PROCESSING_IDEL;  
+    AirH_UartProcessingPhase = AIRH_USART_PROCESSING_IDEL;  
 }
 
 /**********************************************************************************************************
@@ -62,7 +62,7 @@ unsigned char AirH_GetProcessingPhase(void)
 void AirH_ResetProcessingPhase(void)
 {
   	AirH_RevStep = 1;
-	AirH_UartProcessingPhase = USART_PROCESSING_IDEL;
+	AirH_UartProcessingPhase = AIRH_USART_PROCESSING_IDEL;
 }
 
 
@@ -87,17 +87,17 @@ void USART3_RX(void)
                 AirH_TxRxBuffer[AirH_TxRxIndex] = 0;    // 将接收的数据转换成字符串（不是必须）
                 AirH_TxRxLength = AirH_TxRxIndex;      //数据帧长度，不包括字符串最后接收的回车换行 
 
-                AirH_UartProcessingPhase = USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
+                AirH_UartProcessingPhase = AIRP_USART_PROCESSING_FINISH; // 已经接收到正确的ADU数据帧
 
                 AirH_RevStep = 0;
             }
             else
             {
-                if(AirH_TxRxIndex >= AirH_TX_RX_BUFF_LEN)
+                if(AirH_TxRxIndex >= AIRH_TX_RX_BUFF_LEN)
                 {
                     AirH_RevStep = 0;	              // 不接收任何数据
                     
-                    AirH_UartProcessingPhase = USART_PROCESSING_ERR;
+                    AirH_UartProcessingPhase = AIRP_USART_PROCESSING_ERR;
                 }
                 else
                 {
