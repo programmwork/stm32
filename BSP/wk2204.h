@@ -95,8 +95,8 @@ extern UART_HandleTypeDef huart3;
 #define	USART_PROCESSING_ERR					  4
 
 
-extern unsigned char AirH_UartProcessingPhase;
-extern unsigned char AirP_TxRxBuffer;
+extern unsigned char UartProcessingPhase;
+extern unsigned char TxRxBuffer;
 
 void WK2204Init(UINT8 port);
 void BaudAdaptive();
