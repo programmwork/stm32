@@ -49,7 +49,7 @@ unsigned char Element_MsSample(sensors_data_t *sensors_tempdata)
 unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
 {
     unsigned char i = 0;
-    float temp_value[MAX_SENSOR_NUM] = {0};
+    float temp_value[MAX_SENSOR_NUM + 1] = {0};
     unsigned char temp_sample_event = 0;
 
   if(Num_sample<SAMPLE_COUNT)
@@ -104,6 +104,9 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
                   sensors_tempdata->sensor[i].secdata.qc);
           uartSendStr(UARTDEV_1,(unsigned char *)temp,strlen(temp));
         }
+        sprintf(temp,"P_T:%.2f", temp_value[1]);
+        uartSendStr(UARTDEV_1,(unsigned char *)temp,strlen(temp));
+
         uartSendStr(UARTDEV_1,">\r\n",3);
         return 1;
       }

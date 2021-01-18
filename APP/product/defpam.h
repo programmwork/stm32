@@ -359,6 +359,7 @@ typedef struct {
         qs_t                  qs[10];                     //设置或读取各要素采样值质量控制参数(QS)
 
         unsigned char         ce;            // 气压传感器厂家
+        unsigned char         ce_H;          // 湿度传感器厂家
         unsigned char         res[3];        // 预留
         unsigned char         apunit;        // 气压参数配置
         cr_t                  cr[8];         // 标校系数

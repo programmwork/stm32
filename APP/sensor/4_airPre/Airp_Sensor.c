@@ -89,7 +89,8 @@ void Init_sys_cfg()
     //传感器第二个结构体sensor放本要素专用参数
     bcm_info.sensor.data_num  = 2;                  //观测要素数量
     bcm_info.sensor.status_num = 0;                //状态变量数量
-	bcm_info.sensor.ce = 0;               // 气压传感器类型  0-华云   3-泰科
+	bcm_info.sensor.ce = 2;               // 气压传感器类型  1-210 2-baro-1
+	bcm_info.sensor.ce_H = 1;             // 湿度传感器类型  1-罗卓妮克          2-155
     bcm_info.sensor.apunit = 1;           // 气压参数单位配置 单位默认为百帕
     bcm_info.sensor.SensorNum = 1;        // 传感器个数
 

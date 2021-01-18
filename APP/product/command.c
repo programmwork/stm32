@@ -104,6 +104,7 @@ const bcm_control_t bcm_control={
         {"SHSENSOR"  ,&cmd_shsensor},          //11 土壤水分传感器数量及深度配置
         {"VERSIONCFG",&cmd_version_cfg},       //12 版本号写入
         {"SETCOM2"   ,&cmd_setcom2},           //13 设置或读取设备的通讯参数
+        {"CE"        ,&ce_cfg}                 //14 传感器配置命令
     }
 };
 
@@ -5208,4 +5209,122 @@ err:
     rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
   return rlen;
 }
+
+/*==================================================================
+ *  函   数     ce_cfg
+ *  作         者：gzk
+ *  日         期：2021-1-12
+ *  功         能：传感器配置
+ *  输入参数：     char *rbuf 字符串的指针
+ *  返  回    值： 类型（char)
+ *          返回0        表示全为数字
+ *          返回-1      表示有数字以为的字符
+ *  修改记录：CE(H),APAT,000,1,1
+==================================================================*/
+int ce_cfg(char *buf, char *rbuf)
+{
+    char *p = NULL, i = 0, rlen = 0;
+    unsigned short sensor = 0;
+    int temp_p = 0;
+
+    p = strtok(buf, ",");
+    while(p)
+    {
+        switch(i)
+        {
+            case 0: break;
+            case 1://APAT
+            {
+                if(0 != strcmp(p,(char *)&sensor_di))//check DI
+                {
+                    return 0;
+                }                    
+            }break;
+            case 2://ID-000
+            {
+                if(-1 == check_digit(p, strlen(p)))
+                {
+                    rlen = sprintf((char *)rbuf,"<ID number is wrong.>\r\n");
+                    return rlen;
+                }
+                if(atoi(p) != m_defdata.m_baseinfo.id)
+                {
+                    return 0;
+                }                        
+            }break;
+            case 3://select sensor---CE:1/CE_H:2
+            {
+                temp_p = atoi(p);
+                if(1 == temp_p)//1 is airp
+                {
+                    sensor = 1;
+                }
+                else if(2 == temp_p)//2 is airH
+                {
+                    sensor = 2;
+                }
+                else
+                {
+                    rlen = sprintf((char *)rbuf,"<equipment number should be 1 or 2>\r\n");
+                    return rlen;
+                }
+            }break;
+            case 4://checkbit---null:check---num:write
+            {
+                temp_p = atoi(p);
+                if(1 == sensor)
+                {
+                    if((1 == temp_p) || (2 == temp_p))
+                    {
+                        bcm_info.sensor.ce = temp_p;
+                        rlen = sprintf((char *)rbuf,"<sensor cfg successful CE:%d>\r\n", bcm_info.sensor.ce);
+                    }
+                    else
+                    {
+                        rlen = sprintf((char *)rbuf,"<sensor number should be 1 or 2>\r\n");
+                        return rlen;
+                    }
+                }
+                else if(2 == sensor)
+                {
+                    if((1 == temp_p) || (2 == temp_p))
+                    {
+                        bcm_info.sensor.ce_H = atoi(p);
+                        rlen = sprintf((char *)rbuf,"<sensor cfg successful CE_H:%d>\r\n", bcm_info.sensor.ce_H);
+                    }
+                    else
+                    {
+                        rlen = sprintf((char *)rbuf,"<sensor number should be 1 or 2>\r\n");
+                        return rlen;
+                    }
+                }
+            }break;
+
+            default:break;
+        }
+        p = strtok(NULL, ",");
+        i++;
+    }
+
+    //output the resualt of the search command
+    if(4 == i)
+    {
+        if(1 == sensor)
+        {
+            rlen = sprintf((char *)rbuf,"<CE:%d>\r\n", bcm_info.sensor.ce);
+        }
+        else if(2 == sensor)
+        {
+            rlen = sprintf((char *)rbuf,"<CE_H:%d>\r\n", bcm_info.sensor.ce_H);
+        }
+    }
+
+    //save to flash
+    save_sys_cfg(&bcm_info);
+
+    //output the info of the sensor
+    return rlen;
+}
+
+
 

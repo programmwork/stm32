@@ -69,6 +69,7 @@ typedef enum
     SHSENSOR,          //11 土壤水分传感器数量及深度配置
     HARDVERCFG,        //12硬件版本号写入
     SETCOM2,           //13设置或读取设备的通讯参数
+    CE,                //14 配置气象仪传感器类型
 
 	MAX_COMMAND_NUM
 } cmd_index_t;
@@ -147,7 +148,9 @@ int cmd_windh       (char *buf,char *rbuf);     //A.8　风传感器拨码开关设置
 int cmd_stsensor    (char *buf,char *rbuf);     //A.9　地温传感器配置
 int cmd_shsensor    (char *buf,char *rbuf);     //A.10　土壤水分传感器配置
 int cmd_version_cfg (char *buf,char *rbuf); //A.11    硬件版本号写入
-int cmd_setcom2     (char *buf,char *rbuf);          //A.12　设置或读取设备的通讯参数
+int cmd_setcom2     (char *buf,char *rbuf);       //A.12　设置或读取设备的通讯参数
+int ce_cfg(char *buf, char *rbuf);                //A.13　设置或读取设备的通讯参数
+
 
 
 //--------------------------- 私有命令结束  ------------------------------------------

@@ -67,10 +67,10 @@
 #define WK2204_FSR  0x07  //子串口 FIFO 状态寄存器
  
 #define WK2XXX_RFTRIG_IEN 0x01 //接收 FIFO 触点中断使能位RXOVT_IEN
-#define WK2XXX_RXOUT_IEN 0x02 //接收 FIFO 超时中断使能位
+#define WK2XXX_RXOUT_IEN 0x02  //接收 FIFO 超时中断使能位
  
 #define MAXLEN 32            //接收缓存
-#define FIFO_EXIST (1<<4)     //FIFO有数据
+#define FIFO_EXIST (1<<4)    //FIFO有数据
 #define FIFO_NOTEXIST 0      //FIFO有数据
 #define PORT_1 0
 #define PORT_2 1
