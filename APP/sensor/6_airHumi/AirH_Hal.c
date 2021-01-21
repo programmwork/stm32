@@ -116,6 +116,7 @@ unsigned char AirH_engine(float *result)
             AirH_TxRxIndex = 0;
             AirH_TxRxLength = 0;
             strcpy((char *)buffer,"{F00RDD}\r\n");
+            memset(AirH_TxRxBuffer, 0x00, AIRH_TX_RX_BUFF_LEN);
             AirH_RevStep = 1;
             
             uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("{F00RDD}\r\n") - 1);
@@ -198,6 +199,7 @@ unsigned char AirH_engine(float *result)
             AirH_TxRxIndex = 0;
             AirH_TxRxLength = 0;
             strcpy((char *)buffer,"send\r\n");
+            memset(AirH_TxRxBuffer, 0x00, AIRH_TX_RX_BUFF_LEN);
             AirH_RevStep = 1;
             uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("send\r\n") - 1);
 

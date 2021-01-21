@@ -158,6 +158,7 @@ unsigned char AirP_engine(float *result)
             AirP_TxRxIndex = 0;
             AirP_TxRxLength = 0;
             strcpy((char *)buffer,".P\r\n");
+            memset(AirP_TxRxBuffer, 0x00, AIRP_TX_RX_BUFF_LEN);
             AirP_RevStep = 1;
             uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof(".P\r\n") - 1);
 
@@ -181,7 +182,7 @@ unsigned char AirP_engine(float *result)
 
                         if(1 != (filter_str(buf_temp, strlen(buf_temp))))
                         {
-                            result[0] = INVALID_DATA;
+                            result[0] = -991;
                         }
                         else
                         {
@@ -239,6 +240,7 @@ unsigned char AirP_engine(float *result)
             AirP_TxRxIndex = 0;
             AirP_TxRxLength = 0;
             strcpy((char *)buffer, "send\r\n");
+            memset(AirP_TxRxBuffer, 0x00, AIRP_TX_RX_BUFF_LEN);
             AirP_RevStep = 1;
             
             uartSendStr(UARTDEV_3, (UINT8 *)&buffer, sizeof("send\r\n") - 1);
@@ -266,14 +268,14 @@ unsigned char AirP_engine(float *result)
                             }
                             else
                             {
-                                result[0] = -991;
-                                result[1] = -991;
+                                result[0] = -992;
+                                result[1] = -992;
                             }                    
                         }
                         else
                         {
-                            result[0] = INVALID_DATA;
-                            result[1] = INVALID_DATA;
+                            result[0] = -991;
+                            result[1] = -991;
                         }  
                     }
 
