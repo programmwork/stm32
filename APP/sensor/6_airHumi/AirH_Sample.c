@@ -230,8 +230,10 @@ unsigned char Element_SecSample(sensors_data_t *sensors_tempdata)
                   sensors_tempdata->sensor[i].secdata.qc);
           uartSendStr(UARTDEV_1,(unsigned char *)temp,strlen(temp));
         }
+				
         sprintf(temp,"%.2f>\r\n",temp_value[2]);
         uartSendStr(UARTDEV_1,(unsigned char *)temp,strlen(temp));
+        
         return 1;
       }
     }

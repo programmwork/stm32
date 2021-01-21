@@ -32,6 +32,7 @@ stm32l476g-discovery\stm32l4xx_hal_pwr.o: ..\BSP\sys_config.h
 stm32l476g-discovery\stm32l4xx_hal_pwr.o: ..\BSP\AD7792.h
 stm32l476g-discovery\stm32l4xx_hal_pwr.o: ..\BSP\W25Q128.h
 stm32l476g-discovery\stm32l4xx_hal_pwr.o: ..\BSP\ds3231.h
+stm32l476g-discovery\stm32l4xx_hal_pwr.o: ..\BSP\adc12_a.h
 stm32l476g-discovery\stm32l4xx_hal_pwr.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdio.h
 stm32l476g-discovery\stm32l4xx_hal_pwr.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l476g-discovery\stm32l4xx_hal_pwr.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h

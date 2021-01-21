@@ -181,11 +181,11 @@ unsigned char AirP_engine(float *result)
 
                         if(1 != (filter_str(buf_temp, strlen(buf_temp))))
                         {
-                            result[1] = INVALID_DATA;
+                            result[0] = INVALID_DATA;
                         }
                         else
                         {
-                            result[1] = atof(buf_temp);
+                            result[0] = atof(buf_temp);
                         }
                     }
 

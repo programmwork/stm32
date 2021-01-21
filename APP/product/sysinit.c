@@ -169,6 +169,7 @@ uint8_t Uart_CFG(uint8_t num, uint8_t msp)
     else
     {
         parity = 1;
+			  databit = databit + 1;
     }    
 
     for(i=0;i<BPS_MAX;i++)

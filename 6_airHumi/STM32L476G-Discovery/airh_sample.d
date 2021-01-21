@@ -69,6 +69,7 @@ stm32l476g-discovery\airh_sample.o: ..\BSP\sys_config.h
 stm32l476g-discovery\airh_sample.o: ..\BSP\AD7792.h
 stm32l476g-discovery\airh_sample.o: ..\BSP\W25Q128.h
 stm32l476g-discovery\airh_sample.o: ..\BSP\ds3231.h
+stm32l476g-discovery\airh_sample.o: ..\BSP\adc12_a.h
 stm32l476g-discovery\airh_sample.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l476g-discovery\airh_sample.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l476g-discovery\airh_sample.o: ..\APP\sensor\sensor_basic.h

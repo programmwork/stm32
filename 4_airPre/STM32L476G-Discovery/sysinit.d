@@ -66,6 +66,7 @@ stm32l476g-discovery\sysinit.o: ..\BSP\sys_config.h
 stm32l476g-discovery\sysinit.o: ..\BSP\AD7792.h
 stm32l476g-discovery\sysinit.o: ..\BSP\W25Q128.h
 stm32l476g-discovery\sysinit.o: ..\BSP\ds3231.h
+stm32l476g-discovery\sysinit.o: ..\BSP\adc12_a.h
 stm32l476g-discovery\sysinit.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l476g-discovery\sysinit.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l476g-discovery\sysinit.o: ..\APP\sensor\sensor_basic.h

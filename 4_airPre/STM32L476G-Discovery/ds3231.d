@@ -35,6 +35,7 @@ stm32l476g-discovery\ds3231.o: ..\STM32L4xx_HAL_Driver\Inc\stm32l4xx_hal.h
 stm32l476g-discovery\ds3231.o: ..\BSP\sys_config.h
 stm32l476g-discovery\ds3231.o: ..\BSP\AD7792.h
 stm32l476g-discovery\ds3231.o: ..\BSP\W25Q128.h
+stm32l476g-discovery\ds3231.o: ..\BSP\adc12_a.h
 stm32l476g-discovery\ds3231.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l476g-discovery\ds3231.o: ..\APP\sensor\sensor_basic.h
 stm32l476g-discovery\ds3231.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\time.h

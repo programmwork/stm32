@@ -69,6 +69,7 @@ stm32l476g-discovery\airp_sensor.o: ..\BSP\sys_config.h
 stm32l476g-discovery\airp_sensor.o: ..\BSP\AD7792.h
 stm32l476g-discovery\airp_sensor.o: ..\BSP\W25Q128.h
 stm32l476g-discovery\airp_sensor.o: ..\BSP\ds3231.h
+stm32l476g-discovery\airp_sensor.o: ..\BSP\adc12_a.h
 stm32l476g-discovery\airp_sensor.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 stm32l476g-discovery\airp_sensor.o: D:\software\Keil\ARM\ARMCC\Bin\..\include\string.h
 stm32l476g-discovery\airp_sensor.o: ..\APP\sensor\sensor_basic.h

@@ -8,6 +8,8 @@
 
 #include "main.h"
 
+extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
 
@@ -18,7 +20,27 @@ void uart_rcv(uint8_t uartno)
     uint16 rcv_len = 0, i = 0;
     uint16 len = 0;
     U8 rcv_buffer[MAX_UARTRCV_LEN] = {0};
+    UART_HandleTypeDef* huart = 0;
 
+    if(uartno == 0)
+    {
+        huart = &huart1;
+    }
+    else
+    {
+        if(uartno == 1)
+        {
+            huart = &huart2;
+        }
+        else
+        {
+            if(uartno == 2)
+            {
+                huart = &huart3;
+            }
+        }
+    }
+    
     if(m_tempdata.m_uartrcv[uartno].WD < m_tempdata.m_uartrcv[uartno].RD)
     {
         rcv_len = m_tempdata.m_uartrcv[uartno].RD - m_tempdata.m_uartrcv[uartno].WD - 1;
@@ -42,8 +64,17 @@ void uart_rcv(uint8_t uartno)
         {
             if(((m_tempdata.m_uartrcv[uartno].WD + 1) % MAX_UARTRCV_LEN) != m_tempdata.m_uartrcv[uartno].RD)//可进行接收处理
             {
-                 m_tempdata.m_uartrcv[uartno].buff[m_tempdata.m_uartrcv[uartno].WD]=rcv_buffer[i];
-                 m_tempdata.m_uartrcv[uartno].WD = (m_tempdata.m_uartrcv[uartno].WD + 1) % MAX_UARTRCV_LEN;
+                if(huart->Init.Parity == UART_PARITY_NONE)
+                {
+                    m_tempdata.m_uartrcv[uartno].buff[m_tempdata.m_uartrcv[uartno].WD]=rcv_buffer[i];
+                }
+                else
+                {
+                    m_tempdata.m_uartrcv[uartno].buff[m_tempdata.m_uartrcv[uartno].WD]=rcv_buffer[i] & 0x7F;
+                }
+
+                m_tempdata.m_uartrcv[uartno].WD = (m_tempdata.m_uartrcv[uartno].WD + 1) % MAX_UARTRCV_LEN;
+
             }
         }
     }

@@ -36,24 +36,24 @@ void AirP_Init(void)
 
     if(bcm_info.sensor.ce == 1)
     {
-        UART_Init(3, 9600, 8, 'N', 1, 1);
+        UART_Init(3, 9600, 8, 0, 1, 1);
         
         AirP_UartProcessingPhase = AIRP_USART_PROCESSING_IDEL;  
 
     }
     else if(bcm_info.sensor.ce == 2)
     {
-        UART_Init(3, 4800, 7, 'E', 1, 1);
+        UART_Init(3, 4800, 7, 1, 1, 1);
 
         //strcpy((char *)buffer,'echo off');
-        uartSendStr(1, (UINT8 *)&buffer_echo, strlen(buffer_echo));
-        uartSendStr(1, (UINT8 *)&buffer_echo, strlen(buffer_echo));
-        uartSendStr(1, (UINT8 *)&buffer_echo, strlen(buffer_echo));
+        uartSendStr(UARTDEV_3, (UINT8 *)&buffer_echo, strlen((char *)buffer_echo));
+        uartSendStr(UARTDEV_3, (UINT8 *)&buffer_echo, strlen((char *)buffer_echo));
+        uartSendStr(UARTDEV_3, (UINT8 *)&buffer_echo, strlen((char *)buffer_echo));
 
         //strcpy((char *)buffer,'form 4.1 P "," 3.1 T "," 5.0 STAT #r#n');
-        uartSendStr(1, (UINT8 *)&buffer, strlen(buffer));
-        uartSendStr(1, (UINT8 *)&buffer, strlen(buffer));
-        uartSendStr(1, (UINT8 *)&buffer, strlen(buffer));
+        uartSendStr(UARTDEV_3, (UINT8 *)&buffer, strlen((char *)buffer));
+        uartSendStr(UARTDEV_3, (UINT8 *)&buffer, strlen((char *)buffer));
+        uartSendStr(UARTDEV_3, (UINT8 *)&buffer, strlen((char *)buffer));
 
         AirP_UartProcessingPhase = AIRP_USART_PROCESSING_IDEL;
     }
