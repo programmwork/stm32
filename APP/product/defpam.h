@@ -20,8 +20,8 @@
 
 #define TIMER_0_DELAY_MS 1 //定时器 MS
 
-#define MAX_PKGLEN 300				//数据包长度
-#define MAX_UARTRCV_LEN 512 //串口接收长度
+#define MAX_PKGLEN 400				//数据包长度
+#define MAX_UARTRCV_LEN 1024 //串口接收长度
 #define UART_RCV_TIMEOUT_COUNTER 8 //接收超时机制，超时时间=TIMER_0_DELAY_MS * UART_RCV_TIMEOUT_COUNTER
 #define MAXN 16
 
@@ -306,7 +306,7 @@ typedef struct {
 //第一个结构体common放共用的参数
     struct {
         unsigned char         version;                //版本号
-        unsigned long         qz;                     //区站号
+        unsigned char         qz[6];                     //区站号
 
         struct {                                      //经度
             unsigned char     degree;        //度
@@ -354,7 +354,7 @@ typedef struct {
     struct{
         unsigned char         data_num;                  //观测要素数量
         unsigned char         status_num;                //状态变量数量
-
+        unsigned char         qc_en;
         qm_t                  qm[10];                     //设置或读取各要素瞬时值质量控制参数(QM)
         qs_t                  qs[10];                     //设置或读取各要素采样值质量控制参数(QS)
 

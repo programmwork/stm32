@@ -355,14 +355,14 @@ void pamsave(s_defdata_t *p_defdata_t)
 ******************************************************************************/
 void defdata_init(s_defdata_t *p_defdata_t)
 {
-    U8 i, sn_buf[40];
+    U8 sn_buf[40];
 
     p_defdata_t->save_start_flag=SAVEPAM_STARTFLAG_CHAR;
 
-    memcpy(sn_buf, (char *)p_defdata_t->m_baseinfo.sn, 36);
+    memcpy(sn_buf, (char *)p_defdata_t->m_baseinfo.sn, SN_NUM);
     memset(p_defdata_t,0,sizeof(s_defdata_t));
 
-    memcpy((char *)p_defdata_t->m_baseinfo.sn, sn_buf, 36);
+    memcpy((char *)p_defdata_t->m_baseinfo.sn, sn_buf, SN_NUM);
 
     p_defdata_t->m_baseinfo.id = 0;
 

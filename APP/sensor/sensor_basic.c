@@ -5,7 +5,6 @@
  *      Author: HYSD
  */
 
-//#include <msp430.h>
 #include "sensor_basic.h"
 #include <stdio.h>
 #include <string.h>
@@ -349,132 +348,451 @@ void sample_data_read(unsigned int index, char *dat ,unsigned int data_num)
     W25Q128_Data_Read(addr, (unsigned char *)dat, data_num);
 }
 
-uint8               buf_cfc_check[200];
-uint8               sbuf[220];
-unsigned char read_cfc_data(void)
+unsigned char clear_data(short num)//清除设备的校准、检定信息
+{
+    uint32           addr = 0, addr_var = 0;
+    s_check_info_t   temp_check_info;
+    unsigned char    wd;
+
+    //判断flash
+    if(num == 1 )
+    {
+        //addr = (FLASH_CFC_START<< 8);
+        W25X16_SPI_FastRead_nBytes( FLASH_CFC_WD_MAIN<<8,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+        W25X16_SPI_FastRead_nBytes( FLASH_CFC_WD_BACK<<8,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
+    }
+    else if (num == 2)
+    {
+        //addr = (FLASH_CHECK_START<< 8);
+        W25X16_SPI_FastRead_nBytes( FLASH_CHECK_WD_MAIN<<8,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+        W25X16_SPI_FastRead_nBytes( FLASH_CHECK_WD_BACK<<8,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
+    }
+
+    //获取指针
+    if( flash_flag_info_main.flag == 1)
+    {
+        wd = flash_flag_info_main.WD; //赋值给临时变量
+    }
+    else
+    {
+        if(flash_flag_info_back.flag == 1)
+        {
+            wd = flash_flag_info_back.WD; //赋值给临时变量
+        }
+        else
+        {
+            if( (flash_flag_info_main.flag == 0xFF) && (flash_flag_info_back.flag == 0xFF) )
+            {
+                /*if(num == 1 )
+                {
+                    W25X16_Flash_Erase_Sector( ( FLASH_CFC_START ) <<8); //擦除函数
+                    W25X16_Flash_Erase_Sector( FLASH_CFC_WD_MAIN<<8 );
+                    delay_ms(100);//100ms
+                    W25X16_Flash_Erase_Sector( FLASH_CFC_WD_BACK<<8 );
+                }
+                else if(num == 2 )
+                {
+                    W25X16_Flash_Erase_Sector( ( FLASH_CHECK_START ) <<8); //擦除函数
+                    W25X16_Flash_Erase_Sector( FLASH_CHECK_WD_MAIN<<8 );
+                    delay_ms(100);//100ms
+                    W25X16_Flash_Erase_Sector( FLASH_CHECK_WD_BACK<<8 );
+                }*/
+                wd = 0;
+                //return 1; //没数据
+            }
+            else
+            {
+                return 2; //指针 err
+            }
+        }
+    }
+
+    //擦除
+    if(num == 1)
+    {
+        addr_var  = FLASH_CFC_START;
+    }
+    else if(num == 2)
+    {
+        addr_var  = FLASH_CHECK_START;
+    }
+
+    addr = (addr_var + wd * 16)<< 8;
+    W25X16_SPI_FastRead_nBytes(addr,  (unsigned char *)&temp_check_info, sizeof(s_check_info_t));
+
+    if(temp_check_info.flag == 1)
+    {
+        W25X16_Flash_Erase_Sector( ( addr_var + wd * 16 ) <<8); //擦除函数
+    }
+    else
+    {
+        W25X16_Flash_Erase_Sector( ( addr_var + wd * 16 ) <<8); //擦除函数
+    }
+
+    //读写
+    if(wd == 0)
+    {
+        wd = 9;
+    }
+    else
+    {
+        wd-- ;
+    }
+
+    addr = (addr_var + wd * 16)<< 8;
+    //W25X16_SPI_FastRead_nBytes(addr,  (unsigned char *)&temp_check_info, sizeof(s_check_info_t));
+
+    //if(temp_check_info.flag == 1)
+    //{
+        flash_flag_info_main.WD = wd;
+        flash_flag_info_main.flag = 1;
+        flash_flag_info_back.WD = wd;
+        flash_flag_info_back.flag = 1;
+        //存指针
+        if(num == 1 )
+        {
+            W25X16_Flash_Erase_Sector( FLASH_CFC_WD_MAIN<<8 );
+            W25X16_SPI_Write_nBytes( FLASH_CFC_WD_MAIN<<8 ,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+            delay_ms(100);//100ms
+            W25X16_Flash_Erase_Sector( FLASH_CFC_WD_BACK<<8 );
+            W25X16_SPI_Write_nBytes( FLASH_CFC_WD_BACK<<8 ,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
+        }
+        else if(num == 2 )
+        {
+            W25X16_Flash_Erase_Sector( FLASH_CHECK_WD_MAIN<<8 );
+            W25X16_SPI_Write_nBytes( FLASH_CHECK_WD_MAIN<<8,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+            delay_ms(100);//100ms
+            W25X16_Flash_Erase_Sector( FLASH_CHECK_WD_BACK<<8 );
+            W25X16_SPI_Write_nBytes( FLASH_CHECK_WD_BACK<<8,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
+        }
+    //}
+    /*else
+    {
+        if(num == 1 )
+        {
+            W25X16_Flash_Erase_Sector( FLASH_CFC_WD_MAIN<<8 );
+            //W25X16_SPI_Write_nBytes( FLASH_CFC_WD_MAIN<<8) ,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+            delay_ms(100);//100ms
+            W25X16_Flash_Erase_Sector( FLASH_CFC_WD_BACK<<8 );
+            //W25X16_SPI_Write_nBytes( FLASH_CFC_WD_BACK<<8) ,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
+        }
+        if(num == 2 )
+        {
+            W25X16_Flash_Erase_Sector( FLASH_CHECK_WD_MAIN<<8);
+            //W25X16_SPI_Write_nBytes( FLASH_CHECK_WD_MAIN<<8),  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+            delay_ms(100);//100ms
+            W25X16_Flash_Erase_Sector( FLASH_CHECK_WD_BACK<<8 );
+            //W25X16_SPI_Write_nBytes( FLASH_CHECK_WD_BACK<<8),  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
+        }
+    }*/
+
+    return 0;
+}
+
+unsigned char read_cfc_data(void) //校正部分
 {
     uint32              addr = 0;
     s_check_info_t      temp_check_info;
-    s_check_cr_t        cfc[8];
-    uint8               i, len = 0;
-    
+    //s_check_cr_t        cfc[8];
+    uint8               buf[MAX_PKGLEN];
+    uint8               sbuf[MAX_PKGLEN];
 
-    addr =  (FLASH_CFC_START<<8) + cfc_offset * Flash_PAGE_SIZE/2;
+    //1:计数
+    if ( m_tempdata.Cfc_temp.count > 9 )
+    {
+        m_tempdata.Cfc_temp.WD = 0;
+        m_tempdata.Cfc_temp.count = 0;
+        m_tempdata.Cfc_temp.Flag = false;
+        return 0;
+    }
 
-
-      W25Q128_Data_Read(addr, (unsigned char *)&temp_check_info, sizeof(s_check_info_t));
-
-      if(temp_check_info.flag != true)
-      {
-          m_tempdata.CfcFlag = false;
-          cfc_offset = 0;
-      }
-      else
-      {
-          memset(cfc,0,sizeof(cfc));
-          W25Q128_Data_Read(addr+sizeof(s_check_info_t),  (unsigned char *)&cfc, temp_check_info.len*sizeof(s_check_cr_t));
-          if(temp_check_info.len>8) return 0;
-          memset(buf_cfc_check,0,MAX_PKGLEN/2);
-          for(i = 0; i<temp_check_info.len; i++)
-          {
-              len += sprintf((char *)buf_cfc_check+len ,",%d#%.02f:%.02f:%.02f",cfc[i].number, cfc[i].cr.a, cfc[i].cr.b, cfc[i].cr.c);
-          }
-            memset(sbuf,0,MAX_PKGLEN);
-            sprintf((char *)sbuf,"<%s,%03d,1,%04d%02d%02d,%02d,%ld%s>\r\n",
-                                                     sensor_di,
-                                                     m_defdata.m_baseinfo.id,
-
-                                                     temp_check_info.year,
-                                                     temp_check_info.mon,
-                                                     temp_check_info.day,
-                                                     temp_check_info.term,
-                                                     temp_check_info.number,
-                                                     buf_cfc_check
-                                                     );
-            uartSendStr(0, sbuf, strlen((char *)sbuf));
-            cfc_offset++;
-            if(cfc_offset == 90)
+    //1:计数
+    if(m_tempdata.Cfc_temp.count == 0)
+    {
+        W25X16_SPI_FastRead_nBytes( FLASH_CFC_WD_MAIN<<8,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+        W25X16_SPI_FastRead_nBytes( FLASH_CFC_WD_BACK<<8,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
+        if( flash_flag_info_main.flag == 1)
+        {
+            m_tempdata.Cfc_temp.WD = flash_flag_info_main.WD;
+            m_tempdata.Cfc_temp.count = 0;
+        }
+        else
+        {
+            if(flash_flag_info_back.flag == 1)
             {
-                cfc_offset = 0;
-                m_tempdata.CfcFlag = false;
+                m_tempdata.Cfc_temp.WD = flash_flag_info_back.WD;
+                m_tempdata.Cfc_temp.count = 0;
             }
-      }
+            else
+            {
+                m_tempdata.Cfc_temp.WD = 0;
+                m_tempdata.Cfc_temp.count = 0;
+                m_tempdata.Cfc_temp.Flag = false;
+                memset(sbuf,0,MAX_PKGLEN);
+                sprintf( (char *)sbuf, "<%s>\r\n", "crc no record" );
+                uartSendStr(0, sbuf, strlen((char *)sbuf));
+                return 0;
+            }
+        }
+    }
+
+    //2：读flash数
+    memset(buf,0,MAX_PKGLEN);
+    memset(sbuf,0,MAX_PKGLEN);
+    addr = (FLASH_CFC_START + m_tempdata.Cfc_temp.WD * 16)<< 8;
+    W25X16_SPI_FastRead_nBytes(addr,  (unsigned char *)&temp_check_info, sizeof(s_check_info_t));
+    if(temp_check_info.flag == 1)
+    {
+        addr += sizeof(s_check_info_t);
+        W25X16_SPI_FastRead_nBytes(addr,  (unsigned char *)&buf, temp_check_info.len);
+        sprintf((char *)sbuf,"<%s,%03d,1,%s>\r\n",sensor_di, m_defdata.m_baseinfo.id, buf);
+        uartSendStr(0, sbuf, strlen((char *)sbuf));
+    }
+    else
+    {
+        memset(sbuf,0,MAX_PKGLEN);
+        if( m_tempdata.Cfc_temp.count == 0)
+        {
+            sprintf( (char *)sbuf, "<%s>\r\n", "crc no record" );
+            uartSendStr(0, sbuf, strlen((char *)sbuf));
+        }
+
+        m_tempdata.Cfc_temp.WD = 0;
+        m_tempdata.Cfc_temp.count = 0;
+        m_tempdata.Cfc_temp.Flag = false;
+
+        return 0;
+    }
+
+    if(m_tempdata.Cfc_temp.WD == 0)
+    {
+        m_tempdata.Cfc_temp.WD = 9;
+    }
+    else
+    {
+        m_tempdata.Cfc_temp.WD--;
+    }
+
+    m_tempdata.Cfc_temp.count++;
 
   return 0;
 }
-unsigned char read_check_data(void)
+unsigned char read_check_data(void) //检定
 {
     uint32              addr = 0;
     s_check_info_t      temp_check_info;
-    
-    
+    uint8               buf[MAX_PKGLEN];
+    uint8               sbuf[MAX_PKGLEN];
 
-    addr =  (FLASH_CHECK_START<<8) + check_offset * Flash_PAGE_SIZE/2;
+    //1:计数
+    if ( m_tempdata.Check_temp.count > 9 )
+    {
+        m_tempdata.Check_temp.WD = 0;
+        m_tempdata.Check_temp.count = 0;
+        m_tempdata.Check_temp.Flag = false;
+        return 0;
+    }
 
-      W25Q128_Data_Read(addr, (unsigned char *)&temp_check_info, sizeof(s_check_info_t));
+    //1:计数
+    if(m_tempdata.Check_temp.count == 0)
+    {
+        W25X16_SPI_FastRead_nBytes( FLASH_CHECK_WD_MAIN<<8,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+        W25X16_SPI_FastRead_nBytes( FLASH_CHECK_WD_BACK<<8,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
+        if( flash_flag_info_main.flag == 1)
+        {
+            m_tempdata.Check_temp.WD = flash_flag_info_main.WD;
+            m_tempdata.Check_temp.count = 0;
+        }
+        else
+        {
+            if(flash_flag_info_back.flag == 1)
+            {
+                m_tempdata.Check_temp.WD = flash_flag_info_back.WD;
+                m_tempdata.Check_temp.count = 0;
+            }
+            else
+            {
+                m_tempdata.Check_temp.WD = 0;
+                m_tempdata.Check_temp.count = 0;
+                m_tempdata.Check_temp.Flag = false;
+                memset(sbuf,0,MAX_PKGLEN);
+                sprintf( (char *)sbuf, "<%s>\r\n", "check no record" );
+                uartSendStr(0, sbuf, strlen((char *)sbuf));
+                return 0;
+            }
+        }
+    }
 
-      if(temp_check_info.flag != true)
-      {
-          m_tempdata.CheckFlag = false;
-          check_offset = 0;
-      }
-      else
-      {
-          memset(buf_cfc_check,0,MAX_PKGLEN/2);
-          W25Q128_Data_Read(addr+sizeof(s_check_info_t), buf_cfc_check, temp_check_info.len);
-
-            memset(sbuf,0,MAX_PKGLEN);
-            sprintf((char *)sbuf,"<%s,%03d,2,%04d%02d%02d,%02d,%05ld,%s>\r\n",
-                                                     sensor_di,
-                                                     m_defdata.m_baseinfo.id,
-
-                                                     temp_check_info.year,
-                                                     temp_check_info.mon,
-                                                     temp_check_info.day,
-                                                     temp_check_info.term,
-                                                     temp_check_info.number,
-                                                     buf_cfc_check
-                                                     );
+    //2：读flash数
+    memset(buf,0,MAX_PKGLEN);
+    memset(sbuf,0,MAX_PKGLEN);
+    addr = (FLASH_CHECK_START + m_tempdata.Check_temp.WD * 16)<< 8;
+    W25X16_SPI_FastRead_nBytes(addr,  (unsigned char *)&temp_check_info, sizeof(s_check_info_t));
+    if(temp_check_info.flag == 1)
+    {
+        addr += sizeof(s_check_info_t);
+        W25X16_SPI_FastRead_nBytes(addr,  (unsigned char *)&buf, temp_check_info.len);
+        sprintf((char *)sbuf,"<%s,%03d,2,%s>\r\n",sensor_di, m_defdata.m_baseinfo.id, buf);
+        uartSendStr(0, sbuf, strlen((char *)sbuf));
+    }
+    else
+    {
+        memset(sbuf,0,MAX_PKGLEN);
+        if( m_tempdata.Check_temp.count == 0)
+        {
+            sprintf( (char *)sbuf, "<%s>\r\n", "check no record" );
             uartSendStr(0, sbuf, strlen((char *)sbuf));
-            check_offset++;
-      }
+        }
+
+        m_tempdata.Check_temp.WD = 0;
+        m_tempdata.Check_temp.count = 0;
+        m_tempdata.Check_temp.Flag = false;
+
+        return 0;
+    }
+
+    if(m_tempdata.Check_temp.WD == 0)
+    {
+        m_tempdata.Check_temp.WD = 9;
+    }
+    else
+    {
+        m_tempdata.Check_temp.WD--;
+    }
+
+    m_tempdata.Check_temp.count++;
+
   return 0;
 }
 unsigned char save_cr(uint8 num, s_check_info_t * check_info, char * data)
 {
-    uint8 i = 0, flag = 0;
-    uint32 addr = 0;
+    uint8 var = 0;
+    uint32 addr = 0, addr_capture_data = 0;
     uint8 result = 0;
-    uint8 len = 0;
+    uint32 len = 0;
 
     if(num == 1 )
     {
-        addr = (FLASH_CFC_START<< 8);
-        len = check_info->len * 13;
+        addr = FLASH_CFC_START;
+        len = check_info->len;
+        W25X16_SPI_FastRead_nBytes( FLASH_CFC_WD_MAIN<<8,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+        W25X16_SPI_FastRead_nBytes( FLASH_CFC_WD_BACK<<8,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
     }
     else if (num == 2)
     {
-        addr = (FLASH_CHECK_START<< 8);
+        addr = FLASH_CHECK_START;
         len = check_info->len;
+        W25X16_SPI_FastRead_nBytes( FLASH_CHECK_WD_MAIN<<8,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+        W25X16_SPI_FastRead_nBytes( FLASH_CHECK_WD_BACK<<8,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
     }
     else
         return 0;
 
-    for(i = 0;i < 90;i++)
+    if(flash_flag_info_main.flag == 1)
     {
-        W25Q128_Data_Read(addr, &flag, 1);
-
-        if(flag == 0xff)
+        var = flash_flag_info_main.WD;
+        if( ((int)(flash_flag_info_main.WD) >= 0) && (flash_flag_info_main.WD <= 9) )
         {
-            check_info->flag = 1;
-            W25Q128_Data_Prog(addr, (unsigned char *)check_info, sizeof(s_check_info_t));
-            W25Q128_Data_Prog(addr + sizeof(s_check_info_t), (unsigned char *)data, len);
-            result = 1;
-            break;
+            if(flash_flag_info_main.WD == 9)
+            {
+                var = 0;
+            }
+            else
+            {
+                var ++;
+            }
         }
-
-        addr += Flash_PAGE_SIZE / 2;
     }
+    else
+    {
+        if(flash_flag_info_back.flag == 1)
+        {
+            var = flash_flag_info_back.WD;
+            if( ((int)(flash_flag_info_back.WD) >= 0) && (flash_flag_info_back.WD <= 9) )
+            {
+                if(flash_flag_info_back.WD == 9)
+                {
+                    var = 0;
+                }
+                else
+                {
+                    var ++;
+                }
+            }
+        }
+        else
+        {
+            if( (flash_flag_info_back.flag == 0xFF) && (flash_flag_info_main.flag == 0xFF) )
+            {
+                var = 0;
+            }
+            else
+            {
+                return 2;
+            }
+        }
+    }
+
+    addr = (addr + var * 16)<< 8;
+
+    //W25X16_SPI_FastRead_nBytes(addr, &flag, 1);
+
+    W25X16_Flash_Erase_Sector( addr );
+    check_info->flag = 1;
+    W25X16_SPI_Write_nBytes(addr, (unsigned char *)check_info, sizeof(s_check_info_t)); //存
+    addr += sizeof(s_check_info_t); //地址偏移
+    //if(256 )
+    //{
+    if(len > (256-sizeof(s_check_info_t)) )
+    {
+        W25X16_SPI_Write_nBytes( addr, (unsigned char *)data + addr_capture_data, 256-sizeof(s_check_info_t) );
+        addr = addr + (256-sizeof(s_check_info_t));
+        len = len - (256-sizeof(s_check_info_t));
+        addr_capture_data = addr_capture_data + (256-sizeof(s_check_info_t));
+
+        while(1)
+        {
+            if(len > 256)
+            {
+                W25X16_SPI_Write_nBytes( addr, (unsigned char *)data + addr_capture_data, 256);
+                addr += 256;
+                len -= 256;
+                addr_capture_data += 256;
+            }
+            else
+            {
+                W25X16_SPI_Write_nBytes(addr, (unsigned char *)data + addr_capture_data, len);
+                break;
+            }
+       }
+    }
+    else
+    {
+        W25X16_SPI_Write_nBytes(addr, (unsigned char *)data + addr_capture_data, len);
+    }
+
+    flash_flag_info_main.flag = 1;
+    flash_flag_info_back.flag = 1;
+    flash_flag_info_main.WD = var;
+    flash_flag_info_back.WD = var;
+    if(num == 1 )
+    {
+        W25X16_Flash_Erase_Sector( FLASH_CFC_WD_MAIN << 8 );
+        W25X16_SPI_Write_nBytes( FLASH_CFC_WD_MAIN << 8,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+        delay_ms(100);//100ms
+        W25X16_Flash_Erase_Sector( FLASH_CFC_WD_BACK << 8 );
+        W25X16_SPI_Write_nBytes( FLASH_CFC_WD_BACK << 8,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
+    }
+    if(num == 2 )
+    {
+        W25X16_Flash_Erase_Sector( FLASH_CHECK_WD_MAIN << 8 );
+        W25X16_SPI_Write_nBytes( FLASH_CHECK_WD_MAIN << 8,  (unsigned char *)&flash_flag_info_main, sizeof(FLASH_flag_Info_t) );
+        delay_ms(100);//100ms
+        W25X16_Flash_Erase_Sector( FLASH_CHECK_WD_BACK << 8 );
+        W25X16_SPI_Write_nBytes( FLASH_CHECK_WD_BACK << 8,  (unsigned char *)&flash_flag_info_back, sizeof(FLASH_flag_Info_t) );
+    }
+
+    result = 0;
 
     return result;
 }

@@ -22,8 +22,6 @@
 #include <math.h>
 #include <time.h>
 
-#define SN_NUM 36
-
 int check_datetime(s_RtcTateTime_t *datetime);
 time_t get_softimer_sec(s_RtcTateTime_t *temp_t);
 time_t get_softimer(s_RtcTateTime_t *temp_t);
@@ -34,7 +32,7 @@ volatile float         EmulationData = 0;            // X3传感器当前的模拟值
 volatile unsigned char EmulationDataType = 0;        // X4 传感器当前的模拟值数据类型
 float                  EmulationData_1 = 0.0;
 
-#define DEV_TYPE_MAX  14
+#define DEV_TYPE_MAX  15
 char *dev_type[DEV_TYPE_MAX]={
     "YAWP",     //0 称重降水仪
     //---------自动气候站--------------
@@ -49,9 +47,9 @@ char *dev_type[DEV_TYPE_MAX]={
     "YSGT",     //9 浅层地面温度数字传感器
     "YSMS",     //10 土壤水分数字传感器
     "YTRS",     //11 总辐射数字传感器
-
     "YSDR",     //12 日照
-    "YROS"      //13 辐射观测仪
+    "YROS",     //13 辐射观测仪  //
+    "YANE"      //6 风速风向数字传感器
 
 };
 
@@ -85,9 +83,9 @@ const bcm_control_t bcm_control={
         {"READDATA"  ,&cmd_readdata},          //25　实时读取数据
         {"DOWN"      ,&cmd_down},              //26　历史数据下载
         {"RESET"     ,&cmd_reset},             //27　重启设备
-
         {"SUPERADMIN",&cmd_superadmin},        //29　操作权限指令
         {"UNIT"      ,&cmd_unit},              //30  气压单位修改命令
+        {"CRCLEAR"   ,&cmd_crclear},           //31  清除设备的校准、检定信息
 
 //------------------------------ 私有命令 -------------------------------------
         {"DEBUGON"   ,&cmd_debugon},           //1 调试模式开
@@ -97,7 +95,7 @@ const bcm_control_t bcm_control={
         {"STARTTIME" ,&cmd_starttime},         //5 设备开始运行时间
         {"SECDOUTON" ,&cmd_secdout_on},        //6 输出秒级数据
         {"SECDOUTOFF",&cmd_secdout_off},       //7 关闭秒级数据输出
-        {"ERASECR"   ,&cmd_erase_check},       //
+        {"ERASECR"   ,&cmd_erase_check},       //12 擦除校验（55）/检定（AA）
         {"CFC"       ,&cmd_cfc},               //8 标定传感器系数
         {"WINDH"     ,&cmd_windh},             //9 风拨码开关设置
         {"STSENSOR"  ,&cmd_stsensor},          //10 地温传感器数量及深度配置
@@ -105,13 +103,16 @@ const bcm_control_t bcm_control={
         {"VERSIONCFG",&cmd_version_cfg},       //12 版本号写入
         {"SETCOM2"   ,&cmd_setcom2},           //13 设置或读取设备的通讯参数
         {"CE"        ,&ce_cfg}                 //14 传感器配置命令
+		{"MODE"      ,&cmd_mode},              //13 232/485通信模式选择
+        {"QCEN"      ,&cmd_qc_en},              //13 232/485通信模式选择
+
     }
 };
 
 
-int save_element(short temp_num, float temp_min, float temp_max, char *temp_doubt, char *temp_err, char *temp_change, qm_t *temp_qm);   //存储QS
-int check_element(short temp_num, qm_t *temp_qm);                //校验QS
-int save_sensor(short temp_num, float temp_min, float temp_max, char *temp_change, qs_t *temp_qs);
+int save_element(short temp_num, float temp_min, float temp_max, float temp_doubt, float temp_err, float temp_change, qm_t *temp_qm);   //存储QS
+int check_element(short temp_num, qm_t *temp_qm);
+int save_sensor(short temp_num, float temp_min, float temp_max, float temp_change, qs_t *temp_qs);
 int check_sensor(short temp_num, qs_t *temp_qs);
 
 int getSeparator(char *rcvdata)
@@ -127,13 +128,12 @@ int getSeparator(char *rcvdata)
     return i;
 }
 
-char data_II[64], data_buf[MAX_PKGLEN];
 U16 uartcmd_process(U8 uartno,char *data,U16 len,char *rbuf)
 {
-    
+    char data_II[64], buf[MAX_PKGLEN];
     int index,ret;
     U8 i;
-    char *temp_di = NULL, *p = NULL, *temp_id = NULL;
+    char *temp_di = NULL, *p = NULL, *temp_id = NULL, *temp_cmd = NULL;
     unsigned short id_num;
     index=getSeparator(data);
 
@@ -153,15 +153,16 @@ U16 uartcmd_process(U8 uartno,char *data,U16 len,char *rbuf)
 
     //解析 data 提取ID DI.........................................
     i = 0;
-    memset(data_buf,0,MAX_PKGLEN);
-    memcpy(data_buf,data,len);
-    if(0 == Utils_CheckCmdStr(data_buf))
+    memset(buf,0,MAX_PKGLEN);
+    memcpy(buf,data,len);
+    if(0 == Utils_CheckCmdStr(buf))
         {return 0;}
-    p = strtok(data_buf, ",");
+    p = strtok(buf, ",");
     while(p)
     {
         switch(i)
         {
+        case 0: temp_cmd = p; break;
         case 1: temp_di = p;  break;//校验DI
         case 2: temp_id = p;  break;//校验 ID
         default:    {break;}
@@ -197,9 +198,38 @@ U16 uartcmd_process(U8 uartno,char *data,U16 len,char *rbuf)
         {
             ret = (bcm_control.dispatch[i].action)(data, rbuf);     //回调函数
             m_tempdata.currentCmdIndex=i;
+            if((0 == strcmp(temp_di,"YALL"))  &&  (0 == strcmp(temp_id,"FFF"))  &&  (bcm_info.common.mo == 2)
+                                              &&  (0 != strcmp(temp_cmd,"DI"))  &&  (0 != strcmp(temp_cmd,"ID")))
+            {
+                memset(rbuf,0,sizeof(rbuf));
+                ret = 0;
+
+                if(0 == strcmp(temp_cmd,"DOWN"))
+                {
+                    m_tempdata.Count_down_history = 0;
+                }
+
+                if (0 == strcmp(temp_cmd,"READDATA"))
+                {
+                    m_tempdata.Count_read_history =  0;
+                }
+
+                if(0 == strcmp(temp_cmd,"CR"))
+                {
+                    m_tempdata.Cfc_temp.Flag = true;
+                    m_tempdata.Check_temp.Flag = true;
+                }
+
+
+
+            }
             return ret;
         }
     }
+
+    if((0 == strcmp(temp_di,"YALL"))  &&  (0 == strcmp(temp_id,"FFF"))  &&  (bcm_info.common.mo == 2))
+        { return 0; }
+
     return  sprintf(rbuf, "<%s,%03d,BADCOMMAND>\r\n",sensor_di,m_defdata.m_baseinfo.id);
 }
 
@@ -250,6 +280,46 @@ time_t get_softimer_sec(s_RtcTateTime_t *temp_t)
     data = mktime(&temp);
 
     return data;
+}
+
+unsigned char crc_high_first_much(unsigned char *ptr, unsigned char len)
+{
+    unsigned char i;
+    unsigned char crc=0x00; /* 计算的初始crc值 */
+
+    while(len--)
+    {
+        crc ^= *ptr++;  /* 每次先与需要计算的数据异或,计算完指向下一数据 */
+        for (i=8; i>0; --i)   /* 下面这段计算过程与计算一个字节crc一样 */
+        {
+            if (crc & 0x80)
+                crc = (crc << 1) ^ 0x31;
+            else
+                crc = (crc << 1);
+        }
+    }
+
+    return crc;
+}
+
+unsigned char crc_low_first_much(unsigned char *ptr, unsigned char len)
+{
+    unsigned char i;
+    unsigned char crc=0x00; /* 计算的初始crc值 */
+
+    while(len--)
+    {
+        crc ^= *ptr++;  /* 每次先与需要计算的数据异或,计算完指向下一数据 */
+        for (i=8; i>0; --i)   /* 下面这段计算过程与计算一个字节crc一样 */
+        {
+            if (crc & 0x01)
+                crc = (crc >> 1) ^ 0x8C;
+            else
+                crc = (crc >> 1);
+        }
+    }
+
+    return crc;
 }
 
 /*==================================================================
@@ -488,7 +558,7 @@ int cmd_help(char *buf,char *rbuf)
       {goto err;}*/
 
     rlen = sprintf((char *)rbuf,"<%s,%03d,SETCOM,AUTOCHECK,HELP,QZ,ST,DI,ID,LAT,LONG,UNIT,DATE,TIME,DATETIME,FTD,STDEV,FAT,SETCOMWAY,"
-                   "SS,STAT,AT,VV,SN,QCPS,QCPM,CR,READDATA,DOWN,RESET>\r\n",
+                   "SS,STAT,AT,VV,SN,QCPS,QCPM,CR,READDATA,DOWN,RESET,SUPERADMIN,CRCLEAR>\r\n",
                          sensor_di,
                          m_defdata.m_baseinfo.id
                                          );
@@ -515,7 +585,7 @@ int cmd_qz(char *buf,char *rbuf)
     //char *temp_di = NULL;
     //unsigned short temp_id = 0;
     char *p = NULL, i = 0, rlen = 0;
-    unsigned long temp_qz = 0;
+    char *temp_qz = NULL;
 
     if(0 == Utils_CheckCmdStr(buf))
     {goto err;}
@@ -535,9 +605,9 @@ int cmd_qz(char *buf,char *rbuf)
           }*/
         case 3:
           {
-            if(-1 == check_digit(p, 5))//校验 区站号 是否为数字 5位
-            {goto err;}
-            temp_qz = atol(p);
+            //if(5 == strlen(p))//校验 区站号 是否为数字 5位
+            //{goto err;}
+            temp_qz = p;
             break;
           }
         case 7: break;
@@ -557,7 +627,7 @@ int cmd_qz(char *buf,char *rbuf)
     { return 0; }*/
     if(i == 3)  // 打印 读取
     {
-    rlen = sprintf((char *)rbuf,"<%s,%03d,%ld>\r\n",
+    rlen = sprintf((char *)rbuf,"<%s,%03d,%s>\r\n",
                               sensor_di,
                               m_defdata.m_baseinfo.id,
                               bcm_info.common.qz);
@@ -565,11 +635,10 @@ int cmd_qz(char *buf,char *rbuf)
     }
 
     //2 校验QZ 是否为5位数
-    if((temp_qz >99999) || (temp_qz < 10000))
-      { goto err; }
 
     //3 写入FLASH  并返回成功
-    bcm_info.common.qz = temp_qz;
+    //bcm_info.common.qz = temp_qz;
+    strncpy((char *)&bcm_info.common.qz, temp_qz,5);
     save_sys_cfg(&bcm_info);
     rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
     return rlen;
@@ -1734,7 +1803,6 @@ err:
     rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
     return rlen;
 }
-char buf_QS[90]={0}, buf_QM[150]={0};
 /*==================================================================
 *函数：             cmd_ss
 *作者：
@@ -1751,9 +1819,9 @@ int cmd_ss(char *buf,char *rbuf)
 {
     //char *temp_di = NULL;
     //unsigned short temp_id = 0;
-    char *p = NULL, i = 0, j = 0;
+    char *p = NULL, i = 0, j = 0, num = 0;
     int  rlen = 0, len_QS = 0, len_QM = 0;
-    
+    char buf_QS[256]={0}, buf_QM[256]={0};
 
     if(0 == Utils_CheckCmdStr(buf))
     {goto err;}
@@ -1785,74 +1853,158 @@ int cmd_ss(char *buf,char *rbuf)
         if(0 == strncmp((char *)&sensor_di,(char *)dev_type[i],4))
           break;
     }
-    if(i == 6)   //风
+
+    num = MAX_SENSOR_NUM;//
+
+    if((i == 6) || (i == 14))
+        num = 2;
+    for(j  = 0 ; j < num ; j++)
     {
+        len_QS += sprintf((char *)buf_QS+len_QS,",%d",j+1);
 
-        len_QS = sprintf((char *)buf_QS,",1,%.1f,%.1f,%.1f,2,%.1f,%.1f,/",
-                                    bcm_info.sensor.qs[0].min,      //下限
-                                    bcm_info.sensor.qs[0].max,      //上限
-                                    bcm_info.sensor.qs[0].change,
+        if(bcm_info.sensor.qs[j].min == INVALID_DATA)
+        {
+            len_QS += sprintf((char *)buf_QS+len_QS,",/");
+        }
+        else
+        {
+            len_QS += sprintf((char *)buf_QS+len_QS,",%.1f",bcm_info.sensor.qs[j].min);
+        }
 
-                                    bcm_info.sensor.qs[1].min,      //下限
-                                    bcm_info.sensor.qs[1].max       //上限
-                                    );
-       for(j = 11 ; j < 15 ; j++)//风速
-           len_QM +=  sprintf((char *)buf_QM+len_QM,",%d,%.1f,%.1f,%.1f,%.1f,/",
-                          j,
-                          bcm_info.sensor.qm[j-11].min,        //下限
-                          bcm_info.sensor.qm[j-11].max,        //上限
-                          bcm_info.sensor.qm[j-11].doubtful,   //存疑门限
-                          bcm_info.sensor.qm[j-11].err         //错误门限
-                          );
-       for(j = 21 ; j < 25 ; j++)//风向
-          len_QM +=  sprintf((char *)buf_QM+len_QM,",%d,%.1f,%.1f,/,/,%.1f",
-                         j,
-                         bcm_info.sensor.qm[j-17].min,        //下限
-                         bcm_info.sensor.qm[j-17].max,        //上限
-                         bcm_info.sensor.qm[j-17].changerate  //最小应该变化的速率
-                         );
+        if(bcm_info.sensor.qs[j].max == INVALID_DATA)
+        {
+            len_QS += sprintf((char *)buf_QS+len_QS,",/");
+        }
+        else
+        {
+            len_QS += sprintf((char *)buf_QS+len_QS,",%.1f",bcm_info.sensor.qs[j].max);
+        }
+//
+        if(bcm_info.sensor.qs[j].change == INVALID_DATA)
+        {
+            len_QS += sprintf((char *)buf_QS+len_QS,",/");
+        }//
+        else
+        {
+            len_QS += sprintf((char *)buf_QS+len_QS,",%.1f",bcm_info.sensor.qs[j].change);
+        }//
     }
-    else if(i == 9)//地温
+    //
+    if((i == 14) || (i == 6))   //风
     {
-        for(j  = 0 ; j < MAX_SENSOR_NUM ; j++)
-            len_QS += sprintf((char *)buf_QS+len_QS,",%d,%.1f,%.1f,%.1f",
-                                     j+1,
-                                     bcm_info.sensor.qs[j].min,      //下限
-                                     bcm_info.sensor.qs[j].max,      //上限
-                                     bcm_info.sensor.qs[j].change
-                                     );
-        for(j  = 0 ; j < MAX_SENSOR_NUM ; j++)
-            len_QM +=  sprintf((char *)buf_QM+len_QM,",%d,%.1f,%.1f,%.1f,%.1f,/",
-                                    j+11,
-                                    bcm_info.sensor.qm[j].min,        //下限
-                                    bcm_info.sensor.qm[j].max,        //上限
-                                    bcm_info.sensor.qm[j].doubtful,   //存疑门限
-                                    bcm_info.sensor.qm[j].err         //错误门限
-                                    );
+       for(j = 0 ; j < 8 ; j++)//风速
+       {
+           if(j <4)
+               len_QM +=  sprintf((char *)buf_QM+len_QM,",%d",j + 11);
+           else
+               len_QM +=  sprintf((char *)buf_QM+len_QM,",%d",j + 17);
+
+           if(bcm_info.sensor.qm[j].min == INVALID_DATA)
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",/");
+           }
+           else
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",%.1f",bcm_info.sensor.qm[j].min);
+           }
+
+           if(bcm_info.sensor.qm[j].max == INVALID_DATA)
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",/");
+           }
+           else
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",%.1f",bcm_info.sensor.qm[j].max);
+           }
+
+           if(bcm_info.sensor.qm[j].doubtful == INVALID_DATA)
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",/");
+           }
+           else
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",%.1f",bcm_info.sensor.qm[j].doubtful);
+           }
+
+           if(bcm_info.sensor.qm[j].err == INVALID_DATA)
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",/");
+           }
+           else
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",%.1f",bcm_info.sensor.qm[j].err);
+           }
+           if(bcm_info.sensor.qm[j].changerate == INVALID_DATA)
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",/");
+           }
+           else
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",%.1f",bcm_info.sensor.qm[j].changerate);
+           }
+       }
     }
     else
     {
-        for(j  = 0 ; j < MAX_SENSOR_NUM ; j++)
-            len_QS += sprintf((char *)buf_QS+len_QS,",%d,%.1f,%.1f,%.1f",
-                                     j+1,
-                                     bcm_info.sensor.qs[j].min,      //下限
-                                     bcm_info.sensor.qs[j].max,      //上限
-                                     bcm_info.sensor.qs[j].change
-                                     );
-        for(j  = 0 ; j < MAX_SENSOR_NUM ; j++)
-            len_QM +=  sprintf((char *)buf_QM+len_QM,",%d,%.1f,%.1f,%.1f,%.1f,%.1f",
-                                    j+11,
-                                    bcm_info.sensor.qm[j].min,        //下限
-                                    bcm_info.sensor.qm[j].max,        //上限
-                                    bcm_info.sensor.qm[j].doubtful,   //存疑门限
-                                    bcm_info.sensor.qm[j].err,         //错误门限
-                                    bcm_info.sensor.qm[j].changerate  //最小应该变化的速率
-                                    );
+        num = MAX_SENSOR_NUM;
+        if(i == 3)//
+            num++;
+        for(j = 0 ; j < num ; j++)//风速
+        {
+            if((i == 10) || (i == 9))
+                len_QM +=  sprintf((char *)buf_QM+len_QM,",%d",j*10 + 11);
+            else
+                len_QM +=  sprintf((char *)buf_QM+len_QM,",%d",j + 11);
+
+           if(bcm_info.sensor.qm[j].min == INVALID_DATA)
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",/");
+           }
+           else
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",%.1f",bcm_info.sensor.qm[j].min);
+           }
+
+           if(bcm_info.sensor.qm[j].max == INVALID_DATA)
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",/");
+           }
+           else
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",%.1f",bcm_info.sensor.qm[j].max);
+           }
+
+           if(bcm_info.sensor.qm[j].doubtful == INVALID_DATA)
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",/");
+           }
+           else
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",%.1f",bcm_info.sensor.qm[j].doubtful);
+           }
+
+           if(bcm_info.sensor.qm[j].err == INVALID_DATA)
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",/");
+           }
+           else
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",%.1f",bcm_info.sensor.qm[j].err);
+           }
+           if(bcm_info.sensor.qm[j].changerate == INVALID_DATA)
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",/");
+           }
+           else
+           {
+               len_QM += sprintf((char *)buf_QM+len_QM,",%.1f",bcm_info.sensor.qm[j].changerate);
+           }
+       }
     }
 
  	  //2 输出状态 返回成功
     rlen = sprintf((char *)rbuf,"<%s,%03d,SETCOM,%ld,%d,%c,%d,"
-                           "QZ,%ld,ST,%02d,DI,%s,ID,%03d,"
+                           "QZ,%s,ST,%02d,DI,%s,ID,%03d,"
                            "LAT,%02d.%02d.%02d,LONG,%03d.%02d.%02d,ASL,%ld,"
                            "DATE,%04d-%02d-%02d,TIME,%02d:%02d:%02d,"
                            "FTD,%02dM,STDEV,%02dM,FAT,%03d,SETCOMWAY,%01d,"
@@ -1885,8 +2037,8 @@ int cmd_ss(char *buf,char *rbuf)
                            m_tempdata.m_RtcTateTime.min,
                            m_tempdata.m_RtcTateTime.sec,
 
-                           bcm_info.common.stdev,
                            bcm_info.common.ftd,
+                           bcm_info.common.stdev,
                            bcm_info.common.ft,
                            bcm_info.common.sw,
 
@@ -2197,7 +2349,7 @@ int cmd_sn(char *buf,char *rbuf)
     //char *temp_di = NULL;
     //unsigned short temp_id = 0;
     char *p = NULL, i = 0, rlen = 0;
-    char *temp_sn = NULL;
+    unsigned char *temp_sn = NULL;
     unsigned char temp_chack_sn = 0, temp_chack_num = 0;
 
     if(0 == Utils_CheckCmdStr(buf))
@@ -2221,7 +2373,7 @@ int cmd_sn(char *buf,char *rbuf)
         {
         	if(SN_NUM != strlen(p))	//36位SN 装备类别码9+厂商识别码10+生产序列码14+校验3
            {goto err;}
-        	temp_sn=p;
+           temp_sn = (unsigned char *)p;
           break;
         }  
         case 4: break;
@@ -2253,15 +2405,19 @@ int cmd_sn(char *buf,char *rbuf)
     {goto err;}
 
     //2 SN号 校验  只验证校验码
-    temp_chack_num = atoi(temp_sn + SN_NUM - 3);
-	for(i = 0; i< SN_NUM-3; i++)
-	    temp_chack_sn = temp_chack_sn^(temp_sn[i]);
+    temp_chack_num = atoi( ((char *) temp_sn) + SN_NUM - 3);
+
+    temp_chack_sn = crc_low_first_much(temp_sn, SN_NUM - 3);
+
+	//for(i = 0; i< SN_NUM-3; i++)
+	    //temp_chack_sn = temp_chack_sn^(temp_sn[i]);
 	if(temp_chack_sn != temp_chack_num)
 	    {goto err;}
     	
-    //3 清除结构体 写入结构体 写入时钟 返回正确
-    memset(m_defdata.m_baseinfo.sn, 0x00, sizeof(m_defdata.m_baseinfo.sn));
-    strncpy((char *)&m_defdata.m_baseinfo.sn, temp_sn,SN_NUM);
+    //3 写入结构体 写入时钟 返回正确
+    memset( (char *)&m_defdata.m_baseinfo.sn, 0, sizeof(m_defdata.m_baseinfo.sn) );
+	strncpy((char *)&m_defdata.m_baseinfo.sn, (char *)temp_sn,SN_NUM);
+    flash_clear((U8*)SegmentStart+0,128);
     pamsave(&m_defdata);
 
     rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
@@ -2287,11 +2443,10 @@ int cmd_qcps(char *buf,char *rbuf)
 {
     //char *temp_di = NULL;
     //unsigned short temp_id = 0;
-    char *p = NULL, i = 0, rlen = 0;
-    short temp_num;
-    float temp_min,temp_max;
-    char *temp_change = NULL;
-    
+    char *p = NULL, i = 0;
+    short temp_num, send_buf = 0, rlen = 0;
+    float temp_min,temp_max,temp_change;
+
     qs_t temp_qs;
     
     if(0 == Utils_CheckCmdStr(buf))
@@ -2301,45 +2456,57 @@ int cmd_qcps(char *buf,char *rbuf)
     {
         switch(i)
         {
-        case 0: break;
-        case 1: break;//{temp_di = p;break;}
-        case 2:break;//
-        /*{
-          if(-1 == check_digit(p, 3))//校验 ID是否为数字
-          {goto err;}
-          temp_id = atoi(p);
-          break;
-        }*/
-        case 3:
-        {
-        	if(-1 == check_digit(p, 1))//校验 感应原件编号
-           {goto err;}
-        	temp_num=atoi(p);
-          break;
-        }  
-        case 4:
-        {
-            if((0 !=  strncmp(p,"-",1)) &&(-1 == check_format(p, strlen(p), ".", 1)))//验证最高为为 - 或 0
-            {goto err;}
-            if((0 ==  strncmp(p,"-",1)) && (-1 == check_format(p+1, strlen(p+1), ".", 1)))//校验 测量范围下限
-            {goto err;}
-            temp_min=atof(p);
-        	break;
-        }
-        case 5:
-        {
-        	if(-1 == check_format(p, strlen(p), ".", 1))//校验 测量范围上限
-        	{goto err;} 
-            temp_max=atof(p);
-        	break;
-        }
-        case 6:
-        {
-            temp_change = p;
-        	break;
-        }
-        case 7: break;
-        default:    {goto err;}
+            case 0: break;
+            case 1: break;//
+            case 2:break;//
+
+            case 3:
+            {
+                if(-1 == check_digit(p, 1))//校验 感应原件编号
+                {goto err;}
+                temp_num=atoi(p);
+            }break;
+            case 4:
+            {
+                if(*p == '/')
+                {
+                    temp_min = INVALID_DATA;
+                }
+                else
+                {
+                    if((0 !=  strncmp(p,"-",1)) &&(-1 == check_format(p, strlen(p), ".", 1)))//验证最高为为 - 或 0
+                        {goto err;}
+                    temp_min=atof(p);
+                }
+            }break;
+            case 5:
+            {
+                if(*p == '/')//
+                {
+                    temp_max = INVALID_DATA;
+                }
+                else
+                {
+                    if((0 !=  strncmp(p,"-",1)) &&(-1 == check_format(p, strlen(p), ".", 1)))//校验 测量范围上限
+                        {goto err;}
+                    temp_max=atof(p);
+            }
+            }break;
+            case 6:
+            {
+                if(*p == '/')
+                {
+                    temp_change = INVALID_DATA;
+                }
+                else
+                {
+                    if(-1 == check_format(p, strlen(p), ".", 1))//验证最高为为 - 或 0
+                        {goto err;}
+                    temp_change = atof(p);
+                }
+            }break;
+            case 7: break;
+            default:    {goto err;}
         }
         p = strtok(NULL, ",");
         i++;
@@ -2364,32 +2531,51 @@ int cmd_qcps(char *buf,char *rbuf)
             if(0 == strncmp((char *)&sensor_di,(char *)dev_type[i],4))
               break;
         }
-        if((i == 6) && (temp_num == 2))   //风向
-        {
-            rlen = sprintf((char *)rbuf,"<%s,%03d,%d,%.1f,%.1f,/>\r\n",
+
+        rlen = sprintf((char *)rbuf,"<%s,%03d,%d",
                                         sensor_di,
                                         m_defdata.m_baseinfo.id,
-                                        temp_num,
-                                        temp_qs.min,
-                                        temp_qs.max
+                                        temp_num
                                         );
+
+        if(temp_qs.min == INVALID_DATA)
+        {
+            send_buf  = sprintf((char *)&rbuf[rlen],",/");
+            rlen += send_buf;
         }
         else
         {
-            rlen = sprintf((char *)rbuf,"<%s,%03d,%d,%.1f,%.1f,%.1f>\r\n",
-                                         sensor_di,
-                                         m_defdata.m_baseinfo.id,
-                                         temp_num,
-                                         temp_qs.min,
-                                         temp_qs.max,
-                                         temp_qs.change
-                                         );
+            send_buf = sprintf((char *)&rbuf[rlen],",%.1f",temp_qs.min);//
+            rlen += send_buf;
+        }//
 
+        if(temp_qs.max == INVALID_DATA)
+        {
+            send_buf = sprintf((char *)&rbuf[rlen],",/");
+            rlen += send_buf;
         }
+        else
+        {
+            send_buf = sprintf((char *)&rbuf[rlen],",%.1f",temp_qs.max);
+            rlen += send_buf;
+        }
+
+        if(temp_qs.change == INVALID_DATA) //
+        {
+            send_buf = sprintf((char *)&rbuf[rlen],",/>\r\n");
+            rlen += send_buf;
+        }//
+        else
+        {
+        //a
+            send_buf = sprintf((char *)&rbuf[rlen],",%.1f>\r\n",temp_qs.change);
+            rlen += send_buf;
+        }
+
         return rlen;
     }
     
-    
+
     //2 校验感应原件标号
  	  if(-1 == save_sensor(temp_num, temp_min,temp_max, temp_change, &temp_qs))
     	{ goto err;} 
@@ -2420,21 +2606,21 @@ err:
 int cmd_qcpm(char *buf,char *rbuf)
 {
     //char *temp_di = NULL;
-    //unsigned short temp_id = 0;
-    char *p = NULL, i = 0, rlen = 0;
-    float temp_min,temp_max;
-    char temp_num,*temp_change = NULL,*temp_doubt = NULL,*temp_err = NULL;
+    unsigned short temp_buf = 0, rlen = 0;
+    char *p = NULL, i = 0;
+    float temp_min,temp_max, temp_change, temp_doubt, temp_err;
+    char temp_num;
     qm_t temp_qm;
 
     if(0 == Utils_CheckCmdStr(buf))
     {goto err;}
-    p = strtok(buf, ",");
+    p = strtok(buf, ",");//
     while(p)
     {
         switch(i)
         {
         case 0: break;
-        case 1: break;//{temp_di = p;break;}
+        case 1: break;
         case 2: break;//
         /*{
           if(-1 == check_digit(p, 3))//校验 ID是否为数字
@@ -2451,23 +2637,70 @@ int cmd_qcpm(char *buf,char *rbuf)
         }  
         case 4:
         {
-            if((0 !=  strncmp(p,"-",1)) &&(-1 == check_format(p, strlen(p), ".", 1)))//验证最高为为 - 或 0
+            if(*p == '/')
+            {
+                temp_min = INVALID_DATA;
+            }
+            else
+            {
+                if((0 !=  strncmp(p,"-",1)) &&(-1 == check_format(p, strlen(p), ".", 1)))//验证最高为为 - 或 0
               {goto err;}
-            if((0 ==  strncmp(p,"-",1)) && (-1 == check_format(p+1, strlen(p+1), ".", 1)))//校验 测量范围下限
-            {goto err;}
-          temp_min=atof(p);
-            break;
-        }
+                temp_min=atof(p);
+            }
+        }break;
         case 5:
         {
-            if(-1 == check_format(p, strlen(p), ".", 1))//校验 测量范围上限
-            {goto err;}
-          temp_max=atof(p);
-            break;
-        }
-        case 6:{temp_doubt = p; break;} // 存疑门限
-        case 7:{temp_err   = p; break;} // 错误门限
-        case 8:{temp_change= p; break;} // 最小应变量
+            if(*p == '/')
+            {
+                temp_max = INVALID_DATA;
+            }
+            else
+            {
+                if((0 !=  strncmp(p,"-",1)) &&(-1 == check_format(p, strlen(p), ".", 1)))     //校验 测量范围上限
+                {goto err;}
+                temp_max=atof(p);
+            }
+        }break;
+        case 6:// 存疑门限
+        {
+            if(*p == '/')
+            {
+                temp_doubt = INVALID_DATA;
+            }
+            else
+            {
+                if(-1 == check_format(p, strlen(p), ".", 1))//校验 测量范围上限
+                   {goto err;}
+                temp_doubt = atof(p);
+            }
+        }break;
+        case 7:// 错误门限
+        {
+            if(*p == '/')
+            {
+                temp_err = INVALID_DATA;
+            }
+            else
+            {
+                if(-1 == check_format(p, strlen(p), ".", 1))//校验 测量范围上限
+                {goto err;}
+                temp_err = atof(p);
+             }
+        }break;
+        case 8:// 最小应变量
+        {
+            if(*p == '/')
+            {
+                temp_change = INVALID_DATA;
+            }
+            else
+            {
+                if(-1 == check_format(p, strlen(p), ".", 1))
+                {goto err;}
+                temp_change= atof(p);
+            }
+        }break;
+
         case 9: break;
         default:    {goto err;}
         }
@@ -2489,86 +2722,81 @@ int cmd_qcpm(char *buf,char *rbuf)
 
     if(i == 4)  // 打印 读取
     {
-        for(i = 0; i < DEV_TYPE_MAX; i ++)
+        rlen = sprintf((char *)rbuf,"<%s,%03d,%d",
+                       sensor_di,
+                       m_defdata.m_baseinfo.id,
+                       temp_num
+                  );
+
+        if(temp_qm.min == INVALID_DATA)
         {
-            if(0 == strncmp((char *)&sensor_di,(char *)dev_type[i],4))
-              break;
-        }
-        if(i == 6)    //风
-        {//范围 11~14,21~24
-            switch(temp_num)
-           {
-           case 11://风速
-           case 12:
-           case 13:
-           case 14: rlen = sprintf((char *)rbuf,"<%s,%03d,%d,%.1f,%.1f,%.1f,%.1f,/>\r\n",
-                                   sensor_di,
-                                   m_defdata.m_baseinfo.id,
-                                   temp_num,
-                                   temp_qm.min,
-                                   temp_qm.max,
-                                   temp_qm.doubtful,
-                                   temp_qm.err
-                                   );
-                       break;
-           case 21: //风向
-           case 22:
-           case 23:
-           case 24:rlen = sprintf((char *)rbuf,"<%s,%03d,%d,%.1f,%.1f,/,/,%.1f>\r\n",
-                                  sensor_di,
-                                  m_defdata.m_baseinfo.id,
-                                  temp_num,
-                                  temp_qm.min,
-                                  temp_qm.max,
-                                  temp_qm.changerate
-                                  );
-                      break;
-           default:{goto err;}
-           }
-           return rlen;
-        }
-        else if(i == 9)    //地温
-        {
-            rlen = sprintf((char *)rbuf,"<%s,%03d,%d,%.1f,%.1f,%.1f,%.1f,/>\r\n",
-                                               sensor_di,
-                                               m_defdata.m_baseinfo.id,
-                                               temp_num,
-                                               temp_qm.min,
-                                               temp_qm.max,
-                                               temp_qm.doubtful,
-                                               temp_qm.err
-                                               );
-            return rlen;
+            temp_buf = sprintf((char *)&rbuf[rlen],",/");
+            rlen += temp_buf;
         }
         else
         {
-          rlen = sprintf((char *)rbuf,"<%s,%03d,%d,%.1f,%.1f,%.1f,%.1f,%.1f>\r\n",
-                                         sensor_di,
-                                         m_defdata.m_baseinfo.id,
-                                         temp_num,
-                                         temp_qm.min,
-                                         temp_qm.max,
-                                         temp_qm.doubtful,
-                                         temp_qm.err,
-                                         temp_qm.changerate
-                                         );
-          return rlen;
+            temp_buf= sprintf((char *)&rbuf[rlen],",%.1f",temp_qm.min);
+            rlen += temp_buf;
         }
+
+        if(temp_qm.max == INVALID_DATA)   //风向
+        {
+            temp_buf = sprintf((char *)&rbuf[rlen],",/");
+            rlen += temp_buf;
+        }
+        else
+        {
+            temp_buf = sprintf((char *)&rbuf[rlen],",%.1f",temp_qm.max);
+            rlen += temp_buf;
+        }
+
+        if(temp_qm.doubtful == INVALID_DATA)
+        {
+            temp_buf = sprintf((char *)&rbuf[rlen],",/");//
+            rlen += temp_buf;
+        }
+//        关闭
+        else
+        {
+            temp_buf = sprintf((char *)&rbuf[rlen],",%.1f",temp_qm.doubtful);
+            rlen += temp_buf;
+        }
+
+        if(temp_qm.err == INVALID_DATA)
+        {
+            temp_buf = sprintf((char *)&rbuf[rlen],",/");
+            rlen += temp_buf;
+        }
+        else
+        {
+            temp_buf = sprintf((char *)&rbuf[rlen],",%.1f",temp_qm.err);
+            rlen += temp_buf;
+        }
+        if(temp_qm.changerate == INVALID_DATA)
+        {
+            temp_buf = sprintf((char *)&rbuf[rlen],",/>\r\n");
+            rlen += temp_buf;
+        }
+        else//
+        {
+            temp_buf = sprintf((char *)&rbuf[rlen],",%.1f>\r\n",temp_qm.changerate);
+            rlen += temp_buf;
+        }
+
+        return rlen;
     }
-    
-    
+
     //2 校验要素标号
     if(-1 == save_element(temp_num, temp_min,temp_max, temp_doubt, temp_err,temp_change, &temp_qm))
         { goto err;}
 
-
-    //4 写入结构体 写入FLASH 返回正确
-    for(i = 0; i < DEV_TYPE_MAX; i ++)
+    for(i = 0; i < DEV_TYPE_MAX; i++)//
     {
         if(0 == strncmp((char *)&sensor_di,(char *)dev_type[i],4))
-          break;
+            break;//
     }
-    if(i == 6)    //风
+
+    if((i == 6) ||  (i == 14))    //风
     {//范围 11~14,21~24
         switch(temp_num)
        {
@@ -2591,8 +2819,6 @@ int cmd_qcpm(char *buf,char *rbuf)
     {
         memcpy(&bcm_info.sensor.qm[temp_num-11],&temp_qm,sizeof(qm_t));
     }
-
-
 
     save_sys_cfg(&bcm_info);
     rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
@@ -2620,47 +2846,53 @@ int cmd_cr(char *buf,char *rbuf)
     //char *temp_di = NULL;
     //unsigned short temp_id = 0;
     char *p = NULL, i = 0, rlen = 0;
-    short temp_cak =0, j = 0, temp_term = 0;
-    unsigned long temp_number = 0;
-    int year, mon, day, num;
-    char buffer[8][Flash_PAGE_SIZE/2-9]={0};    //128byte - 2byte(year)-1byte(mon)-1byte(day)-1byte(term)-4byte(number)
-    s_check_cr_t    cfc[8];
+    short temp_cak =0;//, temp_term = 0;
+    //unsigned long temp_number = 0;
+    int year, mon, day;//, num;
+    char buffer[MAX_PKGLEN];
+    //s_check_cr_t    cfc[8];
     s_check_info_t  temp_check_info;
-    float temp_a = 0, temp_b = 0, temp_c = 0;
+    //float temp_a = 0, temp_b = 0, temp_c = 0;
 
     if(0 == Utils_CheckCmdStr(buf))
     {goto err;}
 
+    memset(buffer,0,MAX_PKGLEN);
+    if(strlen(buf) > 20)
+    {
+        temp_check_info.len = strlen(buf) -14;
+        memcpy(buffer, (char *)buf + 14, temp_check_info.len);
+    }
     p = strtok(buf, ",");
     while(p)
     {
         switch(i)
         {
-        case 0: break;
-        case 1: break;//{temp_di = p;break;}
-        case 2:break;//
-        /*{
-          if(-1 == check_digit(p, 3))//校验 ID是否为数字
-          {goto err;}
-          temp_id = atoi(p);
-          break;
-        }*/
-        case 3:
-        {
-        	if(-1 == check_digit(p, 1))//校正、检定标识符（1=校正 2=检定）
-          {goto err;}
-          temp_cak = atoi(p);
-          break;
-        }  
-        case 4:
-        {
-        	if(8 != strlen(p))//日期 YYYYMMDD
-          {goto err;}
-          if(sscanf(p,"%04d%02d%02d",&year,&mon,&day)!=3)
-           {goto err;}
-          break;
-        }  
-        case 5:
+            case 0: break;
+            case 1: break;//{temp_di = p;break;}
+            case 2:break;//id
+            /*{
+              if(-1 == check_digit(p, 3))//校验 ID是否为数字
+              {goto err;}
+              temp_id = atoi(p);
+              break;
+            }*/
+            case 3:
+            {
+                if(-1 == check_digit(p, 1))//校正、检定标识符（1=校正 2=检定）
+                {goto err;}
+                temp_cak = atoi(p);
+                break;
+            }
+            case 4:
+            {
+                if(8 != strlen(p))//日期 YYYYMMDD
+              {goto err;}
+              if(sscanf(p,"%04d%02d%02d",&year,&mon,&day)!=3)
+               {goto err;}
+              break;
+            }
+        /*case 5:
         {
         	if(-1 == check_digit(p, 2))//有效期 2位数字
         	{goto err;}
@@ -2687,13 +2919,13 @@ int cmd_cr(char *buf,char *rbuf)
             {goto err;}
             strcpy(buffer[i-7],p);
             break;
-        }
-        default:    {goto err;}
+        }*/
+            default:    break;//{goto err;}
         }
         p = strtok(NULL, ",");
         i++;
     }
-    if(!( ((i>=8) && (i<=15)) || (i==4)))   {goto err;}
+    if(! ((i>=9) || (i==4)))   {goto err;}
 
     //1、验证设备标识符,ID是否正确,校验信息类型
     //验证DI
@@ -2705,34 +2937,41 @@ int cmd_cr(char *buf,char *rbuf)
     //验证信息类型 
     if((temp_cak != 1) && (temp_cak != 2))
       { goto err; } 
+
     if(i == 4)  // 打印 读取
     {
         if(temp_cak == 1)
         {
-            if(m_tempdata.CfcFlag == true)
+            if(m_tempdata.Cfc_temp.Flag == true)
                  return 0;
             else
             {
-                m_tempdata.CfcFlag = true;
-                cfc_offset = 0;
+                m_tempdata.Cfc_temp.Flag = true;
+                m_tempdata.Cfc_temp.count = 0;
+                //cfc_offset = 0;
             }
         }
         if(temp_cak == 2)
         {
-           if(m_tempdata.CheckFlag == true)
+           if(m_tempdata.Check_temp.Flag == true)
                 return 0;
            else
            {
-               m_tempdata.CheckFlag = true;
-               check_offset = 0;
+               m_tempdata.Check_temp.Flag = true;
+               m_tempdata.Check_temp.count = 0;
+               //check_offset = 0;
            }
         }
        return 0;
     }
     
+    //2 校验日期数值准确性
+    if( -1 == check_data(year, mon, day))
+    {goto err; }
+
     if(1 != m_tempdata.SuperadMin) //判定是否有操作权限
     {goto err;}
-    //2 校验 写入时间
+    /* //2 校验 写入时间
     if(-1 == check_data(year, mon, day))
     	{goto err;}   	
     temp_check_info.year = year;
@@ -2745,44 +2984,25 @@ int cmd_cr(char *buf,char *rbuf)
     //3 校验 写入人员编号	
     if(temp_number > 99999)
     	{goto err;}
-    temp_check_info.number = temp_number;
+    temp_check_info.number = temp_number; */
 
     //4 判断 校正 or 检定  信息
-    memset(cfc,0,sizeof(cfc));
+    //memset(cfc,0,sizeof(cfc));
     if(temp_cak == 1)   //校正
     {
-        for(j=0;j<8;j++)
-        {
-            if(sscanf(buffer[j],"%d#%f:%f:%f",&num,&temp_a,&temp_b,&temp_c)!=4)
-                {goto err;}
-            else
-            {
-                bcm_info.sensor.cr[num-1].a = temp_a;
-                bcm_info.sensor.cr[num-1].b = temp_b;
-                bcm_info.sensor.cr[num-1].c = temp_c;
-
-                cfc[j].number = num;
-                cfc[j].cr.a   = temp_a;
-                cfc[j].cr.b   = temp_b;
-                cfc[j].cr.c   = temp_c;
-
-                temp_check_info.len = j+1;
-            }
-            if(j == (i-8))
-                break;
-        }
-        if(0 == save_cr(temp_cak,&temp_check_info,(char *)cfc))
+        //temp_check_info.len = strlen(var);
+        if(0 != save_cr(temp_cak,&temp_check_info,(char *)buffer))
             {goto err;}
     }
     if(temp_cak == 2)   //检定
     {
-        temp_check_info.len = strlen(buffer[0]);
-        if(0 == save_cr(temp_cak,&temp_check_info,(char *)buffer))
+        //temp_check_info.len = strlen(var);
+        if(0 != save_cr(temp_cak,&temp_check_info,(char *)buffer))
             {goto err;}
     }
 
     //3 写入结构体 写入时钟 返回正确
-    save_sys_cfg(&bcm_info);	
+    //save_sys_cfg(&bcm_info);
     rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
     return rlen;
 
@@ -3128,14 +3348,17 @@ int cmd_reset(char *buf,char *rbuf)
     { return 0; }
 */
     //2 看门狗停止工作    设备重启
-    m_tempdata.reset=true; 
-    rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
-    return rlen;
-
+    WDTCTL=WDT_ARST_1000;
+    Stop_Timer0();
+    while(1)
+    {
+        m_tempdata.alive_counter=250;
+    }
+ 
     
 err:
-    rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
-    return rlen;
+  rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+  return rlen;
 }
 /*==================================================================
 *函数：              cmd_superadmin
@@ -3256,6 +3479,146 @@ err:
   rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
   return rlen;
 }
+/*==================================================================
+*函数： cmd_crclear
+*作者：
+*日期： 2021-07-20
+*功能： B.25　清除设备的校准、检定信息
+*输入： *buf  (输入数据）输入数据地址
+*      *rbuf (输出数据）控制结构地址
+*返回： 正常为0 异常为非0
+*修改记录：
+==================================================================*/
+int cmd_crclear(char *buf,char *rbuf)
+{
+    char *p = NULL, i = 0, rlen = 0, clr_data_flag = 0, Flash_Erase_flag = 0;
+    short temp_cak =0, temp_cak_temp = 0;
+    //int year, mon, day;
+    //char buffer[8][Flash_PAGE_SIZE/2-9]={0};    //128byte - 2byte(year)-1byte(mon)-1byte(day)-1byte(term)-4byte(number)
+    //s_check_cr_t    cfc[8];
+    //
+    //s_check_info_t  temp_check_info;
+
+    if(0 == Utils_CheckCmdStr(buf))
+    {goto err;}
+
+    p = strtok(buf, ",");
+    while(p)
+    {
+        switch(i)
+        {
+        case 0: break;
+        case 1: break;//{temp_di = p;break;}
+        case 2:break;//id
+        /*{
+          if(-1 == check_digit(p, 3))//校验 ID是否为数字
+          {goto err;}
+          temp_id = atoi(p);
+          break;
+        }*/
+        case 3:
+        {
+          if(-1 == check_digit(p, 1))//校正、检定标识符（1=校正 2=检定）
+          {goto err;}
+          temp_cak = atoi(p);
+          break;
+        }
+        case 4:
+        {
+          if(-1 == check_digit(p, 1))//校正、检定标识符（1=校正 2=检定）
+          {goto err;}
+          temp_cak_temp = atoi(p);
+          break;
+        }
+        default:    {goto err;}
+        }
+        p = strtok(NULL, ",");
+        i++;
+    }
+    if( i != 5 )   {goto err;}
+
+    //1、验证设备标识符,ID是否正确,校验信息类型
+    //验证DI
+    /*  if(0 != strcmp(temp_di,(char *)&sensor_di))
+    { return 0; }
+    //验证ID
+    if(temp_id != m_defdata.m_baseinfo.id)
+    { return 0; }*/
+    //验证信息类型
+    if((temp_cak != 1) && (temp_cak != 2))
+      { goto err; }
+
+    if((temp_cak_temp != 0) && (temp_cak_temp != 1))
+      { goto err; }
+
+
+    if(temp_cak_temp == 1)
+    {
+        if(temp_cak == 1)
+        {
+            for(Flash_Erase_flag=0; Flash_Erase_flag<10; Flash_Erase_flag++)
+            {
+                W25X16_Flash_Erase_Sector( (FLASH_CFC_START + 16 * Flash_Erase_flag ) <<8); //擦除
+            }
+
+            W25X16_Flash_Erase_Sector( (unsigned long)(16 * 46 ) <<8); //擦除
+            W25X16_Flash_Erase_Sector( (unsigned long)(16 * 47 ) <<8); //擦除
+
+            rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+        }
+        else if(temp_cak == 2)
+        {
+            for(Flash_Erase_flag=0; Flash_Erase_flag<10;Flash_Erase_flag++)
+            {
+                W25X16_Flash_Erase_Sector( (FLASH_CHECK_START + 16 * Flash_Erase_flag ) <<8);
+            }
+
+            W25X16_Flash_Erase_Sector( (unsigned long)(16 * 48 ) <<8); //擦除
+            W25X16_Flash_Erase_Sector( (unsigned long)(16 * 49 ) <<8); //擦除
+
+            rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+        }
+        return rlen;
+    }
+    else if(temp_cak_temp == 0)
+    {
+        clr_data_flag = clear_data(temp_cak);
+        if(clr_data_flag == 1)
+        {
+            if(temp_cak == 1)
+            {
+                rlen = sprintf((char *)rbuf,"<%s,%03d, cfc no data>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+            }
+            else if(temp_cak == 2)
+            {
+                rlen = sprintf((char *)rbuf,"<%s,%03d, check no data>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+            }
+            return rlen;
+        }
+        else if (clr_data_flag == 2)
+        {
+            if(temp_cak == 1)
+            {
+                rlen = sprintf((char *)rbuf,"<%s,%03d, cfc pointer err>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+            }
+            else if(temp_cak == 2)
+            {
+                rlen = sprintf((char *)rbuf,"<%s,%03d, check pointer err>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+            }
+
+            return rlen;
+        }
+
+        rlen = sprintf((char *)rbuf,"<%s,%03d,T>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+        return rlen;
+    }
+
+err:
+  rlen = sprintf((char *)rbuf,"<%s,%03d,F>\r\n",sensor_di,m_defdata.m_baseinfo.id);
+  return rlen;
+
+}
+
 //================================================== 解析命令调用函数 ===========================================
 /*==================================================================
 ** 函数名称 ：unsigned char Utils_CheckCmdStr(char *pStr)
@@ -3382,7 +3745,7 @@ int check_data(int year, int month, int day)
 	  {
 	      month_lab[2]=29;
 	  }
-	  if((year < 2000) || (year > 2100))
+	  if((year < 2000) || (year > 2300))
 	      {goto err; }
 	  if((month>12) || (month < 1))
 	      {goto err; }
@@ -3455,7 +3818,7 @@ int check_datetime(s_RtcTateTime_t *datetime)
        {
            pageIndex = ((timep-16*i) % Flash_PAGE_NUMBER) + FLASH_DATA_START;   // 数据位于哪个扇区
            addr = pageIndex << 8;
-           W25Q128_Erase_Chip(W25Q128_ERS_SEC, addr);
+           W25X16_Flash_Erase_Sector(addr);
        }
     }
     else    //当前分钟内
@@ -3467,7 +3830,7 @@ int check_datetime(s_RtcTateTime_t *datetime)
                 pageIndex = ((timep-16*i) % Flash_PAGE_NUMBER) + FLASH_DATA_START;   // 数据位于哪个扇区
                 addr = pageIndex << 8;
                 if((pageIndex & 0x0F) == 0) // 判断是否为一个sector的开始
-                    W25Q128_Erase_Chip(W25Q128_ERS_SEC,addr);
+                    W25X16_Flash_Erase_Sector(addr);
             }
         }
     }
@@ -3493,7 +3856,7 @@ int check_datetime(s_RtcTateTime_t *datetime)
 int check_sensor(short temp_num, qs_t *temp_qs)
 {
     unsigned char value;
-
+//
     for(value = 0; value < DEV_TYPE_MAX; value ++)
     {
       if(0 == strncmp((char *)&sensor_di,(char *)dev_type[value],4))
@@ -3503,6 +3866,7 @@ int check_sensor(short temp_num, qs_t *temp_qs)
 	switch(value)
 	{
 		case 6 :	//风
+		case 14:
 		{
 			if((temp_num < 1) || (temp_num >2))	{goto err;}
 			memcpy(temp_qs,	(char *)&bcm_info.sensor.qs[temp_num - 1],sizeof(qs_t));
@@ -3523,15 +3887,15 @@ int check_sensor(short temp_num, qs_t *temp_qs)
 
 		    if(bcm_info.sensor.apunit == 3)
 		    {
-		        temp_qs->change = bcm_info.sensor.qs[temp_num - 1].change * 0.750062f;
-		        temp_qs->max    = bcm_info.sensor.qs[temp_num - 1].max    * 0.750062f;
-		        temp_qs->min    = bcm_info.sensor.qs[temp_num - 1].min    * 0.750062f;
+		        temp_qs->change = bcm_info.sensor.qs[temp_num - 1].change * 0.750062;
+		        temp_qs->max    = bcm_info.sensor.qs[temp_num - 1].max    * 0.750062;
+		        temp_qs->min    = bcm_info.sensor.qs[temp_num - 1].min    * 0.750062;
 		    }
 		    else if(bcm_info.sensor.apunit == 4)
             {
-                temp_qs->change = bcm_info.sensor.qs[temp_num - 1].change * 0.029530f;
-                temp_qs->max    = bcm_info.sensor.qs[temp_num - 1].max    * 0.029530f;
-                temp_qs->min    = bcm_info.sensor.qs[temp_num - 1].min    * 0.029530f;
+                temp_qs->change = bcm_info.sensor.qs[temp_num - 1].change * 0.029530;
+                temp_qs->max    = bcm_info.sensor.qs[temp_num - 1].max    * 0.029530;
+                temp_qs->min    = bcm_info.sensor.qs[temp_num - 1].min    * 0.029530;
             }
 		    else
 		    {
@@ -3543,7 +3907,6 @@ int check_sensor(short temp_num, qs_t *temp_qs)
 		case 2:	//湿度
 		case 3:	//温度
 		case 8:	//翻斗
-		case 14:	//称重
 		{
 			if(temp_num != 1)	{goto err;}
 			memcpy(temp_qs,	(char *)&bcm_info.sensor.qs[temp_num - 1],sizeof(qs_t));
@@ -3569,38 +3932,26 @@ err:	return -1;
  *          返回-1       写入日期失败
 *修改记录：2017-12-10，LY，修改返回值，修改校验
 ==================================================================*/
-int save_sensor(short temp_num, float temp_min, float temp_max, char *temp_change, qs_t *temp_qs)
+int save_sensor(short temp_num, float temp_min, float temp_max, float temp_change, qs_t *temp_qs)
 {
     unsigned char value;
 
-       for(value = 0; value < DEV_TYPE_MAX; value ++)
-       {
-           if(0 == strncmp((char *)&sensor_di,(char *)dev_type[value],4))
-             break;
-       }
+    for(value = 0; value < DEV_TYPE_MAX; value ++)
+    {
+        if(0 == strncmp((char *)&sensor_di,(char *)dev_type[value],4))
+           break;
+    }
 
-	switch(value)
+    switch(value)
 	{
-		case 6:	//风
+		case 6:
+		case 14:
 		{
-			if(1 == temp_num)//风速
+			if((1 == temp_num) || (2 == temp_num))//风速
 			{
-				if(temp_min < 0)			{goto err;}
-				if(temp_max > 200)			{goto err;}
-				if(-1 == check_format(temp_change, strlen(temp_change), ".", 1))  {goto err;}
-				if((atof(temp_change) < 0) || (atof(temp_change) > 200))		    {goto err;}
 				temp_qs->min    = temp_min;
 				temp_qs->max    = temp_max;
-				temp_qs->change = atof(temp_change);
-			}	
-			else if(2 == temp_num)	//风向
-			{
-				if(temp_min < 0)			{goto err;}
-				if(temp_max > 360)		    {goto err;}
-                if(0 != strcmp(temp_change,"/"))                {goto err;}
-				temp_qs->min    = temp_min;
-				temp_qs->max    = temp_max;
-				temp_qs->change = INVALID_DATA;
+				temp_qs->change = temp_change;
 			}	
 			else
 				{goto err;}	
@@ -3609,14 +3960,9 @@ int save_sensor(short temp_num, float temp_min, float temp_max, char *temp_chang
 		{
 			if((0 < temp_num) && (MAX_SENSOR_NUM >= temp_num))
 			{
-				if(temp_min < -100) 		{goto err;}
-				if(temp_max > 100)  		{goto err;}
-				if(temp_max < temp_min)		{goto err;}
-                if(-1 == check_format(temp_change, strlen(temp_change), ".", 1))  {goto err;}
-				if((atof(temp_change) > 10) || (atof(temp_change) < 0))		    {goto err;}
 				temp_qs->min    = temp_min;
 				temp_qs->max    = temp_max;
-				temp_qs->change = atof(temp_change);
+				temp_qs->change = temp_change;
 			}	
 			else
 				{goto err;}	
@@ -3625,15 +3971,9 @@ int save_sensor(short temp_num, float temp_min, float temp_max, char *temp_chang
 		{
 			if((0 < temp_num) && (MAX_SENSOR_NUM >= temp_num))
 			{
-				if(temp_min < 0) 			{goto err;}
-				if(temp_max > 100)			{goto err;}
-				if(temp_max < temp_min) 	{goto err;}
-                if(-1 == check_format(temp_change, strlen(temp_change), ".", 1))  {goto err;}
-                if((atof(temp_change) > 20) || (atof(temp_change) < 0))          {goto err;}
-
 				temp_qs->min    = temp_min;
 				temp_qs->max    = temp_max;
-				temp_qs->change = atof(temp_change);
+				temp_qs->change = temp_change;
 			}	
 			else
 				{goto err;}	
@@ -3645,15 +3985,9 @@ int save_sensor(short temp_num, float temp_min, float temp_max, char *temp_chang
 		{
 			if(1 == temp_num)
 			{
-				if(temp_min < 0) 			{goto err;}
-				if(temp_max > 100)			{goto err;}
-				if(temp_max < temp_min) 	{goto err;}
-                if(-1 == check_format(temp_change, strlen(temp_change), ".", 1))  {goto err;}
-                if((atof(temp_change) > 20) || (atof(temp_change) < 0))          {goto err;}
-
 				temp_qs->min    = temp_min;
 				temp_qs->max    = temp_max;
-				temp_qs->change = atof(temp_change);
+				temp_qs->change = temp_change;
 			}	
 			else
 				{goto err;}	
@@ -3662,14 +3996,9 @@ int save_sensor(short temp_num, float temp_min, float temp_max, char *temp_chang
 		{
 			if(1 == temp_num)
 			{
-				if(temp_min < -100) 		{goto err;}
-				if(temp_max > 100)			{goto err;}
-				if(temp_max < temp_min)	    {goto err;}
-                if(-1 == check_format(temp_change, strlen(temp_change), ".", 1))   {goto err;}
-                if((atof(temp_change) > 10) || (atof(temp_change) < 0))           {goto err;}
 				temp_qs->min    = temp_min;
 				temp_qs->max    = temp_max;
-				temp_qs->change = atof(temp_change);
+				temp_qs->change = temp_change;
 			}	
 			else
 				{goto err;}	
@@ -3680,39 +4009,21 @@ int save_sensor(short temp_num, float temp_min, float temp_max, char *temp_chang
 			{
 			    if(3 == bcm_info.sensor.apunit) // * 0.750062
 			    {
-                    if(temp_min < 75.0076f)          {goto err;}
-                    if(temp_max > 1125.093f)         {goto err;}
-                    if(temp_max < temp_min)         {goto err;}
-                    if(-1 == check_format(temp_change, strlen(temp_change), ".", 1)) {goto err;}
-                    if((atof(temp_change) > 0.750062) || (atof(temp_change) < 0))       {goto err;}
-
-                    temp_qs->min    = temp_min / 0.750062f;
-                    temp_qs->max    = temp_max / 0.750062f;
-                    temp_qs->change = atof(temp_change) / 0.750062;
+                    temp_qs->min    = temp_min / 0.750062;
+                    temp_qs->max    = temp_max / 0.750062;
+                    temp_qs->change = temp_change / 0.750062;
 			    }
 			    else if(4 == bcm_info.sensor.apunit)// * 0.029530
 			    {
-                    if(temp_min < 2.953f)          {goto err;}
-                    if(temp_max > 44.295f)         {goto err;}
-                    if(temp_max < temp_min)       {goto err;}
-                    if(-1 == check_format(temp_change, strlen(temp_change), ".", 1)) {goto err;}
-                    if((atof(temp_change) > 0.029530) || (atof(temp_change) < 0))       {goto err;}
-
-                    temp_qs->min    = temp_min / 0.029530f;
-                    temp_qs->max    = temp_max / 0.029530f;
-                    temp_qs->change = atof(temp_change) / 0.029530f;
+                    temp_qs->min    = temp_min / 0.029530;
+                    temp_qs->max    = temp_max / 0.029530;
+                    temp_qs->change = temp_change / 0.029530;
 			    }
 			    else
 			    {
-	                if(temp_min < 100)          {goto err;}
-	                if(temp_max > 1500)         {goto err;}
-	                if(temp_max < temp_min)     {goto err;}
-	                if(-1 == check_format(temp_change, strlen(temp_change), ".", 1)) {goto err;}
-	                if((atof(temp_change) > 1) || (atof(temp_change) < 0))       {goto err;}
-
 	                temp_qs->min    = temp_min;
 	                temp_qs->max    = temp_max;
-	                temp_qs->change = atof(temp_change);
+	                temp_qs->change = temp_change;
 			    }
 			}	
 			else
@@ -3725,7 +4036,6 @@ int save_sensor(short temp_num, float temp_min, float temp_max, char *temp_chang
 				if(temp_min < 0) 			{goto err;}
 				if(temp_max > 20)			{goto err;}
 				if(temp_max < temp_min) 	{goto err;}
-                if(0 != strcmp(temp_change,"/"))         {goto err;}
 
 				temp_qs->min    = temp_min;
 				temp_qs->max    = temp_max;
@@ -3734,21 +4044,7 @@ int save_sensor(short temp_num, float temp_min, float temp_max, char *temp_chang
 			else
 				{goto err;}
 		}break;
-		case 14:	//称重
-		{
-			if(1 == temp_num)
-			{
-				if(temp_min < 0) 			{goto err;}
-				if(temp_max > 20)			{goto err;}
-				if(temp_max < temp_min)	    {goto err;}
-                if(0 != strcmp(temp_change,"/"))         {goto err;}
-				temp_qs->min    = temp_min;
-				temp_qs->max    = temp_max;
-				temp_qs->change = INVALID_DATA;
-			}	
-			else
-				{goto err;}	
-		}break;
+
 		default:	{goto err;}
 	}
 	return 0;
@@ -3780,9 +4076,10 @@ int check_element(short temp_num, qm_t *temp_qm)
           break;
     }
 
-    switch(value)
+    switch(value)//
     {
         case 6 :    //风
+        case 14:
         {//范围 11~14,21~24
             switch(temp_num)
             {
@@ -3837,13 +4134,12 @@ int check_element(short temp_num, qm_t *temp_qm)
         case 2: //湿度
         case 5: //气压
         case 8: //翻斗
-        case 14://称重
         {
             if(temp_num != 11)   {goto err;}
             memcpy(temp_qm, (char *)&bcm_info.sensor.qm[temp_num - 11],sizeof(qm_t));
         }break;
         default:    {goto err;}
-    }
+    }//
     return 0;
     
 err:    return -1;
@@ -3862,102 +4158,50 @@ err:    return -1;
  *          返回-1       写入日期失败
 *修改记录：2017-12-20，LY，修改返回值，修改校验
 ==================================================================*/
-int save_element(short temp_num, float temp_min, float temp_max, char *temp_doubt, char *temp_err, char *temp_change, qm_t *temp_qm)
+int save_element(short temp_num, float temp_min, float temp_max, float temp_doubt, float temp_err, float temp_change, qm_t *temp_qm)
 {
     unsigned char value;
 
-       for(value = 0; value < DEV_TYPE_MAX; value ++)
-       {
-           if(0 == strncmp((char *)&sensor_di,(char *)dev_type[value],4))
-             break;
-       }
+    for(value = 0; value < DEV_TYPE_MAX; value ++)
+    {
+      if(0 == strncmp((char *)&sensor_di,(char *)dev_type[value],4))
+          break;
+    }
 
     switch(value)
     {
-        case 6: //风
-        {
+    case 6: //风
+    case 14:
+    {
+        if((temp_num > 24) || (temp_num < 11))    {goto err;}
+        if((temp_num > 14) && (temp_num < 21))    {goto err;}
 
-            if((temp_num > 24) || (temp_num < 11))    {goto err;}
-            if((temp_num > 14) && (temp_num < 21))    {goto err;}
-            if(temp_min > temp_max)  {goto err;}
-            //风向  大小边界
-            if((temp_num > 21) && (temp_num < 24) && (temp_max > 360))  {goto err;}
-            if((temp_num > 21) && (temp_num < 24) && (temp_min < 0))    {goto err;}
-            //风速 小边界
-            if((temp_num > 11) && (temp_num < 14) && (temp_min < 0))    {goto err;}
-            if((temp_num > 11) && (temp_num < 14) && (temp_max > 200))  {goto err;}
-
-            //判定风向 存疑门限,错误,最小应变量
-            if(2 == (temp_num /10))
-            {
-                if(0 != strcmp(temp_doubt,"/"))         {goto err;}
-                if(0 != strcmp(temp_err  ,"/"))         {goto err;}
-                if(-1 == check_format(temp_change, strlen(temp_change), ".", 1))   {goto err;}
-
-                if((0 > atof(temp_change) ) || (360 < atof(temp_change)))          {goto err;}
-
-                temp_qm->min         = temp_min;
-                temp_qm->max         = temp_max;
-                temp_qm->doubtful    = INVALID_DATA;
-                temp_qm->err         = INVALID_DATA;
-                temp_qm->changerate  = atof(temp_change);
-            }
-            //判定风速度 存疑门限,错误,最小应变量
-            if(1 == (temp_num /10))
-            {
-
-                if(-1 == check_format(temp_doubt, strlen(temp_doubt), ".", 1))  {goto err;}
-                if(-1 == check_format(temp_err, strlen(temp_err), ".", 1))      {goto err;}
-                if(0 != strcmp(temp_change,"/"))     {goto err;}
-
-                if((0 > atof(temp_doubt)) || (200 < atof(temp_doubt)))        {goto err;}
-                if((0 > atof(temp_err))   || (200 < atof(temp_err)))              {goto err;}
-
-                temp_qm->min         = temp_min;
-                temp_qm->max         = temp_max;
-                temp_qm->doubtful    = atof(temp_doubt);
-                temp_qm->err         = atof(temp_err);
-                temp_qm->changerate  = INVALID_DATA;
-            }
-         }break;
-        case 9: //地温
-        {
+        temp_qm->min         = temp_min;
+        temp_qm->max         = temp_max;
+        temp_qm->doubtful    = temp_doubt;
+        temp_qm->err         = temp_err;
+        temp_qm->changerate  = temp_change;
+     }break;
+       case 9: //地温
+     {
             if((temp_num != 11) && (temp_num != 21) && (temp_num != 31) && (temp_num != 41) &&
                     (temp_num != 51)&& (temp_num != 61) && (temp_num != 71) && (temp_num != 81)) {goto err;}
-            if(temp_min < -100)                 {goto err;}
-            if(temp_max > 100)                  {goto err;}
-            if(temp_max < temp_min)             {goto err;}
-            if(-1 == check_format(temp_doubt, strlen(temp_doubt), ".", 1)) {goto err;}
-            if(-1 == check_format(temp_err,   strlen(temp_err),   ".", 1)) {goto err;}
-            if(0 != strncmp(temp_change  ,"/",1))    {goto err;}
-
-            if((0 > atof(temp_doubt)) || (100 < atof(temp_doubt)))        {goto err;}
-            if((0 > atof(temp_err))   || (100 < atof(temp_err)))              {goto err;}
 
             temp_qm->min         = temp_min;
             temp_qm->max         = temp_max;
-            temp_qm->doubtful    = atof(temp_doubt);
-            temp_qm->err         = atof(temp_err);
-            temp_qm->changerate  = INVALID_DATA;
+            temp_qm->doubtful    = temp_doubt;
+            temp_qm->err         = temp_err;
+            temp_qm->changerate  = temp_change;
         }break;
         case 10:    //土壤水分
         {
             if((temp_num != 11) && (temp_num != 21) && (temp_num != 31) && (temp_num != 41) && (temp_num != 51))  {goto err;}
-            if(temp_max < temp_min)                {goto err;}
-            if((temp_min < 0) || (temp_max > 100)) {goto err;}
-            if(-1 == check_format(temp_doubt, strlen(temp_doubt), ".", 1)) {goto err;}
-            if(-1 == check_format(temp_err,   strlen(temp_err),   ".", 1)) {goto err;}
-            if(-1 == check_format(temp_change,   strlen(temp_change),   ".", 1)) {goto err;}
-
-            if((atof(temp_doubt)  <0) || (atof(temp_doubt)  >100))  {goto err;}
-            if((atof(temp_err)    <0) || (atof(temp_err)    >100))  {goto err;}
-            if((atof(temp_change) <0) || (atof(temp_change) >100))  {goto err;}
 
             temp_qm->min         = temp_min;
             temp_qm->max         = temp_max;
-            temp_qm->doubtful    = atof(temp_doubt);
-            temp_qm->err         = atof(temp_err);
-            temp_qm->changerate  = atof(temp_change);
+            temp_qm->doubtful    = temp_doubt;
+            temp_qm->err         = temp_err;
+            temp_qm->changerate  = temp_change;
         }break;
 //      case 12,    //日照
 //      case 11,    //总辐射
@@ -3966,23 +4210,11 @@ int save_element(short temp_num, float temp_min, float temp_max, char *temp_doub
         {
             if(11 == temp_num)
             {
-                if(temp_min < 0)            {goto err;}
-                if(temp_max > 100)          {goto err;}
-                if(temp_max < temp_min)     {goto err;}
-
-                if(-1 == check_format(temp_doubt, strlen(temp_doubt),   ".", 1))     {goto err;}
-                if(-1 == check_format(temp_err,   strlen(temp_err),   ".", 1))     {goto err;}
-                if(-1 == check_format(temp_change, strlen(temp_change),   ".", 1))     {goto err;}
-
-                if((atof(temp_doubt)  <0) || (atof(temp_doubt)  >100))  {goto err;}
-                if((atof(temp_err)    <0) || (atof(temp_err)    >100))  {goto err;}
-                if((atof(temp_change) <0) || (atof(temp_change) >100))  {goto err;}
-
                 temp_qm->min         = temp_min;
                 temp_qm->max         = temp_max;
-                temp_qm->doubtful    = atof(temp_doubt);
-                temp_qm->err         = atof(temp_err);
-                temp_qm->changerate  = atof(temp_change);
+                temp_qm->doubtful    = temp_doubt;
+                temp_qm->err         = temp_err;
+                temp_qm->changerate  = temp_change;
             }
             else
                 {goto err;}
@@ -3991,23 +4223,11 @@ int save_element(short temp_num, float temp_min, float temp_max, char *temp_doub
         {
             if((11 == temp_num) || (12 == temp_num))
             {
-                if(temp_min < -100)         {goto err;}
-                if(temp_max > 100)          {goto err;}
-                if(temp_max < temp_min)     {goto err;}
-
-                if(-1 == check_format(temp_doubt, strlen(temp_doubt),   ".", 1))     {goto err;}
-                if(-1 == check_format(temp_err,   strlen(temp_err),   ".", 1))     {goto err;}
-                if(-1 == check_format(temp_change, strlen(temp_change),   ".", 1))     {goto err;}
-
-                if((atof(temp_doubt)  <0) || (atof(temp_doubt)  >100))  {goto err;}
-                if((atof(temp_err)    <0) || (atof(temp_err)    >100))  {goto err;}
-                if((atof(temp_change) <0) || (atof(temp_change) >100))  {goto err;}
-
                 temp_qm->min         = temp_min;
                 temp_qm->max         = temp_max;
-                temp_qm->doubtful    = atof(temp_doubt);
-                temp_qm->err         = atof(temp_err);
-                temp_qm->changerate  = atof(temp_change);
+                temp_qm->doubtful    = temp_doubt;
+                temp_qm->err    = temp_err;
+                temp_qm->changerate  = temp_change;
             }
             else
                 {goto err;}
@@ -4016,23 +4236,11 @@ int save_element(short temp_num, float temp_min, float temp_max, char *temp_doub
         {
             if(11 == temp_num)
             {
-                if(temp_min < 100)          {goto err;}
-                if(temp_max > 1500)         {goto err;}
-                if(temp_max < temp_min)     {goto err;}
-
-                if(-1 == check_format(temp_doubt, strlen(temp_doubt),   ".", 1))     {goto err;}
-                if(-1 == check_format(temp_err,   strlen(temp_err),   ".", 1))     {goto err;}
-                if(-1 == check_format(temp_change, strlen(temp_change),   ".", 1))     {goto err;}
-
-                if((atof(temp_doubt)  <0) || (atof(temp_doubt)  >20))  {goto err;}
-                if((atof(temp_err)    <0) || (atof(temp_err)    >20))  {goto err;}
-                if((atof(temp_change) <0) || (atof(temp_change) >20))  {goto err;}
-
                 temp_qm->min         = temp_min;
                 temp_qm->max         = temp_max;
-                temp_qm->doubtful    = atof(temp_doubt);
-                temp_qm->err         = atof(temp_err);
-                temp_qm->changerate  = atof(temp_change);
+                temp_qm->doubtful    = temp_doubt;
+                temp_qm->err         = temp_err;
+                temp_qm->changerate  = temp_change;
             }
             else
                 {goto err;}
@@ -4043,40 +4251,11 @@ int save_element(short temp_num, float temp_min, float temp_max, char *temp_doub
             {
                 if(temp_min < 0)            {goto err;}
                 if(temp_max > 20)           {goto err;}
-                if(temp_max < temp_min)     {goto err;}
-
-                if(0 != strcmp(temp_doubt   ,"/"))    {goto err;}
-                if(0 != strcmp(temp_err     ,"/"))    {goto err;}
-                if(0 != strcmp(temp_change  ,"/"))    {goto err;}
 
                 temp_qm->min         = temp_min;
                 temp_qm->max         = temp_max;
                 temp_qm->doubtful    = INVALID_DATA;
                 temp_qm->err         = INVALID_DATA;
-                temp_qm->changerate  = INVALID_DATA;
-            }
-            else
-                {goto err;}
-        }break;
-        case 14:    //称重
-        {
-            if(11 == temp_num)
-            {
-                if(temp_min < 0)            {goto err;}
-                if(temp_max > 20)           {goto err;}
-                if(temp_max < temp_min)     {goto err;}
-
-                if(-1 == check_digit(temp_doubt, 2)) {goto err;}
-                if(-1 == check_digit(temp_err, 2))   {goto err;}
-                if(0 != strcmp(temp_change  ,"/"))    {goto err;}
-
-                if((atof(temp_doubt)  <0) || (atof(temp_doubt)  >20))  {goto err;}
-                if((atof(temp_err)    <0) || (atof(temp_err)    >20))  {goto err;}
-
-                temp_qm->min         = temp_min;
-                temp_qm->max         = temp_max;
-                temp_qm->doubtful    = atof(temp_doubt);
-                temp_qm->err         = atof(temp_err);
                 temp_qm->changerate  = INVALID_DATA;
             }
             else
@@ -4131,16 +4310,14 @@ int cmd_debugon(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
+    if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }*/
+    { return 0; }
 
     //开启调试模式
-    m_tempdata.DebugONCnt = 0;  
     m_tempdata.DebugON = true;
-
     rlen = sprintf((char *)rbuf,"<Open debug mode.>\r\n");
     return rlen;
 }
@@ -4186,11 +4363,12 @@ int cmd_debugoff(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
+    if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }*/
+    { return 0; }
+
     m_tempdata.DebugON = false;
     m_tempdata.DebugONCnt = 0;
     //m_tempdata.SecDataOut = false;    //关闭私有命令权限时  关闭秒数据发送
@@ -4239,20 +4417,20 @@ int cmd_version(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
+    if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }*/
+    { return 0; }
 
     //2、验证设备是否开启调试模式
-    if(m_tempdata.DebugON != true)
-    {
-       rlen = sprintf((char *)rbuf,"<Please open debug mode.>\r\n");
-       return rlen;
-    }
+    //if(m_tempdata.DebugON != true)
+    //{//
+       //rlen = sprintf((char *)rbuf,"<Please open debug mode.>\r\n");
+       //return rlen;//
+    //}
 
-    rlen = sprintf((char *)rbuf,"<VERSION:\r\nHardware: %s\r\nSoftware: %s>\r\n",m_defdata.m_baseinfo.hard_version,SOFT_VER);
+    rlen = sprintf((char *)rbuf,"<%s: %s>\r\n",HARD_VER,SOFT_VER);
     return rlen;
 }
 /*==================================================================
@@ -4297,11 +4475,11 @@ int cmd_restore(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
+    if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }*/
+    { return 0; }
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -4359,11 +4537,11 @@ int cmd_starttime(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
+    if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }*/
+    { return 0; }
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -4421,11 +4599,11 @@ int cmd_secdout_on(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
+    if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }*/
+    { return 0; }
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -4480,11 +4658,11 @@ int cmd_secdout_off(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
+    if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }*/
+    { return 0; }
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -4498,10 +4676,10 @@ int cmd_secdout_off(char *buf,char *rbuf)
     return rlen;
 }
 /*==================================================================
-*函数：              cmd_secdout_off
+*函数：              cmd_erase_check
 *作者：
 *日期：           2017-12-28
-*功能：  A.7　关闭秒级数据输出
+*功能：  A.12　擦除校验（55）/检定（AA）
 *输入：           *buf  (输入数据）输入数据地址
 *         *rbuf (输出数据）控制结构地址
 *
@@ -4510,7 +4688,7 @@ int cmd_secdout_off(char *buf,char *rbuf)
 ==================================================================*/
 int cmd_erase_check(char *buf,char *rbuf)
 {
-    char *temp_di = NULL, *temp_erase = NULL, *p = NULL, i = 0, rlen = 0;
+    char *temp_di = NULL, *temp_erase = NULL, *p = NULL, i = 0, rlen = 0, Flash_Erase_flag = 0;
     unsigned short temp_id = 0;
 
     if((21 != strlen(buf)) || (4 != Utils_CheckCmdStr(buf)))
@@ -4545,11 +4723,11 @@ int cmd_erase_check(char *buf,char *rbuf)
 
     //1、验证设备标识符,ID是否正确
     //验证DI
-    /*if(0 != strcmp(temp_di,(char *)&sensor_di))
+    if(0 != strcmp(temp_di,(char *)&sensor_di))
     { return 0; }
     //验证ID
     if(temp_id != m_defdata.m_baseinfo.id)
-    { return 0; }*/
+    { return 0; }
 
     //2、验证设备是否开启调试模式
     if(m_tempdata.DebugON != true)
@@ -4558,18 +4736,27 @@ int cmd_erase_check(char *buf,char *rbuf)
        return rlen;
     }
 
-    if(0 == strcmp(temp_erase,"55"))
+    if(0 == strcmp(temp_erase,"55"))//校验
     {
-        W25Q128_Erase_Chip(W25Q128_ERS_SEC, FLASH_CFC_START    <<8);
-        W25Q128_Erase_Chip(W25Q128_ERS_SEC, (FLASH_CFC_START+16)<<8);
-        W25Q128_Erase_Chip(W25Q128_ERS_SEC, (FLASH_CFC_START+32)<<8);
+        for(Flash_Erase_flag=0; Flash_Erase_flag<10; Flash_Erase_flag++)
+        {
+            W25X16_Flash_Erase_Sector( (FLASH_CFC_START + 16 * Flash_Erase_flag ) <<8); //擦除
+        }
+
+        W25X16_Flash_Erase_Sector( (unsigned long)(16 * 46 ) <<8); //擦除
+        W25X16_Flash_Erase_Sector( (unsigned long)(16 * 47 ) <<8); //擦除
+
         rlen = sprintf((char *)rbuf,"<Erase CFC OK.>\r\n");
     }
-    if(0 == strcmp(temp_erase,"AA"))
+    if(0 == strcmp(temp_erase,"AA"))//检定
     {
-        W25Q128_Erase_Chip(W25Q128_ERS_SEC, FLASH_CHECK_START    <<8);
-        W25Q128_Erase_Chip(W25Q128_ERS_SEC, (FLASH_CHECK_START+16)<<8);
-        W25Q128_Erase_Chip(W25Q128_ERS_SEC, (FLASH_CHECK_START+32)<<8);
+        for(Flash_Erase_flag=0; Flash_Erase_flag<10;Flash_Erase_flag++)
+        {
+            W25X16_Flash_Erase_Sector( (FLASH_CHECK_START + 16 * Flash_Erase_flag ) <<8);
+        }
+
+        W25X16_Flash_Erase_Sector( (unsigned long)(16 * 48 ) <<8); //擦除
+        W25X16_Flash_Erase_Sector( (unsigned long)(16 * 49 ) <<8); //擦除
         rlen = sprintf((char *)rbuf,"<Erase CHECK OK.>\r\n");
     }
 

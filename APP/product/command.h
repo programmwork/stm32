@@ -19,6 +19,7 @@
 #include "typedef.h"
 #include "defpam.h"
 
+#define SN_NUM 34
 
 typedef enum
 {
@@ -49,10 +50,11 @@ typedef enum
     CR,                //24　设置或读取设备的校正、检定信息
     READDATA,          //25　实时读取数据
     DOWN,              //26　历史数据下载
-    RESET27,             //27　重启设备
+    RESET,             //27　重启设备
     ASL,               //28　设置或读取气象观测站的海拔
     SUPERADMIN,        //29　操作权限指令
     UNIT,              //30  气压单位修改命令
+    CRCLEAR,           //31  清除设备的校准、检定信息
 
 //------------------- 私有命令 ---------------------------
     DEBUGON,           //1 调试模式开
@@ -70,6 +72,8 @@ typedef enum
     HARDVERCFG,        //12硬件版本号写入
     SETCOM2,           //13设置或读取设备的通讯参数
     CE,                //14 配置气象仪传感器类型
+	MODE,              //13 232/485通信模式选择
+    QCEN,
 
 	MAX_COMMAND_NUM
 } cmd_index_t;
@@ -133,6 +137,7 @@ int cmd_down       (char *buf,char *rbuf);          //26　历史数据下载
 int cmd_reset      (char *buf,char *rbuf);          //27　重启设备
 int cmd_superadmin (char *buf,char *rbuf);          //29  操作权限命令
 int cmd_unit       (char *buf,char *rbuf);          //30  设置气压传感器的单位
+int cmd_crclear    (char *buf,char *rbuf);          //31  清除设备的校准、检定信息
 // ------------------------------------------------------------------------------
 // --------------------------- 私有命令 --------------------------------------------
 int cmd_debugon     (char *buf,char *rbuf);     //A.1 　打开调试模式
@@ -150,6 +155,8 @@ int cmd_shsensor    (char *buf,char *rbuf);     //A.10　土壤水分传感器配置
 int cmd_version_cfg (char *buf,char *rbuf); //A.11    硬件版本号写入
 int cmd_setcom2     (char *buf,char *rbuf);       //A.12　设置或读取设备的通讯参数
 int ce_cfg(char *buf, char *rbuf);                //A.13　设置或读取设备的通讯参数
+int cmd_mode        (char *buf,char *rbuf);     //A.13 232/485通信模式选择
+int cmd_qc_en   (char *buf,char *rbuf);
 
 
 
